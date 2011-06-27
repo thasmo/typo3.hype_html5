@@ -1,0 +1,1303 @@
+# CONTENTS
+
+styles >
+styles {
+	content {
+		get = CONTENT
+		get {
+			table = tt_content
+			select {
+				orderBy = sorting
+				where = colPos=0
+				languageField = sys_language_uid
+			}
+		}
+
+		getLeft < .get
+		getLeft {
+			select.where = colPos=1
+		}
+
+		getRight < .get
+		getRight {
+			select.where = colPos=2
+		}
+
+		getBorder < .get
+		getBorder {
+			select.where = colPos=3
+		}
+	}
+}
+
+
+
+# LIBRARY
+
+lib {
+
+	# Header
+	header = COA
+	header {
+
+		# Wrap
+		stdWrap {
+			wrap = <header>|</header>
+			required = 1
+		}
+
+		# Group
+		10 = COA
+		10 {
+
+			# Wrap
+			stdWrap {
+				wrap = <hgroup>|</hgroup>
+				required = 1
+			}
+
+			# Header
+			10 = CASE
+			10 {
+				key {
+					field = header_layout
+				}
+
+				# H1
+				default = TEXT
+				default {
+					wrap = <h1>|</h1>
+
+					htmlSpecialChars = 1
+					brTag = <br />
+
+					field = header
+
+					typolink {
+						parameter {
+							field = header_link
+						}
+					}
+				}
+
+				# H2
+				2 < .default
+				2.wrap = <h2>|</h2>
+
+				# H3
+				3 < .default
+				3.wrap = <h3>|</h3>
+
+				# H4
+				4 < .default
+				4.wrap = <h4>|</h4>
+
+				# H5
+				5 < .default
+				5.wrap = <h5>|</h5>
+
+				if.isTrue.field = header
+			}
+
+			# Subheader
+			20 = CASE
+			20 {
+				key {
+					field = header_layout
+				}
+
+				default = TEXT
+				default {
+					wrap = <h2>|</h2>
+
+					htmlSpecialChars = 1
+					brTag = <br />
+
+					field = subheader
+				}
+
+				1 < .default
+
+				2 < .default
+				2.wrap = <h3>|</h3>
+
+				3 < .default
+				3.wrap = <h4>|</h4>
+
+				4 < .default
+				4.wrap = <h5>|</h5>
+
+				5 < .default
+				5.wrap = <h6>|</h6>
+
+				if.isTrue.field = subheader
+			}
+		}
+
+		# Date
+		20 = COA
+		20 {
+			stdWrap {
+				wrap = <p class="{$styles.content.prefix}-date">|</p>
+
+				innerWrap {
+					cObject = COA
+					cObject {
+
+						10 = TEXT
+						10 {
+							value = <time
+						}
+
+						20 = TEXT
+						20 {
+							noTrimWrap = | datetime="|"|
+
+							field = date
+							strftime = %Y-%m-%d
+						}
+
+						30 = TEXT
+						30 {
+							value = >|</time>
+						}
+					}
+				}
+
+				required = 1
+			}
+
+			10 = TEXT
+			10 {
+				field = date
+				strftime = {$styles.content.dateFormat}
+			}
+
+			if.isTrue.field = date
+		}
+	}
+
+	# Menu
+	menu = COA
+	menu {
+
+	}
+}
+
+
+
+# CONTENTS
+
+tt_content >
+tt_content = CASE
+tt_content {
+
+	# Define the wrapper element
+	stdWrap {
+		innerWrap {
+			cObject = CASE
+			cObject {
+
+				# Default wrap
+				default = COA
+				default {
+
+					# Element start
+					10 = TEXT
+					10 {
+						value = <section id="{$styles.content.prefix}-{field:uid}"
+						insertData = 1
+					}
+
+					# Element class attribute
+					20 = COA
+					20 {
+						stdWrap {
+							wrap = class="|"
+							required = 1
+						}
+
+						# Default
+						10 = TEXT
+						10 {
+							value = {$styles.content.prefix}-default
+						}
+
+						# Content
+						20 = TEXT
+						20 {
+							stdWrap {
+								noTrimWrap = | {$styles.content.prefix}-content {$styles.content.prefix}-content-||
+							}
+
+							field = CType
+
+							if {
+								value = list,shortcut
+								isInList.field = CType
+								negate = 1
+							}
+						}
+
+						# Content, Shortcut
+						21 = TEXT
+						21 {
+							stdWrap {
+								noTrimWrap = | {$styles.content.prefix}-||
+							}
+
+							field = CType
+
+							if {
+								value = shortcut
+								isInList.field = CType
+							}
+						}
+
+						# Plugin
+						30 = TEXT
+						30 {
+							stdWrap {
+								noTrimWrap = | {$styles.content.prefix}-plugin {$styles.content.prefix}-plugin-||
+								required = 1
+							}
+
+							field = list_type
+
+							if {
+								equals = list
+								value.field = CType
+								isTrue.field = list_type
+							}
+						}
+
+						# Layout
+						40 = TEXT
+						40 {
+							stdWrap {
+								noTrimWrap = | {$styles.content.prefix}-layout {$styles.content.prefix}-layout-||
+							}
+
+							field = layout
+
+							if {
+								isTrue.field = layout
+							}
+						}
+
+						# Frame
+						50 = TEXT
+						50 {
+							stdWrap {
+								noTrimWrap = | {$styles.content.prefix}-frame {$styles.content.prefix}-frame-||
+							}
+
+							field = section_frame
+
+							if {
+								isTrue.field = section_frame
+							}
+						}
+
+						# Border
+						60 = TEXT
+						60 {
+							stdWrap {
+								noTrimWrap = | {$styles.content.prefix}-border|
+							}
+
+							if {
+								isTrue.field = imageborder
+							}
+						}
+
+						# Orientation
+						70 = COA
+						70 {
+							stdWrap {
+								noTrimWrap = | {$styles.content.prefix}-orientation-||
+							}
+
+							10 = CASE
+							10 {
+								key {
+									field = imageorient
+								}
+
+								# 0: Above, center
+								default = TEXT
+								default {
+									value = centertop
+								}
+
+								# 1 Above, right
+								1 < .default
+								1.value = righttop
+
+								# 2 Above, left
+								2 < .default
+								2.value = lefttop
+
+								# 8 Below, center
+								8 < .default
+								8.value = centerbottom
+
+								# 9 Below, right
+								9 < .default
+								9.value = rightbottom
+
+								# 10 Below, left
+								10 < .default
+								10.value = leftbottom
+
+								# 17 In text, right
+								17 < .default
+								17.value = floatright
+
+								# 18 In text, left
+								18 < .default
+								18.value = floatleft
+
+								# 25 Beside Text, Right
+								25 < .default
+								25.value = right
+
+								# 26 Beside Text, Left
+								26 < .default
+								26.value = left
+							}
+
+							if {
+								value = image,textpic
+								isInList.field = CType
+							}
+						}
+					}
+
+					# Element end
+					30 = TEXT
+					30 {
+						value = >|</section>
+					}
+				}
+			}
+		}
+
+		# Anchor top link
+		innerWrap2 = |<p class="{$styles.content.prefix}-anchor"><a href="#">{LLL:EXT:css_styled_content/pi1/locallang.xml:label.toTop}</a></p>
+		innerWrap2 {
+			insertData = 1
+			fieldRequired = linkToTop
+		}
+
+		# Only if content available
+		required = 1
+	}
+
+	# CType switch
+	key {
+		field = CType
+	}
+
+	# Header
+	header = COA
+	header {
+
+		# Header
+		10 =< lib.header
+	}
+
+	# Text
+	text = COA
+	text {
+
+		# Header
+		10 =< lib.header
+
+		# Text
+		20 = TEXT
+		20 {
+			field = bodytext
+			required = 1
+
+			parseFunc =< lib.parseFunc_RTE
+		}
+	}
+
+	# Image
+	image = COA
+	image {
+
+		# Header
+		10 =< lib.header
+
+		# Images
+		20 = COA
+		20 {
+			stdWrap {
+				innerWrap {
+					cObject = COA
+					cObject {
+
+						# Element start
+						10 = TEXT
+						10 {
+							value = <div id="{$styles.content.prefix}-images-{field:uid}"
+							insertData = 1
+						}
+
+						# Element class
+						20 = COA
+						20 {
+							stdWrap {
+								wrap = class="{$styles.content.prefix}-images|"
+							}
+
+							# Columns
+							10 = TEXT
+							10 {
+								stdWrap {
+									noTrimWrap = | {$styles.content.prefix}-images-columns-||
+								}
+
+								field = imagecols
+							}
+						}
+
+						# Element end
+						30 = TEXT
+						30 {
+							value = >|</div>
+						}
+					}
+				}
+
+				required = 1
+			}
+
+			10 = TEXT
+			10 {
+				field = image
+
+				split {
+					token = ,
+					cObjNum = |*|1||2|*|
+
+					1 {
+						stdWrap {
+							innerWrap {
+								cObject = COA
+								cObject {
+
+									# Element start
+									10 = TEXT
+									10 {
+										value = <figure id="{$styles.content.prefix}-{field:uid}:{register:SPLIT_COUNT}"
+										insertData = 1
+									}
+
+									# Class attribute
+									20 = COA
+									20 {
+										stdWrap {
+											wrap = class="{$styles.content.prefix}-odd {$styles.content.prefix}-image {$styles.content.prefix}-image:{register:SPLIT_COUNT}|"
+											insertData = 1
+										}
+
+										# Column end
+										10 = TEXT
+										10 {
+											stdWrap {
+												noTrimWrap = | {$styles.content.prefix}-clear||
+											}
+
+											if {
+												value = TEXT
+												value {
+													cObject = TEXT
+													cObject {
+														value = {register:SPLIT_COUNT}%{field:imagecols}
+														insertData = 1
+													}
+
+													prioriCalc = 1
+												}
+
+												equals = 0
+											}
+										}
+									}
+
+									# Element end
+									30 = TEXT
+									30 {
+										value = >|</figure>
+									}
+								}
+							}
+
+							required = 1
+						}
+
+						# Image
+						10 = IMAGE
+						10 {
+							file {
+								import = {$styles.content.imagePath}
+								import {
+									current = 1
+								}
+
+								maxW {
+									field = imagewidth
+									ifEmpty = {$styles.content.maxWidth}
+								}
+
+								maxH {
+									field = imageheight
+									ifEmpty = {$styles.content.maxHeight}
+								}
+							}
+
+							# Image link
+							imageLinkWrap = 1
+							imageLinkWrap {
+								enable {
+									field = image_zoom
+
+									ifEmpty {
+										typolink {
+											parameter {
+												field = image_link
+
+												listNum {
+													stdWrap {
+														data = register:SPLIT_COUNT
+													}
+
+													splitChar = 10
+												}
+											}
+
+											returnLast = url
+										}
+									}
+								}
+
+								typolink {
+									parameter {
+										field = image_link
+										listNum {
+											stdWrap {
+												data = register:SPLIT_COUNT
+											}
+
+											splitChar = 10
+										}
+									}
+
+									#target = {$styles.content.links.target}
+									#extTarget = {$styles.content.links.extTarget}
+								}
+
+								# Lightbox
+								JSwindow = 1
+								JSwindow.newWindow = {$styles.content.newWindow}
+								JSwindow.if.isFalse = {$styles.content.useLightbox}
+								directImageLink = {$styles.content.useLightbox}
+
+								bodyTag =
+								wrap =
+
+								#width = {$styles.content.imgtext.linkWrap.width}
+								#height = {$styles.content.imgtext.linkWrap.height}
+								#effects = {$styles.content.imgtext.linkWrap.effects}
+
+								#linkParams.ATagParams.dataWrap =  class="{$styles.content.imgtext.linkWrap.lightboxCssClass}" rel="{$styles.content.imgtext.linkWrap.lightboxRelAttribute}"
+							}
+
+							# Long description
+							longdescURL = TEXT
+							longdescURL {
+								typolink {
+									parameter {
+										field = longdescURL
+
+										listNum {
+											stdWrap {
+												data = register:SPLIT_COUNT
+											}
+
+											splitChar = 10
+										}
+									}
+
+									returnLast = url
+								}
+
+								if.isTrue.field = longdescURL
+							}
+
+							# Title text
+							titleText = TEXT
+							titleText {
+								stdWrap {
+									htmlSpecialChars = 1
+								}
+
+								field = titleText
+
+								listNum {
+									stdWrap {
+										data = register:SPLIT_COUNT
+									}
+
+									splitChar = 10
+								}
+
+								trim = 1
+
+								if.isTrue.field = titleText
+							}
+
+							# Alt text
+							altText = TEXT
+							altText {
+								stdWrap {
+									htmlSpecialChars = 1
+								}
+
+								field = altText
+
+								listNum {
+									stdWrap {
+										data = register:SPLIT_COUNT
+									}
+
+									splitChar = 10
+								}
+
+								trim = 1
+
+								if.isTrue.field = altText
+							}
+
+							# Effects
+							image_effects {
+								field = image_effects
+							}
+
+							# Compression
+							image_compression {
+								field = image_compression
+							}
+						}
+
+						# Caption
+						20 = COA
+						20 {
+							stdWrap {
+								innerWrap {
+									cObject = COA
+									cObject {
+
+										# Element start
+										10 = TEXT
+										10 {
+											value = <figcaption
+										}
+
+										# Class attribute
+										20 = COA
+										20 {
+											stdWrap {
+												noTrimWrap = | class="|"
+												required = 1
+											}
+
+											# Alignment
+											10 = TEXT
+											10 {
+												stdWrap {
+													noTrimWrap = |{$styles.content.prefix}-align-||
+													required = 1
+												}
+
+												field = imagecaption_position
+											}
+										}
+
+										# Element end
+										30 = TEXT
+										30 {
+											value = >|</figcaption>
+										}
+									}
+								}
+
+								required = 1
+							}
+
+							10 = TEXT
+							10 {
+								stdWrap {
+									htmlSpecialChars = 1
+								}
+
+								field = imagecaption
+
+								listNum {
+									stdWrap {
+										data = register:SPLIT_COUNT
+									}
+
+									splitChar = 10
+								}
+
+								trim = 1
+
+								typolink {
+									parameter {
+										field = longdescURL
+
+										listNum {
+											stdWrap {
+												data = register:SPLIT_COUNT
+											}
+
+											splitChar = 10
+										}
+									}
+								}
+							}
+						}
+					}
+
+					2 < .1
+					2 {
+						stdWrap {
+							innerWrap {
+								cObject {
+									20.stdWrap.wrap = class="{$styles.content.prefix}-even {$styles.content.prefix}-image {$styles.content.prefix}-image:{register:SPLIT_COUNT}|"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	# Text w/ Image
+	textpic = COA
+	textpic {
+
+		# Header
+		10 =< lib.header
+
+		# Image orientation
+		20 = CASE
+		20 {
+			key {
+				field = imageorient
+			}
+
+			default = COA
+			default {
+				10 =< tt_content.image.20
+				20 =< tt_content.text.20
+			}
+
+			below = COA
+			below {
+				10 =< tt_content.text.20
+				20 =< tt_content.image.20
+			}
+
+			# 8 Below, center
+			8 < .below
+
+			# 9 Below, right
+			9 < .below
+
+			# 10 Below, left
+			10 < .below
+		}
+	}
+
+	# Menu, Sitemap
+	menu = COA
+	menu {
+
+		# Header
+		10 =< lib.header
+
+		# Menu
+		20 = CASE
+		20 {
+			key {
+				field = menu_type
+			}
+
+			# Default
+			default = HMENU
+			default {
+				stdWrap {
+					wrap = <ul class="{$styles.content.prefix}-menu {$styles.content.prefix}-menu-pages">|</ul>
+					required = 1
+				}
+
+				special = list
+				special {
+					value {
+						field = pages
+					}
+				}
+
+				1 = TMENU
+				1 {
+					target = {$PAGE_TARGET}
+
+					NO {
+						stdWrap.htmlSpecialChars = 1
+						wrapItemAndSub = <li>|</li>
+						ATagTitle.field = description // title
+					}
+
+					noBlur = 1
+				}
+			}
+
+			# Subpages to these pages
+			1 < .default
+			1 {
+				stdWrap {
+					wrap = <ul class="{$styles.content.prefix}-menu {$styles.content.prefix}-menu-subpages">|</ul>
+					required = 1
+				}
+
+				special = directory
+			}
+
+			# Sitemap
+			2 = HMENU
+			2 {
+				stdWrap {
+					wrap = <div class="{$styles.content.prefix}-sitemap">|</div>
+					required = 1
+				}
+
+				1 = TMENU
+				1 {
+					target = {$PAGE_TARGET}
+					noBlur = 1
+					expAll = 1
+					wrap = <ul>|</ul>
+					NO {
+						stdWrap.htmlSpecialChars = 1
+						wrapItemAndSub = <li>|</li>
+						ATagTitle.field = description // title
+					}
+				}
+
+				2 < .1
+				3 < .1
+				4 < .1
+				5 < .1
+				6 < .1
+				7 < .1
+				8 < .1
+				9 < .1
+			}
+
+			# Section index
+			3 < styles.content.get
+			3 {
+				stdWrap {
+					wrap = <ul class="{$styles.content.prefix}-menu {$styles.content.prefix}-menu-index">|</ul>
+					required = 1
+				}
+
+				select.andWhere = sectionIndex!=0
+				select.pidInList.override.field = pages
+				renderObj = TEXT
+				renderObj {
+					fieldRequired = header
+					trim = 1
+					field = header
+					htmlSpecialChars = 1
+					noBlur = 1
+					wrap = <li class="{$styles.content.prefix}-section">|</li>
+					typolink.parameter.field = pid
+					typolink.section.field = uid
+				}
+			}
+
+			# Subpages to these pages (with abstract)
+			4 < .1
+			4 {
+				stdWrap {
+					wrap = <dl class="{$styles.content.prefix}-menu {$styles.content.prefix}-menu-abstract">|</dl>
+					required = 1
+				}
+
+				1.NO {
+					wrapItemAndSub >
+					linkWrap = <dt>|</dt>
+					after {
+						data = field : abstract // field : description // field : subtitle
+						required = 1
+						htmlSpecialChars = 1
+						wrap = <dd>|</dd>
+					}
+					ATagTitle.field = description // title
+				}
+			}
+
+			# Updated pages
+			5 < .default
+			5 {
+				stdWrap {
+					wrap = <ul class="{$styles.content.prefix}-menu {$styles.content.prefix}-menu-update">|</ul>
+					required = 1
+				}
+
+				special = updated
+				special {
+					maxAge = 3600*24*7
+					excludeNoSearchPages = 1
+				}
+			}
+
+			# Related pages
+			6 < .default
+			6 {
+				stdWrap {
+					wrap = <ul class="{$styles.content.prefix}-menu {$styles.content.prefix}-menu-relation">|</ul>
+					required = 1
+				}
+
+				special = keywords
+				special {
+					excludeNoSearchPages = 1
+				}
+			}
+
+			# Subpages to these pages (with sections)
+			7 < .1
+			7 {
+				stdWrap {
+					wrap = <ul class="{$styles.content.prefix}-menu {$styles.content.prefix}-menu-section">|</ul>
+					required = 1
+				}
+
+				1.expAll = 1
+
+				2 < .1
+				2 {
+					stdWrap {
+						wrap = <ul>|</ul>
+						required = 1
+					}
+
+					sectionIndex = 1
+					sectionIndex {
+						type = header
+					}
+
+					NO.wrapItemAndSub = <li class="{$styles.content.prefix}-section">|</li>
+				}
+			}
+		}
+	}
+
+	# Bullets
+	bullets = COA
+	bullets {
+
+		# Header
+		10 =< lib.header
+
+		# Bullets
+		20 = COA
+		20 {
+			stdWrap {
+				wrap = <ul>|</ul>
+				required = 1
+			}
+
+			# Items
+			10 = TEXT
+			10 {
+				field = bodytext
+
+				trim = 1
+
+				split {
+					token {
+						char = 10
+					}
+
+					cObjNum = |*|1||2|*|
+
+					# Odd bullet
+					1 {
+						dataWrap = <li id="{$styles.content.prefix}-{field:uid}:{register:SPLIT_COUNT}" class="{$styles.content.prefix}-odd {$styles.content.prefix}-bullet {$styles.content.prefix}-bullet-{register:SPLIT_COUNT}">|</li>
+
+						current = 1
+						trim = 1
+						parseFunc =< lib.parseFunc
+					}
+
+					# Even bullet
+					2 {
+						dataWrap = <li id="{$styles.content.prefix}-{field:uid}:{register:SPLIT_COUNT}" class="{$styles.content.prefix}-even {$styles.content.prefix}-bullet {$styles.content.prefix}-bullet-{register:SPLIT_COUNT}">|</li>
+
+						current = 1
+						trim = 1
+						parseFunc =< lib.parseFunc
+					}
+				}
+			}
+		}
+	}
+
+	# Uploads
+	uploads = COA
+	uploads {
+
+		# Header
+		10 =< lib.header
+
+		# Files
+		20 = COA
+		20 {
+			stdWrap {
+				wrap = <dl>|</dl>
+				required = 1
+			}
+
+			# Files
+			10 = TEXT
+			10 {
+				field = media
+
+				split {
+					token = ,
+					cObjNum = |*|1||2|*|
+
+					# Odd upload
+					1 {
+
+						# File
+						10 = TEXT
+						10 {
+							dataWrap = <dt id="{$styles.content.prefix}-{field:uid}:{register:SPLIT_COUNT}" class="{$styles.content.prefix}-odd {$styles.content.prefix}-upload-file {$styles.content.prefix}-upload-file-{register:SPLIT_COUNT}">|</dt>
+
+							current = 1
+
+							filelink {
+								file {
+									wrap = |
+									fontTag =
+								}
+
+								path = {$styles.content.mediaPath}
+
+								icon = 1
+								icon {
+									wrap = <span class="{$styles.content.prefix}-file-icon">|</span>
+								}
+
+								size = 1
+								size {
+									wrap = <span class="{$styles.content.prefix}-file-size">|</span>
+								}
+
+								ATagParams = class="{$styles.content.prefix}-file-title"
+
+								icon_image_ext_list =
+								jumpurl = 0
+								target = _blank
+							}
+						}
+
+						# Description
+						20 = TEXT
+						20 {
+							dataWrap = <dd class="{$styles.content.prefix}-odd {$styles.content.prefix}-upload-description {$styles.content.prefix}-upload-description-{register:SPLIT_COUNT}">|</dd>
+
+							field = imagecaption
+
+							listNum {
+								stdWrap {
+									data = register:SPLIT_COUNT
+								}
+
+								splitChar = 10
+							}
+						}
+					}
+
+					# Even upload
+					2 < .1
+					2 {
+						10 {
+							dataWrap = <dt id="{$styles.content.prefix}-{field:uid}:{register:SPLIT_COUNT}" class="{$styles.content.prefix}-even {$styles.content.prefix}-upload-file {$styles.content.prefix}-upload-file-{register:SPLIT_COUNT}">|</dt>
+						}
+
+						20 {
+							dataWrap = <dd class="{$styles.content.prefix}-even {$styles.content.prefix}-upload-description {$styles.content.prefix}-upload-description-{register:SPLIT_COUNT}">|</dd>
+						}
+					}
+				}
+			}
+		}
+	}
+
+	# Multimedia
+	multimedia = COA
+	multimedia {
+
+		# Header
+		10 =< lib.header
+
+		# Element
+		20 = MULTIMEDIA
+		20 {
+			file {
+				listNum = 0
+				field = multimedia
+				wrap = {$styles.content.mediaPath}
+			}
+
+			params {
+				field = bodytext
+			}
+		}
+	}
+
+	# Shortcut
+	shortcut = COA
+	shortcut {
+
+		# Records
+		10 = RECORDS
+		10 {
+			source {
+				field = records
+			}
+
+			tables = {$styles.content.tables}
+		}
+	}
+
+	# Divider
+	div = COA
+	div {
+
+		# Wrap
+		stdWrap {
+			wrap = <p id="{$styles.content.prefix}-{field:uid}">|</p>
+		}
+
+		# Divider
+		10 = TEXT
+		10 {
+			value = <hr />
+		}
+	}
+
+	# HTML
+	html = COA
+	html {
+
+		# HTML
+		10 = TEXT
+		10 {
+			field = bodytext
+		}
+	}
+
+	# Default, Error
+	default = COA
+	default {
+
+		stdWrap {
+			wrap = <p>|</p>
+		}
+
+		10 = TEXT
+		10 {
+			stdWrap {
+				wrap = Content element type "|" has no rendering definition!
+			}
+
+			field = CType
+		}
+	}
+
+	# Login
+	login = COA
+	login {
+
+		# Header
+		10 =< lib.stdheader
+
+		# Form
+		20 =< plugin.tx_felogin_pi1
+	}
+}
+
+plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
+
+	/* Images */
+	.{$styles.content.prefix}-orientation-centertop .{$styles.content.prefix}-images,
+	.{$styles.content.prefix}-orientation-centerbottom .{$styles.content.prefix}-images {
+		text-align: center;
+	}
+	.{$styles.content.prefix}-orientation-centertop .{$styles.content.prefix}-image,
+	.{$styles.content.prefix}-orientation-centerbottom .{$styles.content.prefix}-image {
+		display: inline;
+		clear: both;
+		float: none;
+		text-align: left;
+	}
+
+	.{$styles.content.prefix}-orientation-lefttop .{$styles.content.prefix}-images,
+	.{$styles.content.prefix}-orientation-leftbottom .{$styles.content.prefix}-images,
+	.{$styles.content.prefix}-orientation-floatleft .{$styles.content.prefix}-images,
+	.{$styles.content.prefix}-orientation-left .{$styles.content.prefix}-images {
+		float: left;
+	}
+
+	.{$styles.content.prefix}-orientation-righttop .{$styles.content.prefix}-images,
+	.{$styles.content.prefix}-orientation-rightbottom .{$styles.content.prefix}-images,
+	.{$styles.content.prefix}-orientation-floatright .{$styles.content.prefix}-images,
+	.{$styles.content.prefix}-orientation-right .{$styles.content.prefix}-images {
+		float: right;
+	}
+
+	.{$styles.content.prefix}-image {
+
+	}
+	.{$styles.content.prefix}-image img {
+
+	}
+
+	/* Common */
+	.{$styles.content.prefix}-clear {
+		clear: both;
+	}
+
+	/* Alignment */
+	.{$styles.content.prefix}-align-center {
+		text-align: center;
+	}
+	.{$styles.content.prefix}-align-left {
+		text-align: left;
+	}
+	.{$styles.content.prefix}-align-right {
+		text-align: right;
+	}
+)
