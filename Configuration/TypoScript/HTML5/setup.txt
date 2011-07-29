@@ -42,7 +42,44 @@ lib {
 
 		# Wrap
 		stdWrap {
-			wrap = <header>|</header>
+			innerWrap {
+				cObject = COA
+				cObject {
+
+					# Opening tag
+					10 = TEXT
+					10 {
+						value = <header
+					}
+
+					# Class attribute
+					20 = COA
+					20 {
+						stdWrap {
+							noTrimWrap = | class="|"|
+							required = 1
+						}
+
+						# Alignment
+						10 = TEXT
+						10 {
+							stdWrap {
+								wrap = csc-alignment-|
+								required = 1
+							}
+
+							field = header_position
+						}
+					}
+
+					# Closing tag
+					30 = TEXT
+					30 {
+						value = >|</header>
+					}
+				}
+			}
+
 			required = 1
 		}
 
@@ -53,6 +90,10 @@ lib {
 			# Wrap
 			stdWrap {
 				wrap = <hgroup>|</hgroup>
+				wrap {
+					fieldRequired = subheader
+				}
+
 				required = 1
 			}
 
@@ -202,18 +243,18 @@ tt_content {
 				default = COA
 				default {
 
-					# Element start
+					# Opening tag
 					10 = TEXT
 					10 {
 						value = <section id="{$styles.content.prefix}-{field:uid}"
 						insertData = 1
 					}
 
-					# Element class attribute
+					# Class attribute
 					20 = COA
 					20 {
 						stdWrap {
-							wrap = class="|"
+							noTrimWrap = | class="|"|
 							required = 1
 						}
 
@@ -227,7 +268,7 @@ tt_content {
 						20 = TEXT
 						20 {
 							stdWrap {
-								noTrimWrap = | {$styles.content.prefix}-content {$styles.content.prefix}-content-||
+								noTrimWrap = | {$styles.content.prefix}-content-||
 							}
 
 							field = CType
@@ -258,7 +299,7 @@ tt_content {
 						30 = TEXT
 						30 {
 							stdWrap {
-								noTrimWrap = | {$styles.content.prefix}-plugin {$styles.content.prefix}-plugin-||
+								noTrimWrap = | {$styles.content.prefix}-plugin-||
 								required = 1
 							}
 
@@ -275,7 +316,7 @@ tt_content {
 						40 = TEXT
 						40 {
 							stdWrap {
-								noTrimWrap = | {$styles.content.prefix}-layout {$styles.content.prefix}-layout-||
+								noTrimWrap = | {$styles.content.prefix}-layout-||
 							}
 
 							field = layout
@@ -289,7 +330,7 @@ tt_content {
 						50 = TEXT
 						50 {
 							stdWrap {
-								noTrimWrap = | {$styles.content.prefix}-frame {$styles.content.prefix}-frame-||
+								noTrimWrap = | {$styles.content.prefix}-frame-||
 							}
 
 							field = section_frame
@@ -374,7 +415,7 @@ tt_content {
 						}
 					}
 
-					# Element end
+					# Closing tag
 					30 = TEXT
 					30 {
 						value = >|</section>
