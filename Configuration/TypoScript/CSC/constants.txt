@@ -17,6 +17,7 @@ content {
   splash.bgCol = white
 }
 
+
     # cat=advanced; type=int+; label= News Content PID: If your template has a column with "news"-content fetched from another page-id, this is where you enter the id-number of that page!
 styles.content.getNews.newsPid = 0
 
