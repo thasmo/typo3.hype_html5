@@ -127,7 +127,7 @@ lib.parseFunc_RTE {
 		remapTag.DIV = P
 		nonWrappedTag = P
 		innerStdWrap_all.ifBlank = &nbsp;
-		addAttributes.P.class = bodytext
+		#addAttributes.P.class = bodytext
 		addAttributes.P.class.setOnly=blank
 	}
 	nonTypoTagStdWrap.HTMLparser = 1
@@ -351,205 +351,242 @@ tt_content >
 tt_content = CASE
 tt_content {
 
-	# Define the wrapper element
+	# Wrap
 	stdWrap {
 		innerWrap {
-			cObject = CASE
+			cObject = COA
 			cObject {
 
-				# Default wrap
-				default = COA
-				default {
+				# Wrap
+				10 = CASE
+				10 {
 
-					# Opening tag
-					10 = TEXT
-					10 {
-						value = <section id="csc-{field:uid}"
-						insertData = 1
+					# Key
+					key {
+						field = CType
 					}
 
-					# Class attribute
-					20 = COA
-					20 {
-						stdWrap {
-							noTrimWrap = | class="|"|
-							required = 1
-						}
+					# Default wrap
+					default = COA
+					default {
 
-						# Default
+						# Opening tag
 						10 = TEXT
 						10 {
-							value = csc-default
+							value = <section id="csc-{field:uid}"
+							insertData = 1
 						}
 
-						# Content
-						20 = TEXT
+						# Class attribute
+						20 = COA
 						20 {
 							stdWrap {
-								noTrimWrap = | csc-content-||
-							}
-
-							field = CType
-
-							if {
-								value = list,shortcut
-								isInList.field = CType
-								negate = 1
-							}
-						}
-
-						# Content, Shortcut
-						21 = TEXT
-						21 {
-							stdWrap {
-								noTrimWrap = | csc-||
-							}
-
-							field = CType
-
-							if {
-								value = shortcut
-								isInList.field = CType
-							}
-						}
-
-						# Plugin
-						30 = TEXT
-						30 {
-							stdWrap {
-								noTrimWrap = | csc-plugin-||
+								noTrimWrap = | class="|"|
 								required = 1
 							}
 
-							field = list_type
-
-							if {
-								equals = list
-								value.field = CType
-								isTrue.field = list_type
-							}
-						}
-
-						# Layout
-						40 = TEXT
-						40 {
-							stdWrap {
-								noTrimWrap = | csc-layout-||
-							}
-
-							field = layout
-
-							if {
-								isTrue.field = layout
-							}
-						}
-
-						# Frame
-						50 = TEXT
-						50 {
-							stdWrap {
-								noTrimWrap = | csc-frame-||
-							}
-
-							field = section_frame
-
-							if {
-								isTrue.field = section_frame
-							}
-						}
-
-						# Border
-						60 = TEXT
-						60 {
-							stdWrap {
-								noTrimWrap = | csc-border|
-							}
-
-							if {
-								isTrue.field = imageborder
-							}
-						}
-
-						# Image orientation
-						70 = COA
-						70 {
-							stdWrap {
-								noTrimWrap = | csc-orientation-||
-							}
-
-							10 = CASE
+							# Default
+							10 = TEXT
 							10 {
-								key {
-									field = imageorient
-								}
-
-								# 0: Above, center
-								default = TEXT
-								default {
-									value = centertop
-								}
-
-								# 1 Above, right
-								1 < .default
-								1.value = righttop
-
-								# 2 Above, left
-								2 < .default
-								2.value = lefttop
-
-								# 8 Below, center
-								8 < .default
-								8.value = centerbottom
-
-								# 9 Below, right
-								9 < .default
-								9.value = rightbottom
-
-								# 10 Below, left
-								10 < .default
-								10.value = leftbottom
-
-								# 17 In text, right
-								17 < .default
-								17.value = floatright
-
-								# 18 In text, left
-								18 < .default
-								18.value = floatleft
-
-								# 25 Beside Text, Right
-								25 < .default
-								25.value = right
-
-								# 26 Beside Text, Left
-								26 < .default
-								26.value = left
+								value = csc-default
 							}
 
-							if {
-								value = image,textpic
-								isInList.field = CType
+							# Content
+							20 = TEXT
+							20 {
+								stdWrap {
+									noTrimWrap = | csc-content-||
+								}
+
+								field = CType
+							}
+
+							# Plugin
+							30 = TEXT
+							30 {
+								stdWrap {
+									noTrimWrap = | csc-plugin-||
+									required = 1
+								}
+
+								field = list_type
+
+								if {
+									equals = list
+									value.field = CType
+									isTrue.field = list_type
+								}
+							}
+
+							# Layout
+							40 = TEXT
+							40 {
+								stdWrap {
+									noTrimWrap = | csc-layout-||
+								}
+
+								field = layout
+
+								if {
+									isTrue.field = layout
+								}
+							}
+
+							# Frame
+							50 = TEXT
+							50 {
+								stdWrap {
+									noTrimWrap = | csc-frame-||
+								}
+
+								field = section_frame
+
+								if {
+									isTrue.field = section_frame
+								}
+							}
+
+							# Border
+							60 = TEXT
+							60 {
+								stdWrap {
+									noTrimWrap = | csc-border|
+								}
+
+								if {
+									isTrue.field = imageborder
+								}
+							}
+
+							# Image orientation
+							70 = COA
+							70 {
+								stdWrap {
+									noTrimWrap = | csc-orientation-||
+								}
+
+								10 = CASE
+								10 {
+									key {
+										field = imageorient
+									}
+
+									# 0: Above, center
+									default = TEXT
+									default {
+										value = centertop
+									}
+
+									# 1 Above, right
+									1 < .default
+									1.value = righttop
+
+									# 2 Above, left
+									2 < .default
+									2.value = lefttop
+
+									# 8 Below, center
+									8 < .default
+									8.value = centerbottom
+
+									# 9 Below, right
+									9 < .default
+									9.value = rightbottom
+
+									# 10 Below, left
+									10 < .default
+									10.value = leftbottom
+
+									# 17 In text, right
+									17 < .default
+									17.value = floatright
+
+									# 18 In text, left
+									18 < .default
+									18.value = floatleft
+
+									# 25 Beside Text, Right
+									25 < .default
+									25.value = right
+
+									# 26 Beside Text, Left
+									26 < .default
+									26.value = left
+								}
+
+								if {
+									value = image,textpic
+									isInList.field = CType
+								}
+							}
+						}
+
+						# Closing tag
+						30 = COA
+						30 {
+
+							10 = TEXT
+							10 {
+								value = >|
+							}
+
+							# Anchor
+							20 = TEXT
+							20 {
+								value = <p class="csc-anchor"><a href="#">{LLL:EXT:css_styled_content/pi1/locallang.xml:label.toTop}</a></p>
+								fieldRequired = linkToTop
+								insertData = 1
+							}
+
+							30 = TEXT
+							30 {
+								value = </section>
 							}
 						}
 					}
 
-					# Closing tag
-					30 = TEXT
-					30 {
-						value = >|</section>
+					shortcut < .default
+					shortcut {
+
+						# Opening tag
+						10.value = <div id="csc-{field:uid}"
+
+						# Class attribute
+						20.20.stdWrap.noTrimWrap = | csc-||
+
+						# Closing Tag
+						30.30.value = </div>
+					}
+
+					div < .default
+					div {
+
+						# Opening tag
+						10.value = <div id="csc-{field:uid}"
+
+						# Class attribute
+						20.20.stdWrap.noTrimWrap = | csc-||
+
+						# Closing Tag
+						30.30.value = </div>
+					}
+
+					html < .default
+					html {
+
+						# Opening tag
+						10.value = <div id="csc-{field:uid}"
+
+						# Class attribute
+						20.20.stdWrap.noTrimWrap = | csc-||
+
+						# Closing Tag
+						30.30.value = </div>
 					}
 				}
 			}
 		}
 
-		# Anchor top link
-		innerWrap2 = |<p class="csc-anchor"><a href="#">{LLL:EXT:css_styled_content/pi1/locallang.xml:label.toTop}</a></p>
-		innerWrap2 {
-			insertData = 1
-			fieldRequired = linkToTop
-		}
-
-		# Only if content available
 		required = 1
 	}
 
@@ -567,7 +604,7 @@ tt_content {
 # See Object path "lib.stdheader"
 tt_content.header = COA
 tt_content.header {
-	10 = < lib.stdheader
+	10 =< lib.stdheader
 }
 
 
@@ -577,14 +614,14 @@ tt_content.header {
 # *****************
 tt_content.text = COA
 tt_content.text {
-	10 = < lib.stdheader
+	10 =< lib.stdheader
 
 	20 = TEXT
 	20 {
 		field = bodytext
 		required = 1
 
-		parseFunc = < lib.parseFunc_RTE
+		parseFunc =< lib.parseFunc_RTE
 
 		editIcons = tt_content:bodytext, rte_enabled
 		editIcons.beforeLastTag = 1
@@ -1781,7 +1818,7 @@ tt_content.script {
 tt_content.div = TEXT
 tt_content.div {
 	value = <hr />
-	wrap = <div class="divider">|</div>
+	wrap = <div class="csc-divider">|</div>
 	prefixComment = 2 | Div element
 }
 
@@ -1860,27 +1897,6 @@ plugin.tx_cssstyledcontent._CSS_DEFAULT_STYLE (
 		border: none;
 	}
 
-	/* Wrap */
-	.csc-imagewrap {
-		padding: 0;
-	}
-	.csc-imagewrap .csc-firstcol {
-		margin-left: 0;
-	}
-	.csc-imagewrap .csc-lastcol {
-		margin-right: 0;
-	}
-	.csc-imagewrap .csc-imagerow {
-		clear: both;
-	}
-	.csc-imagewrap .csc-imagerow-last {
-		margin-bottom: 0;
-	}
-	.csc-imagewrap .csc-imagecolumn {
-		float: left;
-		display: inline;
-	}
-
 	/* Pictures on left, add margin on right */
 	.csc-orientation-left .csc-image,
 	.csc-orientation-lefttop .csc-image,
@@ -1954,6 +1970,27 @@ plugin.tx_cssstyledcontent._CSS_DEFAULT_STYLE (
 		clear: left;
 	}
 
+	/* Wrap */
+	.csc-imagewrap {
+		padding: 0;
+	}
+	.csc-imagewrap .csc-firstcol {
+		margin-left: 0;
+	}
+	.csc-imagewrap .csc-lastcol {
+		margin-right: 0;
+	}
+	.csc-imagewrap .csc-imagerow {
+		clear: both;
+	}
+	.csc-imagewrap .csc-imagerow-last {
+		margin-bottom: 0;
+	}
+	.csc-imagewrap .csc-imagecolumn {
+		float: left;
+		display: inline;
+	}
+
 	/* Caption */
 	.csc-caption {
 		margin: 0;
@@ -1966,5 +2003,10 @@ plugin.tx_cssstyledcontent._CSS_DEFAULT_STYLE (
 	}
 	.csc-alignment-left .csc-caption {
 		text-align: left;
+	}
+
+	/* Anchor */
+	.csc-anchor {
+		clear: both;
 	}
 )
