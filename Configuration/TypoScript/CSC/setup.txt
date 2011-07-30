@@ -709,19 +709,19 @@ tt_content.image.20 {
 	separateRows = {$styles.content.imgtext.separateRows}
 	addClasses =
 	addClassesImage =
-	addClassesImage.ifEmpty = csc-textpic-firstcol csc-textpic-lastcol
-	addClassesImage.override = csc-textpic-firstcol |*| |*| csc-textpic-lastcol
+	addClassesImage.ifEmpty = csc-firstcol csc-lastcol
+	addClassesImage.override = csc-firstcol |*| |*| csc-lastcol
 	addClassesImage.override.if {
 		isGreaterThan.field = imagecols
 		value = 1
 	}
 
-	imageStdWrap.dataWrap = <div class="csc-textpic-imagewrap csc-alignment-{field:imagecaption_position}" style="width:{register:totalwidth}px;"> | </div>
-	imageStdWrapNoWidth.wrap = <div class="csc-textpic-imagewrap csc-alignment-{field:imagecaption_position}"> | </div>
+	imageStdWrap.dataWrap = <div class="csc-imagewrap csc-alignment-{field:imagecaption_position}" style="width:{register:totalwidth}px;"> | </div>
+	imageStdWrapNoWidth.wrap = <div class="csc-imagewrap csc-alignment-{field:imagecaption_position}"> | </div>
 	imageStdWrapNoWidth.wrap.insertData = 1
 
 	# if noRows is set, wrap around each column:
-	imageColumnStdWrap.dataWrap = <div class="csc-textpic-imagecolumn" style="width:{register:columnwidth}px;"> | </div>
+	imageColumnStdWrap.dataWrap = <div class="csc-imagecolumn" style="width:{register:columnwidth}px;"> | </div>
 
 	layout = CASE
 	layout {
@@ -797,10 +797,10 @@ tt_content.image.20 {
 					value = ul
 				}
 			}
-			imageRowStdWrap.dataWrap = <div class="csc-textpic-imagerow" style="width:{register:rowwidth}px;"> | </div>
-			imageLastRowStdWrap.dataWrap = <div class="csc-textpic-imagerow csc-textpic-imagerow-last" style="width:{register:rowwidth}px;"> | </div>
+			imageRowStdWrap.dataWrap = <div class="csc-imagerow" style="width:{register:rowwidth}px;"> | </div>
+			imageLastRowStdWrap.dataWrap = <div class="csc-imagerow csc-imagerow-last" style="width:{register:rowwidth}px;"> | </div>
 			noRowsStdWrap.wrap =
-			oneImageStdWrap.dataWrap = <figure class="csc-textpic-image###CLASSES###" style="width:{register:imagespace}px;"> | </figure>
+			oneImageStdWrap.dataWrap = <figure class="csc-image###CLASSES###" style="width:{register:imagespace}px;"> | </figure>
 			imgTagStdWrap.wrap = |
 			editIconsStdWrap.wrap = <dd> | </dd>
 			caption {
@@ -811,10 +811,10 @@ tt_content.image.20 {
 		ul {
 			# Just one image without a caption => don't need the ul-overhead, use the "simple" rendering
 			fallbackRendering < tt_content.image.20.rendering.dl.fallbackRendering.10
-			imageRowStdWrap.dataWrap = <div class="csc-textpic-imagerow" style="width:{register:rowwidth}px;"> | </div>
-			imageLastRowStdWrap.dataWrap = <div class="csc-textpic-imagerow csc-textpic-imagerow-last" style="width:{register:rowwidth}px;"> | </div>
+			imageRowStdWrap.dataWrap = <div class="csc-imagerow" style="width:{register:rowwidth}px;"> | </div>
+			imageLastRowStdWrap.dataWrap = <div class="csc-imagerow csc-imagerow-last" style="width:{register:rowwidth}px;"> | </div>
 			noRowsStdWrap.wrap = |
-			oneImageStdWrap.dataWrap = <figure class="csc-textpic-image###CLASSES###" style="width:{register:imagespace}px;"> | </figure>
+			oneImageStdWrap.dataWrap = <figure class="csc-image###CLASSES###" style="width:{register:imagespace}px;"> | </figure>
 			imgTagStdWrap.wrap =
 			editIconsStdWrap.wrap = <div> | </div>
 			caption.wrap = <figcaption class="csc-caption"> | </figcaption>
@@ -822,10 +822,10 @@ tt_content.image.20 {
 		div {
 			# Just one image without a caption => don't need the div-overhead, use the "simple" rendering
 			fallbackRendering < tt_content.image.20.rendering.dl.fallbackRendering.10
-			imageRowStdWrap.dataWrap = <div class="csc-textpic-imagerow" style="width:{register:rowwidth}px;"> | </div>
-			imageLastRowStdWrap.dataWrap = <div class="csc-textpic-imagerow csc-textpic-imagerow-last" style="width:{register:rowwidth}px;"> | </div>
+			imageRowStdWrap.dataWrap = <div class="csc-imagerow" style="width:{register:rowwidth}px;"> | </div>
+			imageLastRowStdWrap.dataWrap = <div class="csc-imagerow csc-imagerow-last" style="width:{register:rowwidth}px;"> | </div>
 			noRowsStdWrap.wrap =
-			oneImageStdWrap.dataWrap = <div class="csc-textpic-image###CLASSES###" style="width:{register:imagespace}px;"> | </div>
+			oneImageStdWrap.dataWrap = <div class="csc-image###CLASSES###" style="width:{register:imagespace}px;"> | </div>
 			imgTagStdWrap.wrap = <div> | </div>
 			editIconsStdWrap.wrap = <div> | </div>
 			caption.wrap = <figcaption class="csc-caption"> | </figcaption>
@@ -834,12 +834,12 @@ tt_content.image.20 {
 			imageRowStdWrap.dataWrap = |
 			imageLastRowStdWrap.dataWrap = |
 			noRowsStdWrap.wrap =
-			oneImageStdWrap.dataWrap = <figure class="csc-textpic-image"> | </figure>
+			oneImageStdWrap.dataWrap = <figure class="csc-image"> | </figure>
 			imgTagStdWrap.wrap = |
 			editIconsStdWrap.wrap = |
 			caption.wrap = <figcaption> | </figcaption>
-			imageStdWrap.dataWrap = <div class="csc-textpic-imagewrap csc-textpic-single-image" style="width:{register:totalwidth}px;"> | </div>
-			imageStdWrapNoWidth.wrap = <div class="csc-textpic-imagewrap csc-textpic-single-image"> | </div>
+			imageStdWrap.dataWrap = <div class="csc-imagewrap" style="width:{register:totalwidth}px;"> | </div>
+			imageStdWrapNoWidth.wrap = <div class="csc-imagewrap"> | </div>
 		}
 	}
 	renderMethod = dl
@@ -873,7 +873,7 @@ tt_content.textpic {
 			10 = < lib.stdheader
 		}
 		text.20 = < tt_content.text.20
-		text.wrap = <div class="csc-textpic-text"> | </div>
+		text.wrap = <div class="csc-text"> | </div>
 	}
 }
 
@@ -1817,12 +1817,6 @@ tt_content.default {
 # ACCESSIBILTY MODE
 # *********************************************************************
 
-
-
-
-
-
-
 plugin.tx_cssstyledcontent._CSS_DEFAULT_STYLE (
 	/* HTML5 ✰ Boilerplate */
 
@@ -1848,99 +1842,77 @@ plugin.tx_cssstyledcontent._CSS_DEFAULT_STYLE (
 		display: block;
 	}
 
-	/* Caption */
-	.csc-caption {
-		margin: 0;
-	}
-	.csc-alignment-center .csc-caption { text-align: center; }
-	.csc-alignment-right .csc-caption { text-align: right; }
-	.csc-alignment-left .csc-caption { text-align: left; }
-
 	/* Header */
 	.csc-alignment-center .csc-header { text-align: center; }
 	.csc-alignment-right .csc-header { text-align: right; }
 	.csc-alignment-left .csc-header { text-align: left; }
 
-	/* Needed for noRows setting */
-	.csc-textpic-imagecolumn {
+	/* Image */
+	.csc-image {
 		float: left;
 		display: inline;
-	}
-
-	/* Border just around the image */
-	{$styles.content.imgtext.borderSelector} {
-		border: {$styles.content.imgtext.borderThick}px solid {$styles.content.imgtext.borderColor};
-		padding: {$styles.content.imgtext.borderSpace}px {$styles.content.imgtext.borderSpace}px;
-	}
-
-	/* Image */
-	.csc-textpic-image {
-		float: left;
 		margin: 0;
+		margin-bottom: {$styles.content.imgtext.rowSpace}px;
 	}
-
-	.csc-textpic-image img {
+	.csc-image img {
 		display: block;
 		margin: 0;
 		border: none;
 	}
 
-	.csc-textpic-imagewrap {
+	/* Wrap */
+	.csc-imagewrap {
 		padding: 0;
 	}
-
-	/* Margins around images: */
+	.csc-imagewrap .csc-firstcol {
+		margin-left: 0;
+	}
+	.csc-imagewrap .csc-lastcol {
+		margin-right: 0;
+	}
+	.csc-imagewrap .csc-imagerow {
+		clear: both;
+	}
+	.csc-imagewrap .csc-imagerow-last {
+		margin-bottom: 0;
+	}
+	.csc-imagewrap .csc-imagecolumn {
+		float: left;
+		display: inline;
+	}
 
 	/* Pictures on left, add margin on right */
-	.csc-orientation-left .csc-textpic-image,
-	.csc-orientation-lefttop .csc-textpic-image,
-	.csc-orientation-leftbottom .csc-textpic-image {
-		display: inline;
+	.csc-orientation-left .csc-image,
+	.csc-orientation-lefttop .csc-image,
+	.csc-orientation-leftbottom .csc-image {
 		margin-right: {$styles.content.imgtext.colSpace}px;
 	}
 
 	/* Pictures on right, add margin on left */
-	.csc-orientation-right .csc-textpic-image,
-	.csc-orientation-righttop .csc-textpic-image,
-	.csc-orientation-rightbottom .csc-textpic-image {
-		display: inline;
+	.csc-orientation-right .csc-image,
+	.csc-orientation-righttop .csc-image,
+	.csc-orientation-rightbottom .csc-image {
 		margin-left: {$styles.content.imgtext.colSpace}px;
 	}
 
 	/* Pictures centered, add margin on left */
-	.csc-orientation-centertop .csc-textpic-image,
-	.csc-orientation-centerbottom .csc-textpic-image {
-		display: inline;
+	.csc-orientation-centertop .csc-image,
+	.csc-orientation-centerbottom .csc-image {
 		margin-left: {$styles.content.imgtext.colSpace}px;
 	}
 
-	/* Space below each image (also in-between rows) */
-	.csc-textpic-image {
-		margin-bottom: {$styles.content.imgtext.rowSpace}px;
-	}
-
-	/* No margins around the whole image-block */
-	.csc-textpic-firstcol {
-		margin-left: 0px !important;
-	}
-	.csc-textpic-lastcol {
-		margin-right: 0px !important;
-	}
-
 	/* Add margin from image-block to text (in case of "Text w/ images") */
-	.csc-orientation-left .csc-textpic-imagewrap {
+	.csc-orientation-left .csc-imagewrap {
 		margin-right: {$styles.content.imgtext.textMargin}px !important;
 	}
-	.csc-orientation-right .csc-textpic-imagewrap {
+	.csc-orientation-right .csc-imagewrap {
 		margin-left: {$styles.content.imgtext.textMargin}px !important;
 	}
 
-	/* Positioning of images: */
-
 	/* Above */
-	.csc-orientation-lefttop .csc-textpic-text,
-	.csc-orientation-righttop .csc-textpic-text,
-	.csc-orientation-centertop .csc-textpic-text {
+	.csc-orientation-lefttop .csc-text,
+	.csc-orientation-righttop .csc-text,
+	.csc-orientation-centertop .csc-text {
 		clear: both;
 	}
 
@@ -1949,55 +1921,50 @@ plugin.tx_cssstyledcontent._CSS_DEFAULT_STYLE (
 	.csc-orientation-centerbottom {
 		text-align: center;
 	}
-
-	.csc-orientation-centertop .csc-textpic-imagewrap,
-	.csc-orientation-centerbottom .csc-textpic-imagewrap {
+	.csc-orientation-centertop .csc-imagewrap,
+	.csc-orientation-centerbottom .csc-imagewrap {
 		margin: 0 auto;
 	}
-
-	.csc-orientation-centertop .csc-textpic-image,
-	.csc-orientation-centerbottom .csc-textpic-image {
+	.csc-orientation-centertop .csc-image,
+	.csc-orientation-centerbottom .csc-image,
+	.csc-orientation-centertop .csc-text,
+	.csc-orientation-centerbottom .csc-text {
 		text-align: left;
 	}
 
-	.csc-orientation-centertop .csc-textpic-text,
-	.csc-orientation-centerbottom .csc-textpic-text {
-		text-align: left;
-	}
-
-	/* Right (above or below) */
-	.csc-orientation-righttop .csc-textpic-imagewrap,
-	.csc-orientation-rightbottom .csc-textpic-imagewrap {
+	/* Right (above or below or in text) */
+	.csc-orientation-righttop .csc-imagewrap,
+	.csc-orientation-rightbottom .csc-imagewrap,
+	.csc-orientation-right .csc-imagewrap {
 		float: right;
 	}
-
-	.csc-orientation-righttop .csc-textpic-text,
-	.csc-orientation-rightbottom .csc-textpic-text {
+	.csc-orientation-righttop .csc-text,
+	.csc-orientation-rightbottom .csc-text {
 		clear: right;
 	}
 
-	/* Left (above or below) */
-	.csc-orientation-lefttop .csc-textpic-imagewrap,
-	.csc-orientation-leftbottom .csc-textpic-imagewrap {
+	/* Left (above or below or in text) */
+	.csc-orientation-lefttop .csc-imagewrap,
+	.csc-orientation-leftbottom .csc-imagewrap,
+	.csc-orientation-left .csc-imagewrap {
 		float: left;
 	}
-
-	.csc-orientation-lefttop .csc-textpic-text,
-	.csc-orientation-leftbottom .csc-textpic-text {
+	.csc-orientation-lefttop .csc-text,
+	.csc-orientation-leftbottom .csc-text {
 		clear: left;
 	}
 
-	/* Left (in text) */
-	.csc-orientation-left .csc-textpic-imagewrap { float: left; }
-
-	/* Right (in text) */
-	.csc-orientation-right .csc-textpic-imagewrap { float: right; }
-
-	/* Row */
-	.csc-textpic-imagerow {
-		clear: both;
+	/* Caption */
+	.csc-caption {
+		margin: 0;
 	}
-	.csc-textpic-imagerow-last {
-		margin-bottom: 0;
+	.csc-alignment-center .csc-caption {
+		text-align: center;
+	}
+	.csc-alignment-right .csc-caption {
+		text-align: right;
+	}
+	.csc-alignment-left .csc-caption {
+		text-align: left;
 	}
 )
