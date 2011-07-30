@@ -1,0 +1,151 @@
+# BASIC
+#######
+
+# Encoding
+	AddDefaultCharset utf-8
+	AddCharset utf-8 .html .css .js .xml .json .rss
+
+# Disable automatic file guessing
+	Options -MultiViews
+
+# Disable files listing
+	Options -Indexes
+
+# Disable ETags
+	FileETag None
+
+# Disable the server signature
+	ServerSignature Off
+
+
+
+# MIME
+######
+
+# audio
+	AddType audio/ogg                      oga ogg
+
+# video
+	AddType video/ogg                      ogv
+	AddType video/mp4                      mp4
+	AddType video/webm                     webm
+
+# fonts
+	AddType application/vnd.ms-fontobject  eot
+	AddType font/truetype                  ttf
+	AddType font/opentype                  otf
+	AddType application/x-font-woff        woff
+
+# svg
+	AddType image/svg+xml                  svg svgz 
+	AddEncoding gzip                       svgz
+
+# misc
+	AddType image/x-icon                   ico
+	AddType image/webp                     webp
+	AddType text/cache-manifest            appcache manifest
+	AddType text/x-component               htc
+	AddType application/x-chrome-extension crx
+	AddType application/x-xpinstall        xpi
+	AddType application/octet-stream       safariextz
+
+
+
+# COMPRESSION
+#############
+
+<IfModule mod_deflate.c>
+
+	# force deflate for mangled headers developer.yahoo.com/blogs/ydn/posts/2010/12/pushing-beyond-gzipping/
+	<IfModule mod_setenvif.c>
+		<IfModule mod_headers.c>
+			SetEnvIfNoCase ^(Accept-EncodXng|X-cept-Encoding|X{15}|~{15}|-{15})$ ^((gzip|deflate)\s,?\s(gzip|deflate)?|X{4,13}|~{4,13}|-{4,13})$ HAVE_Accept-Encoding
+			RequestHeader append Accept-Encoding "gzip,deflate" env=HAVE_Accept-Encoding
+		</IfModule>
+	</IfModule>
+
+	# html, txt, css, js, json, xml, htc:
+	<IfModule filter_module>
+		FilterDeclare   COMPRESS
+		FilterProvider  COMPRESS  DEFLATE resp=Content-Type /text/(html|css|javascript|plain|x(ml|-component))/
+		FilterProvider  COMPRESS  DEFLATE resp=Content-Type /application/(javascript|json|xml|x-javascript)/
+		FilterChain     COMPRESS
+		FilterProtocol  COMPRESS  change=yes;byteranges=no
+	</IfModule>
+
+	<IfModule !mod_filter.c>
+		# Legacy versions of Apache
+		AddOutputFilterByType DEFLATE text/html text/plain text/css application/json
+		AddOutputFilterByType DEFLATE text/javascript application/javascript application/x-javascript 
+		AddOutputFilterByType DEFLATE text/xml application/xml text/x-component
+	</IfModule>
+
+	# webfonts and svg:
+	<FilesMatch "\.(ttf|otf|eot|svg)$" >
+		SetOutputFilter DEFLATE
+	</FilesMatch>
+</IfModule>
+
+
+
+# CHROME FRAME
+##############
+
+<IfModule mod_setenvif.c>
+	<IfModule mod_headers.c>
+		BrowserMatch MSIE ie
+		Header set X-UA-Compatible "IE=Edge,chrome=1" env=ie
+	</IfModule>
+</IfModule>
+
+<IfModule mod_headers.c>
+	Header append Vary User-Agent
+</IfModule>
+
+
+
+# PHP
+#####
+
+<IfModule mod_php5.c>
+	php_value arg_separator.output &
+	php_value memory_limit 128M
+	php_value upload_max_filesize 16M
+	php_value post_max_size 16M
+
+	php_flag allow_call_time_pass_reference On
+</IfModule>
+
+
+
+# REWRITE
+#########
+<IfModule mod_rewrite.c>
+	
+	# Enable rewriting
+	RewriteEngine On
+
+	# Log
+	#RewriteLog rewrite.log
+	#RewriteLogLevel 9
+
+	# Deny access to hidden directories/files
+	RewriteRule "(^|/)\." - [F]
+
+	# TYPO3 Backend
+	RewriteRule ^typo3$ typo3/index_re.php [L]
+
+	# TYPO3 Files
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^(.+)\.(\d+)\.(php|js|css|png|jpg|gif|gzip)$ $1.$3 [L]
+
+	# TYPO3 Sources
+	RewriteRule ^(typo3/|t3lib/|fileadmin/|typo3conf/|typo3temp/|uploads/|favicon\.ico) - [L]
+
+	# TYPO3 Frontend
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_FILENAME} !-l
+	RewriteRule .* /index.php [L]
+</IfModule>

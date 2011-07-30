@@ -716,7 +716,6 @@ tt_content.image.20 {
 		value = 1
 	}
 
-	#
 	imageStdWrap.dataWrap = <div class="csc-textpic-imagewrap csc-alignment-{field:imagecaption_position}" style="width:{register:totalwidth}px;"> | </div>
 	imageStdWrapNoWidth.wrap = <div class="csc-textpic-imagewrap csc-alignment-{field:imagecaption_position}"> | </div>
 	imageStdWrapNoWidth.wrap.insertData = 1
@@ -806,7 +805,7 @@ tt_content.image.20 {
 			editIconsStdWrap.wrap = <dd> | </dd>
 			caption {
 				required = 1
-				wrap = <figcaption class="csc-textpic-caption"> | </figcaption>
+				wrap = <figcaption class="csc-caption"> | </figcaption>
 			}
 		}
 		ul {
@@ -818,7 +817,7 @@ tt_content.image.20 {
 			oneImageStdWrap.dataWrap = <figure class="csc-textpic-image###CLASSES###" style="width:{register:imagespace}px;"> | </figure>
 			imgTagStdWrap.wrap =
 			editIconsStdWrap.wrap = <div> | </div>
-			caption.wrap = <figcaption class="csc-textpic-caption"> | </figcaption>
+			caption.wrap = <figcaption class="csc-caption"> | </figcaption>
 		}
 		div {
 			# Just one image without a caption => don't need the div-overhead, use the "simple" rendering
@@ -829,7 +828,7 @@ tt_content.image.20 {
 			oneImageStdWrap.dataWrap = <div class="csc-textpic-image###CLASSES###" style="width:{register:imagespace}px;"> | </div>
 			imgTagStdWrap.wrap = <div> | </div>
 			editIconsStdWrap.wrap = <div> | </div>
-			caption.wrap = <figcaption class="csc-textpic-caption"> | </figcaption>
+			caption.wrap = <figcaption class="csc-caption"> | </figcaption>
 		}
 		simple {
 			imageRowStdWrap.dataWrap = |
@@ -1825,14 +1824,37 @@ tt_content.default {
 
 
 plugin.tx_cssstyledcontent._CSS_DEFAULT_STYLE (
+	/* HTML5 ✰ Boilerplate */
+
+	html, body, div, span, object, iframe,
+	h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+	abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp,
+	small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li,
+	fieldset, form, label, legend,
+	table, caption, tbody, tfoot, thead, tr, th, td,
+	article, aside, canvas, details, figcaption, figure,
+	footer, header, hgroup, menu, nav, section, summary,
+	time, mark, audio, video {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		font-size: 100%;
+		font: inherit;
+		vertical-align: baseline;
+	}
+
+	article, aside, details, figcaption, figure,
+	footer, header, hgroup, menu, nav, section {
+		display: block;
+	}
 
 	/* Caption */
-	.csc-textpic-caption {
+	.csc-caption {
 		margin: 0;
 	}
-	.csc-alignment-center .csc-textpic-caption { text-align: center; }
-	.csc-alignment-right .csc-textpic-caption { text-align: right; }
-	.csc-alignment-left .csc-textpic-caption { text-align: left; }
+	.csc-alignment-center .csc-caption { text-align: center; }
+	.csc-alignment-right .csc-caption { text-align: right; }
+	.csc-alignment-left .csc-caption { text-align: left; }
 
 	/* Header */
 	.csc-alignment-center .csc-header { text-align: center; }
@@ -1873,7 +1895,7 @@ plugin.tx_cssstyledcontent._CSS_DEFAULT_STYLE (
 	.csc-orientation-left .csc-textpic-image,
 	.csc-orientation-lefttop .csc-textpic-image,
 	.csc-orientation-leftbottom .csc-textpic-image {
-		display: inline; /* IE fix for double-margin bug */
+		display: inline;
 		margin-right: {$styles.content.imgtext.colSpace}px;
 	}
 
@@ -1881,14 +1903,14 @@ plugin.tx_cssstyledcontent._CSS_DEFAULT_STYLE (
 	.csc-orientation-right .csc-textpic-image,
 	.csc-orientation-righttop .csc-textpic-image,
 	.csc-orientation-rightbottom .csc-textpic-image {
-		display: inline; /* IE fix for double-margin bug */
+		display: inline;
 		margin-left: {$styles.content.imgtext.colSpace}px;
 	}
 
 	/* Pictures centered, add margin on left */
 	.csc-orientation-centertop .csc-textpic-image,
 	.csc-orientation-centerbottom .csc-textpic-image {
-		display: inline; /* IE fix for double-margin bug */
+		display: inline;
 		margin-left: {$styles.content.imgtext.colSpace}px;
 	}
 
@@ -1925,7 +1947,7 @@ plugin.tx_cssstyledcontent._CSS_DEFAULT_STYLE (
 	/* Center (above or below) */
 	.csc-orientation-centertop,
 	.csc-orientation-centerbottom {
-		text-align: center; /* IE-hack */
+		text-align: center;
 	}
 
 	.csc-orientation-centertop .csc-textpic-imagewrap,
@@ -1935,12 +1957,12 @@ plugin.tx_cssstyledcontent._CSS_DEFAULT_STYLE (
 
 	.csc-orientation-centertop .csc-textpic-image,
 	.csc-orientation-centerbottom .csc-textpic-image {
-		text-align: left; /* Remove IE-hack */
+		text-align: left;
 	}
 
 	.csc-orientation-centertop .csc-textpic-text,
 	.csc-orientation-centerbottom .csc-textpic-text {
-		text-align: left; /* Remove IE-hack */
+		text-align: left;
 	}
 
 	/* Right (above or below) */
