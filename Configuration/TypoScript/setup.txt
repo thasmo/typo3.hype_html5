@@ -1,0 +1,29 @@
+plugin.tx_hypehtml5 {
+
+	markup {
+		doctype =
+
+		htmlTag (
+			<!--[if lt IE 7]><html class="no-js ie6" lang="{$language}"{$namespace}><![endif]-->
+			<!--[if IE 7]>   <html class="no-js ie7" lang="{$language}"{$namespace}><![endif]-->
+			<!--[if IE 8]>   <html class="no-js ie8" lang="{$language}"{$namespace}><![endif]-->
+			<!--[if gt IE 8]><!--><html class="no-js" lang="{$language}"{$namespace}><!--<![endif]-->
+		)
+
+		htmlTag {
+			namespace {
+				og = http://ogp.me/ns#
+				#fb = http://www.facebook.com/2008/fbml/
+				#rdf = http://www.w3.org/1999/02/22-rdf-syntax-ns#
+				#foaf = http://xmlns.com/foaf/0.1/
+				#dc = http://purl.org/dc/elements/1.1/
+			}
+		}
+	}
+
+	clean {
+		removeScriptAttributes = 1
+		removeStyleAttributes = 1
+		removeImageAttributes = 1
+	}
+}
