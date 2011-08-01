@@ -67,8 +67,6 @@ class user_hypehtml5_t3lib_pagerenderer {
 			# set the tag
 			$parameters['htmlTag'] = $htmlTag;
 		}
-
-		//var_dump($parameters);
 	}
 }
 
