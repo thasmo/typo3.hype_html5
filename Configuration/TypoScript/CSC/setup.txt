@@ -1874,6 +1874,25 @@ plugin.tx_cssstyledcontent._CSS_DEFAULT_STYLE (
 		display: block;
 	}
 
+	/* Content */
+	.clearfix:before,
+	.clearfix:after,
+	.csc-default:before,
+	.csc-default:after {
+		content: "\0020";
+		display: block;
+		height: 0;
+		overflow: hidden;
+	}
+	.clearfix:after,
+	.csc-default:after {
+		clear: both;
+	}
+	.clearfix,
+	.csc-default {
+		zoom: 1;
+	}
+
 	/* Header */
 	.csc-alignment-center .csc-header { text-align: center; }
 	.csc-alignment-right .csc-header { text-align: right; }
