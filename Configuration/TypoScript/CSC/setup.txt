@@ -1993,7 +1993,8 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 	}
 
 	/* Text */
-	.csc-text {
+	.csc-orientation-left .csc-text,
+	.csc-orientation-right .csc-text {
 		overflow: hidden;
 	}
 
