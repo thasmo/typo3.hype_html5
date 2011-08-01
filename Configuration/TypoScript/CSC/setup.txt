@@ -148,6 +148,9 @@ lib {
 		# Wrap
 		stdWrap {
 			innerWrap {
+
+				fieldRequired = date
+
 				cObject = COA
 				cObject {
 
@@ -769,6 +772,8 @@ tt_content.image.20 {
 		# above-left
 		# intext-right
 		# intext-left
+		# intext-right-nowrap
+		# intext-left-nowrap
 		default = TEXT
 		default {
 			value = ###IMAGES######TEXT###
@@ -783,16 +788,6 @@ tt_content.image.20 {
 
 		# below-left
 		10 < .8
-
-		# intext-right-nowrap
-		25 = TEXT
-		25.value = ###IMAGES###<div style="margin-right:{register:rowWidthPlusTextMargin}px;">###TEXT###</div>
-		25.insertData = 1
-
-		# intext-left-nowrap
-		26 = TEXT
-		26.value = ###IMAGES###<div style="margin-left:{register:rowWidthPlusTextMargin}px;">###TEXT###</div>
-		26.insertData = 1
 	}
 
 	rendering {
@@ -1968,6 +1963,11 @@ plugin.tx_cssstyledcontent._CSS_DEFAULT_STYLE (
 	.csc-orientation-lefttop .csc-text,
 	.csc-orientation-leftbottom .csc-text {
 		clear: left;
+	}
+
+	/* Text */
+	.csc-text {
+		overflow: hidden;
 	}
 
 	/* Wrap */

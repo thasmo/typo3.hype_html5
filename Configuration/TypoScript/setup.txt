@@ -12,7 +12,7 @@ plugin.tx_hypehtml5 {
 
 		htmlTag {
 			namespace {
-				og = http://ogp.me/ns#
+				#og = http://ogp.me/ns#
 				#fb = http://www.facebook.com/2008/fbml/
 				#rdf = http://www.w3.org/1999/02/22-rdf-syntax-ns#
 				#foaf = http://xmlns.com/foaf/0.1/
@@ -22,8 +22,8 @@ plugin.tx_hypehtml5 {
 	}
 
 	clean {
-		removeScriptAttributes = 1
-		removeStyleAttributes = 1
-		removeImageAttributes = 1
+		removeScriptAttributes = {$plugin.tx_hypehtml5.clean.removeScriptAttributes}
+		removeStyleAttributes = {$plugin.tx_hypehtml5.clean.removeStyleAttributes}
+		removeImageAttributes = {$plugin.tx_hypehtml5.clean.removeImageAttributes}
 	}
 }

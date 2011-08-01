@@ -1,0 +1,7 @@
+plugin.tx_hypehtml5 {
+	clean {
+		removeScriptAttributes = 1
+		removeStyleAttributes = 1
+		removeImageAttributes = 1
+	}
+}
