@@ -34,6 +34,9 @@ Installation
 1. Import and install the extension.
 2. Include the static typoscript template files.
 3. Adapt the configuration to your needs.
+Note
+You may not include the static typoscript template files from the extension css_styled_content.
+To fully enable HTML5 capabilities you need to configure config.doctype with the value html5.
 Configuration
 TypoScript
 Property:
