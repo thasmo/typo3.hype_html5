@@ -1,6 +1,16 @@
 README
 ======
 
+CREDITS
+-------
+
+Thanks to all the people helping me with creating,
+developing and testing this extension, especially:
+
+* Riccardo De Contardi, for providing lots of feedback.
+
+
+
 RESOURCES
 ---------
 
