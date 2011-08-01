@@ -1938,11 +1938,11 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 	/* Add margin from image-block to text (in case of "Text w/ images") */
 	.csc-orientation-left .csc-imagewrap,
 	.csc-orientation-floatleft .csc-imagewrap {
-		margin-right: {$styles.content.imgtext.textMargin}px !important;
+		margin-right: {$styles.content.imgtext.textMargin}px;
 	}
 	.csc-orientation-right .csc-imagewrap,
 	.csc-orientation-floatright .csc-imagewrap {
-		margin-left: {$styles.content.imgtext.textMargin}px !important;
+		margin-left: {$styles.content.imgtext.textMargin}px;
 	}
 
 	/* Above */
@@ -2035,5 +2035,13 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 	/* Anchor */
 	.csc-anchor {
 		clear: both;
+	}
+
+	/* Legacy */
+	.ie6 .csc-orientation-centertop .csc-imagewrap,
+	.ie6 .csc-orientation-centerbottom .csc-imagewrap,
+	.ie7 .csc-orientation-centertop .csc-imagewrap,
+	.ie7 .csc-orientation-centerbottom .csc-imagewrap {
+		display: inline;
 	}
 )
