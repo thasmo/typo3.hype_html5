@@ -3,7 +3,7 @@
 ########################################################################
 # Extension Manager/Repository config file for ext "hype_html5".
 #
-# Auto generated 01-08-2011 21:20
+# Auto generated 02-08-2011 14:35
 #
 # Manual updates:
 # Only the data in the array - everything else is removed by next
@@ -12,10 +12,10 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Hype HTML5',
-	'description' => 'Brings the future to TYPO3.',
+	'description' => 'Brings the future to TYPO3. Content is rendered using appropriate HTML5 elements using less wraps but useful class names.',
 	'category' => 'fe',
 	'shy' => 0,
-	'version' => '1.1.0',
+	'version' => '1.2.0',
 	'dependencies' => 'css_styled_content',
 	'conflicts' => 'html5meta_t3lib_pagerenderer,html5_kickstart,html5_readykit,html5boilerplate',
 	'priority' => '',
@@ -47,7 +47,7 @@ $EM_CONF[$_EXTKEY] = array(
 		'suggests' => array(
 		),
 	),
-	'_md5_values_when_last_written' => 'a:20:{s:12:"ext_icon.gif";s:4:"6226";s:17:"ext_localconf.php";s:4:"9778";s:14:"ext_tables.php";s:4:"967b";s:10:"readme.txt";s:4:"2e2b";s:56:"Classes/Hook/class.user_hypehtml5_t3lib_pagerenderer.php";s:4:"72bd";s:46:"Classes/Hook/class.user_hypehtml5_tslib_fe.php";s:4:"fe2d";s:43:"Classes/XClass/class.ux_t3lib_parsehtml.php";s:4:"eb21";s:38:"Configuration/TypoScript/constants.txt";s:4:"1baf";s:34:"Configuration/TypoScript/setup.txt";s:4:"7410";s:42:"Configuration/TypoScript/CSC/constants.txt";s:4:"0589";s:42:"Configuration/TypoScript/CSC/editorcfg.txt";s:4:"6f06";s:38:"Configuration/TypoScript/CSC/setup.txt";s:4:"60b8";s:44:"Configuration/TypoScript/HTML5/constants.txt";s:4:"c0ca";s:40:"Configuration/TypoScript/HTML5/setup.txt";s:4:"dd9a";s:48:"Configuration/TypoScript/HTML5/Parsing/setup.txt";s:4:"f94a";s:33:"Resources/Public/Media/_.htaccess";s:4:"9119";s:42:"Resources/Public/Media/Script/modernizr.js";s:4:"1ccc";s:14:"doc/manual.pdf";s:4:"d3b8";s:14:"doc/manual.sxw";s:4:"2931";s:14:"doc/manual.txt";s:4:"fce7";}',
+	'_md5_values_when_last_written' => 'a:20:{s:12:"ext_icon.gif";s:4:"6226";s:17:"ext_localconf.php";s:4:"9778";s:14:"ext_tables.php";s:4:"967b";s:10:"readme.txt";s:4:"2e2b";s:56:"Classes/Hook/class.user_hypehtml5_t3lib_pagerenderer.php";s:4:"72bd";s:46:"Classes/Hook/class.user_hypehtml5_tslib_fe.php";s:4:"fe2d";s:43:"Classes/XClass/class.ux_t3lib_parsehtml.php";s:4:"eb21";s:38:"Configuration/TypoScript/constants.txt";s:4:"1baf";s:34:"Configuration/TypoScript/setup.txt";s:4:"7410";s:42:"Configuration/TypoScript/CSC/constants.txt";s:4:"0589";s:42:"Configuration/TypoScript/CSC/editorcfg.txt";s:4:"6f06";s:38:"Configuration/TypoScript/CSC/setup.txt";s:4:"8fa4";s:44:"Configuration/TypoScript/HTML5/constants.txt";s:4:"c0ca";s:40:"Configuration/TypoScript/HTML5/setup.txt";s:4:"dd9a";s:48:"Configuration/TypoScript/HTML5/Parsing/setup.txt";s:4:"f94a";s:33:"Resources/Public/Media/_.htaccess";s:4:"9119";s:42:"Resources/Public/Media/Script/modernizr.js";s:4:"4a8a";s:14:"doc/manual.pdf";s:4:"d3b8";s:14:"doc/manual.sxw";s:4:"2931";s:14:"doc/manual.txt";s:4:"fce7";}',
 	'suggests' => array(
 	),
 );
