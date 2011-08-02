@@ -43,6 +43,16 @@ Property:
 Data type:
 Description:
 Default:
+common.
+enableScript
+boolean
+Enables the HTML5 script to be able to style new HTML5 elements in legacy browsers like IE.
+1
+common.
+includeStylesFirst
+boolean
+Ensures that CSS styles for the content are included first, before styles of all other installed extensions.
+1
 markup
 .doctype
 string

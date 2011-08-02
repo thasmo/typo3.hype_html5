@@ -149,8 +149,6 @@ lib {
 		stdWrap {
 			innerWrap {
 
-				fieldRequired = date
-
 				cObject = COA
 				cObject {
 
@@ -1945,13 +1943,10 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 	/* Image */
 	.csc-image {
 		display: block;
-		margin: 0;
 		margin-bottom: {$styles.content.imgtext.rowSpace}px;
 	}
 	.csc-image img {
 		display: block;
-		margin: 0;
-		border: none;
 	}
 	.csc-row .csc-image {
 		float: left;
@@ -2043,9 +2038,6 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 	}
 
 	/* Wrap */
-	.csc-imagewrap {
-
-	}
 	.csc-imagewrap .csc-column-first {
 		margin-left: 0;
 	}
@@ -2053,7 +2045,7 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 		margin-right: 0;
 	}
 	.csc-imagewrap .csc-row {
-		clear: both;
+		overflow: hidden;
 	}
 	.csc-imagewrap .csc-column {
 		float: left;
