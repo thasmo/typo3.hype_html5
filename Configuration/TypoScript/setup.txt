@@ -1,4 +1,7 @@
 plugin.tx_hypehtml5 {
+	common {
+		enableScript = {$plugin.tx_hypehtml5.common.enableScript}
+	}
 
 	markup {
 		doctype =

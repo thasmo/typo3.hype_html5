@@ -19,7 +19,8 @@ class user_hypehtml5_t3lib_pagerenderer {
 	 */
 	public function renderPreProcess($parameters, $renderer) {
 
-		if(!$parameters['jsLibs']['modernizr'] &&
+		if($this->settings['common.']['enableScript'] &&
+		   !$parameters['jsLibs']['modernizr'] &&
 		   in_array($GLOBALS['TSFE']->config['config']['doctype'], array('html5', 'html_5'))) {
 
 			$parameters['jsLibs']['modernizr'] = array(
