@@ -449,21 +449,9 @@ tt_content {
 								}
 							}
 
-							# Border
-							60 = TEXT
-							60 {
-								stdWrap {
-									noTrimWrap = | csc-border|
-								}
-
-								if {
-									isTrue.field = imageborder
-								}
-							}
-
 							# Image orientation
-							70 = COA
-							70 {
+							60 = COA
+							60 {
 								stdWrap {
 									noTrimWrap = | csc-orientation-||
 								}
@@ -749,19 +737,92 @@ tt_content.image.20 {
 	separateRows = {$styles.content.imgtext.separateRows}
 	addClasses =
 	addClassesImage =
-	addClassesImage.ifEmpty = csc-firstcol csc-lastcol
-	addClassesImage.override = csc-firstcol |*| |*| csc-lastcol
+	addClassesImage.ifEmpty = csc-column-first csc-column-last
+	addClassesImage.override = csc-column-first |*| |*| csc-column-last
 	addClassesImage.override.if {
 		isGreaterThan.field = imagecols
 		value = 1
 	}
 
-	imageStdWrap.dataWrap = <div class="csc-imagewrap csc-alignment-{field:imagecaption_position}"> | </div>
-	imageStdWrapNoWidth.wrap = <div class="csc-imagewrap csc-alignment-{field:imagecaption_position}"> | </div>
-	imageStdWrapNoWidth.wrap.insertData = 1
+	imageStdWrap {
+		stdWrap {
+			innerWrap {
+				cObject = COA
+				cObject {
+
+					# Opening tag
+					10 = TEXT
+					10 {
+						value = <div
+					}
+
+					# Class attribute
+					20 = COA
+					20 {
+						stdWrap {
+							noTrimWrap = | class="csc-imagewrap|"|
+						}
+
+						# Caption alignment
+						10 = TEXT
+						10 {
+							stdWrap {
+								noTrimWrap = | csc-alignment-||
+								fieldRequired = imagecaption_position
+							}
+
+							field = imagecaption_position
+						}
+
+						# Border
+						20 = TEXT
+						20 {
+							stdWrap {
+								noTrimWrap = | ||
+								required = 1
+							}
+
+							value = csc-border
+							fieldRequired = imageborder
+						}
+
+						# Effects
+						30 = TEXT
+						30 {
+							stdWrap {
+								noTrimWrap = | csc-effect-||
+								fieldRequired = image_effects
+							}
+
+							field = image_effects
+						}
+
+						# Compression
+						40 = TEXT
+						40 {
+							stdWrap {
+								noTrimWrap = | csc-quality-||
+								fieldRequired = image_compression
+							}
+
+							field = image_compression
+						}
+					}
+
+					# Closing tag
+					30 = TEXT
+					30 {
+						value = >|</div>
+					}
+				}
+			}
+		}
+	}
+
+	imageStdWrapNoWidth < .imageStdWrap
 
 	# if noRows is set, wrap around each column:
-	imageColumnStdWrap.dataWrap = <div class="csc-imagecolumn"> | </div>
+	imageColumnStdWrap.dataWrap = <div class="csc-column"> | </div>
 
 	layout = CASE
 	layout {
@@ -829,8 +890,8 @@ tt_content.image.20 {
 					value = ul
 				}
 			}
-			imageRowStdWrap.dataWrap = <div class="csc-imagerow"> | </div>
-			imageLastRowStdWrap.dataWrap = <div class="csc-imagerow csc-imagerow-last"> | </div>
+			imageRowStdWrap.dataWrap = <div class="csc-row"> | </div>
+			imageLastRowStdWrap.dataWrap = <div class="csc-row"> | </div>
 			noRowsStdWrap.wrap =
 			oneImageStdWrap.dataWrap = <figure class="csc-image###CLASSES###"> | </figure>
 			imgTagStdWrap.wrap = |
@@ -843,8 +904,8 @@ tt_content.image.20 {
 		ul {
 			# Just one image without a caption => don't need the ul-overhead, use the "simple" rendering
 			fallbackRendering < tt_content.image.20.rendering.dl.fallbackRendering.10
-			imageRowStdWrap.dataWrap = <div class="csc-imagerow"> | </div>
-			imageLastRowStdWrap.dataWrap = <div class="csc-imagerow csc-imagerow-last"> | </div>
+			imageRowStdWrap.dataWrap = <div class="csc-row"> | </div>
+			imageLastRowStdWrap.dataWrap = <div class="csc-row"> | </div>
 			noRowsStdWrap.wrap = |
 			oneImageStdWrap.dataWrap = <figure class="csc-image###CLASSES###"> | </figure>
 			imgTagStdWrap.wrap =
@@ -854,8 +915,8 @@ tt_content.image.20 {
 		div {
 			# Just one image without a caption => don't need the div-overhead, use the "simple" rendering
 			fallbackRendering < tt_content.image.20.rendering.dl.fallbackRendering.10
-			imageRowStdWrap.dataWrap = <div class="csc-imagerow"> | </div>
-			imageLastRowStdWrap.dataWrap = <div class="csc-imagerow csc-imagerow-last"> | </div>
+			imageRowStdWrap.dataWrap = <div class="csc-row"> | </div>
+			imageLastRowStdWrap.dataWrap = <div class="csc-row"> | </div>
 			noRowsStdWrap.wrap =
 			oneImageStdWrap.dataWrap = <div class="csc-image###CLASSES###"> | </div>
 			imgTagStdWrap.wrap = <div> | </div>
@@ -863,15 +924,15 @@ tt_content.image.20 {
 			caption.wrap = <figcaption class="csc-caption"> | </figcaption>
 		}
 		simple {
-			imageRowStdWrap.dataWrap = |
-			imageLastRowStdWrap.dataWrap = |
+			imageRowStdWrap.dataWrap = <div class="csc-row"> | </div>
+			imageLastRowStdWrap.dataWrap = <div class="csc-row"> | </div>
 			noRowsStdWrap.wrap =
-			oneImageStdWrap.dataWrap = <figure class="csc-image"> | </figure>
+			oneImageStdWrap.dataWrap = <figure class="csc-image###CLASSES###"> | </figure>
 			imgTagStdWrap.wrap = |
 			editIconsStdWrap.wrap = |
-			caption.wrap = <figcaption> | </figcaption>
-			imageStdWrap.dataWrap = <div class="csc-imagewrap"> | </div>
-			imageStdWrapNoWidth.wrap = <div class="csc-imagewrap"> | </div>
+			caption.wrap = <figcaption class="csc-caption"> | </figcaption>
+			imageStdWrap.dataWrap = |
+			imageStdWrapNoWidth.wrap = |
 		}
 	}
 	renderMethod = dl
@@ -1850,25 +1911,8 @@ tt_content.default {
 # *********************************************************************
 
 plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
-	/* HTML5 ✰ Boilerplate */
 
-	html, body, div, span, object, iframe,
-	h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-	abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp,
-	small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li,
-	fieldset, form, label, legend,
-	table, caption, tbody, tfoot, thead, tr, th, td,
-	article, aside, canvas, details, figcaption, figure,
-	footer, header, hgroup, menu, nav, section, summary,
-	time, mark, audio, video {
-		margin: 0;
-		padding: 0;
-		border: 0;
-		font-size: 100%;
-		font: inherit;
-		vertical-align: baseline;
-	}
-
+	/* HTML5 */
 	article, aside, details, figcaption, figure,
 	footer, header, hgroup, menu, nav, section {
 		display: block;
@@ -1909,7 +1953,7 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 		margin: 0;
 		border: none;
 	}
-	.csc-imagerow .csc-image {
+	.csc-row .csc-image {
 		float: left;
 	}
 
@@ -2000,28 +2044,22 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 
 	/* Wrap */
 	.csc-imagewrap {
-		padding: 0;
+
 	}
-	.csc-imagewrap .csc-firstcol {
+	.csc-imagewrap .csc-column-first {
 		margin-left: 0;
 	}
-	.csc-imagewrap .csc-lastcol {
+	.csc-imagewrap .csc-column-last {
 		margin-right: 0;
 	}
-	.csc-imagewrap .csc-imagerow {
+	.csc-imagewrap .csc-row {
 		clear: both;
 	}
-	.csc-imagewrap .csc-imagerow-last {
-		margin-bottom: 0;
-	}
-	.csc-imagewrap .csc-imagecolumn {
+	.csc-imagewrap .csc-column {
 		float: left;
 	}
 
 	/* Caption */
-	.csc-caption {
-		margin: 0;
-	}
 	.csc-alignment-center .csc-caption {
 		text-align: center;
 	}
