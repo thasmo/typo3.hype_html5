@@ -1916,6 +1916,18 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 		display: block;
 	}
 
+	audio, canvas, video {
+		display: inline-block;
+	}
+
+	audio:not([controls]) {
+		display: none;
+	}
+
+	[hidden] {
+		display: none;
+	}
+
 	/* Content */
 	.clearfix:before,
 	.clearfix:after,
@@ -2068,10 +2080,17 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 	}
 
 	/* Legacy */
+	.ie6 audio, .ie6 video, .ie6 canvas,
+	.ie7 audio, .ie7 video, .ie7 canvas {
+		display: inline;
+		zoom: 1;
+	}
+
 	.ie6 .csc-orientation-centertop .csc-imagewrap,
 	.ie6 .csc-orientation-centerbottom .csc-imagewrap,
 	.ie7 .csc-orientation-centertop .csc-imagewrap,
 	.ie7 .csc-orientation-centerbottom .csc-imagewrap {
 		display: inline;
+		zoom: 1;
 	}
 )
