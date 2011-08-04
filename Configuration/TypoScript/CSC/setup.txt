@@ -137,8 +137,7 @@ lib.parseFunc_RTE {
 	}
 }
 
-
-# Content header:
+# HEADER
 lib {
 
 	# Header
@@ -325,29 +324,10 @@ lib {
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#******************************************************
-# Including library for processing of some elements:
-#******************************************************
+# LIBRARY
 includeLibs.tx_cssstyledcontent_pi1 = EXT:css_styled_content/pi1/class.tx_cssstyledcontent_pi1.php
 
-
-#**********************************
-# tt_content is started
-#**********************************
+# CONTENT
 tt_content >
 tt_content = CASE
 tt_content {
@@ -584,8 +564,6 @@ tt_content {
 		field = CType
 	}
 }
-
-
 
 # HEADER
 tt_content.header = COA
