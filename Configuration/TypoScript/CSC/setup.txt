@@ -578,7 +578,7 @@ tt_content.text = COA
 tt_content.text {
 
 	# Header
-	10 =< lib.header
+	10 =< lib.stdheader
 
 	# Text
 	20 = TEXT
@@ -863,6 +863,24 @@ tt_content.image.20 {
 				required = 1
 				wrap = <figcaption class="csc-caption"> | </figcaption>
 			}
+			caption {
+				typolink {
+					parameter {
+						field = longdescURL
+
+						listNum {
+							stdWrap {
+								data = register:IMAGE_NUM_CURRENT
+							}
+
+							splitChar = 10
+						}
+					}
+
+					target = {$styles.content.links.target}
+					extTarget = {$styles.content.links.extTarget}
+				}
+			}
 		}
 		ul {
 			# Just one image without a caption => don't need the ul-overhead, use the "simple" rendering
@@ -874,6 +892,24 @@ tt_content.image.20 {
 			imgTagStdWrap.wrap =
 			editIconsStdWrap.wrap = <div> | </div>
 			caption.wrap = <figcaption class="csc-caption"> | </figcaption>
+			caption {
+				typolink {
+					parameter {
+						field = longdescURL
+
+						listNum {
+							stdWrap {
+								data = register:IMAGE_NUM_CURRENT
+							}
+
+							splitChar = 10
+						}
+					}
+
+					target = {$styles.content.links.target}
+					extTarget = {$styles.content.links.extTarget}
+				}
+			}
 		}
 		div {
 			# Just one image without a caption => don't need the div-overhead, use the "simple" rendering
@@ -885,6 +921,24 @@ tt_content.image.20 {
 			imgTagStdWrap.wrap = <div> | </div>
 			editIconsStdWrap.wrap = <div> | </div>
 			caption.wrap = <figcaption class="csc-caption"> | </figcaption>
+			caption {
+				typolink {
+					parameter {
+						field = longdescURL
+
+						listNum {
+							stdWrap {
+								data = register:IMAGE_NUM_CURRENT
+							}
+
+							splitChar = 10
+						}
+					}
+
+					target = {$styles.content.links.target}
+					extTarget = {$styles.content.links.extTarget}
+				}
+			}
 		}
 		simple {
 			imageRowStdWrap.dataWrap = <div class="csc-row"> | </div>
@@ -894,6 +948,24 @@ tt_content.image.20 {
 			imgTagStdWrap.wrap = |
 			editIconsStdWrap.wrap = |
 			caption.wrap = <figcaption class="csc-caption"> | </figcaption>
+			caption {
+				typolink {
+					parameter {
+						field = longdescURL
+
+						listNum {
+							stdWrap {
+								data = register:IMAGE_NUM_CURRENT
+							}
+
+							splitChar = 10
+						}
+					}
+
+					target = {$styles.content.links.target}
+					extTarget = {$styles.content.links.extTarget}
+				}
+			}
 			imageStdWrap.dataWrap = |
 			imageStdWrapNoWidth.wrap = |
 		}
@@ -936,7 +1008,7 @@ tt_content.bullets = COA
 tt_content.bullets {
 
 	# Header
-	10 =< lib.header
+	10 =< lib.stdheader
 
 	# Bullets
 	20 = COA
@@ -1036,87 +1108,105 @@ tt_content.uploads {
 	10 =< lib.stdheader
 
 	# Files
-	20 = COA
+	20 = USER
 	20 {
-		stdWrap {
-			wrap = <dl>|</dl>
-			required = 1
+		userFunc = tx_cssstyledcontent_pi1->render_uploads
+
+		field = media
+
+		filePath {
+			field = select_key
 		}
 
-		# Files
-		10 = TEXT
-		10 {
-			field = media
+		outerWrap = <dl>|</dl>
 
-			split {
-				token = ,
-				cObjNum = |*|1||2|*|
+		itemRendering = COA
+		itemRendering {
 
-				# Odd upload
-				1 {
+			# File
+			10 = COA
+			10 {
+				stdWrap {
+					wrap = <dt id="csc-{field:uid}:{register:filename}" class="csc-odd csc-file-{register:fileExtension}">|</dt> |*| <dt id="csc-{field:uid}:{register:filename}" class="csc-even csc-file-{register:fileExtension}">|</dt> || <dt id="csc-{field:uid}:{register:filename}" class="csc-odd csc-file-{register:fileExtension}">|</dt> |*|
+					insertData = 1
+				}
 
-					# File
-					10 = TEXT
-					10 {
-						dataWrap = <dt id="csc-{field:uid}:{register:SPLIT_COUNT}" class="csc-odd csc-upload-file">|</dt>
+				# Icon
+				10 = TEXT
+				10 {
+					data = register:linkedIcon
+					noTrimWrap = |<span class="csc-icon">|</span> |
+					if.isPositive.field = layout
+				}
 
-						current = 1
+				# Link
+				20 = COA
+				20 {
+					wrap = |
 
-						filelink {
-							file {
-								wrap = |
-								fontTag =
-							}
-
-							path = uploads/media/
-
-							icon = 0
-							icon {
-								wrap = <span class="csc-file-icon">|</span>
-							}
-
-							size = 0
-							size {
-								wrap = <span class="csc-file-size">|</span>
-							}
-
-							ATagParams = class="csc-file-title"
-
-							icon_image_ext_list =
-							jumpurl = 0
-							target = {$PAGE_TARGET}
-						}
-					}
-
-					# Description
-					20 = TEXT
-					20 {
-						dataWrap = <dd class="csc-odd csc-upload-description">|</dd>
-
-						field = imagecaption
-
-						listNum {
-							stdWrap {
-								data = register:SPLIT_COUNT
-							}
-
-							splitChar = 10
-						}
+					1 = TEXT
+					1 {
+						data = register:linkedLabel
+						wrap = |
 					}
 				}
 
-				# Even upload
-				2 < .1
-				2 {
-					10 {
-						dataWrap = <dt id="csc-{field:uid}:{register:SPLIT_COUNT}" class="csc-even csc-upload-file">|</dt>
+				# Size
+				30 = TEXT
+				30 {
+					data = register:fileSize
+
+					wrap = , <span class="csc-file-size">|</span>
+
+					bytes = 1
+					bytes {
+						labels = {$styles.content.uploads.filesizeBytesLabels}
 					}
 
-					20 {
-						dataWrap = <dd class="csc-even csc-upload-description">|</dd>
+					if.isTrue.field = filelink_size
+				}
+			}
+
+			# Description
+			20 = COA
+			20 {
+				stdWrap {
+					wrap = <dd class="csc-odd csc-description">|</dd> |*| <dd class="csc-even csc-description">|</dd> || <dd class="csc-odd csc-description">|</dd> |*|
+				}
+
+				10 = TEXT
+				10 {
+					value = &#8203;
+
+					override {
+						cObject = TEXT
+						cObject {
+							data = register:description
+							htmlSpecialChars = 1
+						}
 					}
 				}
 			}
+		}
+
+		useSpacesInLinkText = 0
+		stripFileExtensionFromLinkText = 0
+
+		linkProc {
+			target = _blank
+			jumpurl = {$styles.content.uploads.jumpurl}
+			jumpurl.secure = {$styles.content.uploads.jumpurl_secure}
+			jumpurl.secure.mimeTypes = {$styles.content.uploads.jumpurl_secure_mimeTypes}
+			removePrependedNumbers = 1
+
+			iconCObject = IMAGE
+			iconCObject.file.import.data = register : ICON_REL_PATH
+			iconCObject.file.width = 150
+		}
+
+		filesize {
+			bytes = 1
+			bytes.labels = {$styles.content.uploads.filesizeBytesLabels}
 		}
 	}
 }
@@ -1771,6 +1861,10 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 	.csc-alignment-right .csc-subheader,
 	.csc-alignment-right .csc-date {
 		text-align: right;
+	}
+
+	.csc-header a {
+		display: block;
 	}
 
 	/* Image */

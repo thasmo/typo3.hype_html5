@@ -20,7 +20,7 @@ if(TYPO3_MODE == 'FE') {
 	# HTML Parser
 	$GLOBALS['TYPO3_CONF_VARS']['FE']['XCLASS']['t3lib/class.t3lib_parsehtml.php'] = t3lib_extMgm::extPath('hype_html5', 'Classes/XClass/class.ux_t3lib_parsehtml.php');
 
-	# MAGIC
+	# Magic
 	$path = 'hypehtml5/Configuration/TypoScript/CSC/';
 
 	if(is_array($GLOBALS['TYPO3_CONF_VARS']['FE']['contentRenderingTemplates'])) {
