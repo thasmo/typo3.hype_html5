@@ -587,45 +587,32 @@ tt_content {
 
 
 
-# *****************
-# CType: header
-# *****************
-# See Object path "lib.stdheader"
+# HEADER
 tt_content.header = COA
 tt_content.header {
+
+	# Header
 	10 =< lib.stdheader
 }
 
-
-
-# *****************
-# CType: text
-# *****************
+# TEXT
 tt_content.text = COA
 tt_content.text {
-	10 =< lib.stdheader
 
+	# Header
+	10 =< lib.header
+
+	# Text
 	20 = TEXT
 	20 {
 		field = bodytext
 		required = 1
 
 		parseFunc =< lib.parseFunc_RTE
-
-		editIcons = tt_content:bodytext, rte_enabled
-		editIcons.beforeLastTag = 1
-		editIcons.iconTitle.data = LLL:EXT:css_styled_content/pi1/locallang.xml:eIcon.bodytext
-
-		prefixComment = 2 | Text:
 	}
 }
 
-
-
-# *****************
-# CType: image
-# *****************
-# (also used for rendering 'textpic' type):
+# IMAGE
 tt_content.image = COA
 tt_content.image.10 = < lib.stdheader
 tt_content.image.20 = USER
@@ -945,9 +932,7 @@ tt_content.image.20 {
 	stdWrap.prefixComment = 2 | Image block:
 }
 
-# *****************
-# CType: textpic
-# *****************
+# TEXTPIC
 tt_content.textpic = COA
 tt_content.textpic {
 	10 = COA
@@ -968,49 +953,62 @@ tt_content.textpic {
 	}
 }
 
-
-
-# *****************
-# CType: bullet
-# *****************
+# BULLET
 tt_content.bullets = COA
 tt_content.bullets {
-	10 = < lib.stdheader
 
-	20 = TEXT
+	# Header
+	10 =< lib.header
+
+	# Bullets
+	20 = COA
 	20 {
-		field = bodytext
-		trim = 1
-		split{
-			token.char = 10
-			cObjNum = |*|1|| 2|*|
-			1.current = 1
-			1.parseFunc =< lib.parseFunc
-			1.wrap = <li class="odd">|</li>
-
-			2.current = 1
-			2.parseFunc =< lib.parseFunc
-			2.wrap = <li class="even">|</li>
+		stdWrap {
+			wrap = <ul>|</ul>
+			required = 1
 		}
-		dataWrap = <ul class="csc-bulletlist csc-bulletlist-{field:layout}">|</ul>
-	 	editIcons = tt_content: bodytext, [layout]
-	 	editIcons.beforeLastTag = 1
-	 	editIcons.iconTitle.data = LLL:EXT:css_styled_content/pi1/locallang.php:eIcon.bullets
 
-	 	prefixComment = 2 | Bullet list:
+		# Items
+		10 = TEXT
+		10 {
+			field = bodytext
+
+			trim = 1
+
+			split {
+				token {
+					char = 10
+				}
+
+				cObjNum = |*|1||2|*|
+
+				# Odd bullet
+				1 {
+					dataWrap = <li id="csc-{field:uid}:{register:SPLIT_COUNT}" class="csc-odd">|</li>
+
+					current = 1
+					trim = 1
+					parseFunc =< lib.parseFunc
+				}
+
+				# Even bullet
+				2 < .1
+				2 {
+					dataWrap = <li id="csc-{field:uid}:{register:SPLIT_COUNT}" class="csc-even">|</li>
+				}
+			}
+		}
 	}
 }
 
-
-
-# *****************
-# CType: table
-# *****************
-# Rendered by a PHP function specifically written to handle CE tables. See css_styled_content/pi1/class.tx_cssstyledcontent_pi1.php
+# TABLE
 tt_content.table = COA
 tt_content.table {
-	10 = < lib.stdheader
 
+	# Header
+	10 =< lib.stdheader
+
+	# Table
 	20 = USER
 	20.userFunc = tx_cssstyledcontent_pi1->render_table
 	20.field = bodytext
@@ -1052,115 +1050,107 @@ tt_content.table {
 	}
 }
 
-
-# *****************
-# CType: uploads
-# *****************
-# Rendered by a PHP function specifically written to handle CE filelists. See css_styled_content/pi1/class.tx_cssstyledcontent_pi1.php
+# UPLOADS
 tt_content.uploads = COA
 tt_content.uploads {
-	10 = < lib.stdheader
 
-	20 = USER
-	20.userFunc = tx_cssstyledcontent_pi1->render_uploads
-	20.field = media
-	20.filePath.field = select_key
+	# Header
+	10 =< lib.stdheader
 
+	# Files
+	20 = COA
 	20 {
-		# Rendering for each file (e.g. rows of the table) as a cObject
-		itemRendering = COA
-		itemRendering {
-			wrap = <tr class="tr-odd tr-first">|</tr> |*| <tr class="tr-even">|</tr> || <tr class="tr-odd">|</tr> |*|
-
-			10 = TEXT
-			10.data = register:linkedIcon
-			10.wrap = <td class="csc-uploads-icon">|</td>
-			10.if.isPositive.field = layout
-
-			20 = COA
-			20.wrap = <td class="csc-uploads-fileName">|</td>
-			20.1 = TEXT
-			20.1 {
-				data = register:linkedLabel
-				wrap = <p>|</p>
-			}
-			20.2 = TEXT
-			20.2 {
-				data = register:description
-				wrap = <p class="csc-uploads-description">|</p>
-				required = 1
-			}
-
-			30 = TEXT
-			30.if.isTrue.field = filelink_size
-			30.data = register:fileSize
-			30.wrap = <td class="csc-uploads-fileSize">|</td>
-			30.bytes = 1
-			30.bytes.labels = {$styles.content.uploads.filesizeBytesLabels}
+		stdWrap {
+			wrap = <dl>|</dl>
+			required = 1
 		}
-		useSpacesInLinkText = 0
-		stripFileExtensionFromLinkText = 0
-	}
 
-	20.color {
-		default =
-		1 = #EDEBF1
-		2 = #F5FFAA
-	}
-	20.tableParams_0 {
-		border =
-		cellpadding =
-		cellspacing =
-	}
-	20.tableParams_1 {
-		border =
-		cellpadding =
-		cellspacing =
-	}
-	20.tableParams_2 {
-		border =
-		cellpadding =
-		cellspacing =
-	}
-	20.tableParams_3 {
-		border =
-		cellpadding =
-		cellspacing =
-	}
+		# Files
+		10 = TEXT
+		10 {
+			field = media
 
-	20.linkProc {
-		target = _blank
-		jumpurl = {$styles.content.uploads.jumpurl}
-		jumpurl.secure = {$styles.content.uploads.jumpurl_secure}
-		jumpurl.secure.mimeTypes = {$styles.content.uploads.jumpurl_secure_mimeTypes}
-		removePrependedNumbers = 1
+			split {
+				token = ,
+				cObjNum = |*|1||2|*|
 
-		iconCObject = IMAGE
-		iconCObject.file.import.data = register : ICON_REL_PATH
-		iconCObject.file.width = 150
-	}
+				# Odd upload
+				1 {
 
-	20.filesize {
-		bytes = 1
-		bytes.labels = {$styles.content.uploads.filesizeBytesLabels}
-	}
+					# File
+					10 = TEXT
+					10 {
+						dataWrap = <dt id="csc-{field:uid}:{register:SPLIT_COUNT}" class="csc-odd csc-upload-file">|</dt>
 
-	20.stdWrap {
-		editIcons = tt_content: media, layout [table_bgColor|table_border|table_cellspacing|table_cellpadding], filelink_size, imagecaption
-		editIcons.iconTitle.data = LLL:EXT:css_styled_content/pi1/locallang.xml:eIcon.filelist
+						current = 1
 
-		prefixComment = 2 | File list:
+						filelink {
+							file {
+								wrap = |
+								fontTag =
+							}
+
+							path = uploads/media/
+
+							icon = 0
+							icon {
+								wrap = <span class="csc-file-icon">|</span>
+							}
+
+							size = 0
+							size {
+								wrap = <span class="csc-file-size">|</span>
+							}
+
+							ATagParams = class="csc-file-title"
+
+							icon_image_ext_list =
+							jumpurl = 0
+							target = {$PAGE_TARGET}
+						}
+					}
+
+					# Description
+					20 = TEXT
+					20 {
+						dataWrap = <dd class="csc-odd csc-upload-description">|</dd>
+
+						field = imagecaption
+
+						listNum {
+							stdWrap {
+								data = register:SPLIT_COUNT
+							}
+
+							splitChar = 10
+						}
+					}
+				}
+
+				# Even upload
+				2 < .1
+				2 {
+					10 {
+						dataWrap = <dt id="csc-{field:uid}:{register:SPLIT_COUNT}" class="csc-even csc-upload-file">|</dt>
+					}
+
+					20 {
+						dataWrap = <dd class="csc-even csc-upload-description">|</dd>
+					}
+				}
+			}
+		}
 	}
 }
 
-
-# ******************
-# CType: multimedia
-# ******************
+# MULTIMEDIA
 tt_content.multimedia = COA
 tt_content.multimedia {
-	10 = < lib.stdheader
 
+	# Header
+	10 =< lib.stdheader
+
+	# Object
 	20 = MULTIMEDIA
 	20.file.field = multimedia
 	20.file.wrap = uploads/media/
@@ -1175,13 +1165,14 @@ tt_content.multimedia {
 	}
 }
 
-# *****************
-# CType: swfobject
-# *****************
+# SWFOBJECT
 tt_content.swfobject = COA
 tt_content.swfobject {
-	10 = < lib.stdheader
 
+	# Header
+	10 =< lib.stdheader
+
+	# Object
 	20 = SWFOBJECT
 	20 {
 		file =
@@ -1236,9 +1227,7 @@ tt_content.swfobject {
 	}
 }
 
-# *****************
-# CType: qtobject
-# *****************
+# QTOBJECT
 tt_content.qtobject = COA
 tt_content.qtobject {
 	10 = < lib.stdheader
@@ -1296,9 +1285,7 @@ tt_content.qtobject {
 	}
 }
 
-# *****************
-# CType: media
-# *****************
+# MEDIA
 tt_content.media = COA
 tt_content.media {
 	10 = < lib.stdheader
@@ -1344,9 +1331,7 @@ tt_content.media {
 	}
 }
 
-# ******************
-# CType: mailform
-# ******************
+# MAILFORM
 tt_content.mailform = COA
 tt_content.mailform.10 = < lib.stdheader
 tt_content.mailform.20 = FORM
@@ -1388,10 +1373,7 @@ tt_content.mailform.20 {
 	}
 }
 
-
-# ******************
-# CType: search
-# ******************
+# SEARCH
 tt_content.search = COA
 tt_content.search.10 = < lib.stdheader
 # Result:
@@ -1494,10 +1476,7 @@ tt_content.search.30 {
 	}
 }
 
-
-# ******************
-# CType: login
-# ******************
+# LOGIN
 tt_content.login < tt_content.mailform
 tt_content.login.10 = < lib.stdheader
 tt_content.login.20 {
@@ -1547,69 +1526,7 @@ tt_content.login.20 {
 }
 [global]
 
-
-# ******************
-# CType: splash
-# ******************
-# Deprecated element.
-# Still here for backwards compliance with plugins using the "text box" type.
-tt_content.splash = CASE
-tt_content.splash.key.field = splash_layout
-tt_content.splash.stdWrap {
-	prefixComment = 2 | Textbox inserted (Deprecated)
-}
-tt_content.splash.default = COA
-tt_content.splash.default {
-	20 = CTABLE
-	20 {
-		c.1 = < tt_content.text
-		lm.1 = IMAGE
-		lm.1.file {
-			import = uploads/pics/
-			import.field = image
-			import.listNum = 0
-			maxW.field = imagewidth
-			maxW.ifEmpty = 200
-		}
-		cMargins = 30,0,0,0
-	}
-}
-tt_content.splash.1 < tt_content.splash.default
-tt_content.splash.1.20.lm.1.file >
-tt_content.splash.1.20.lm.1.file = GIFBUILDER
-tt_content.splash.1.20.lm.1.file {
-	XY = [10.w]+10,[10.h]+10
-	backColor = {$content.splash.bgCol}
-	backColor.override.data = register:pageColor
-	format = jpg
-	5 = BOX
-	5.dimensions = 3,3,[10.w],[10.h]
-	5.color = #333333
-	7 = EFFECT
-	7.value = blur=99|blur=99|blur=99|blur=99|blur=99|blur=99|blur=99
-	10 = IMAGE
-	10.file {
-		import = uploads/pics/
-		import.field = image
-		import.listNum = 0
-		maxW.field = imagewidth
-		maxW.ifEmpty = 200
-	}
-}
-// The image frames are not available unless TypoScript code from styles.content.imgFrames.x is provided manually:
-tt_content.splash.2 < tt_content.splash.default
-#tt_content.splash.2.20.lm.1.file.m < styles.content.imgFrames.1
-tt_content.splash.3 < tt_content.splash.default
-#tt_content.splash.3.20.lm.1.file.m < styles.content.imgFrames.2
-
-// From plugin.postit1, if included:
-tt_content.splash.20 = < plugin.postit1
-
-
-
-# ****************
-# CType: menu
-# ****************
+# MENU
 tt_content.menu = COA
 tt_content.menu {
 	10 = < lib.stdheader
@@ -1747,167 +1664,81 @@ tt_content.menu {
 	}
 }
 
-
-
-# ****************
-# CType: shortcut
-# ****************
-# Should be a complete copy from the old static template "content (default)"
+# SHORTCUT
 tt_content.shortcut = COA
 tt_content.shortcut {
-	20 = CASE
-	20.key.field = layout
-	20.0= RECORDS
-	20.0 {
-		source.field = records
-		tables = {$content.shortcut.tables}
-		# THESE are OLD plugins. Modern plugins registers themselves automatically!
-		conf.tt_content = < tt_content
-		conf.tt_address = < tt_address
-		conf.tt_links = < tt_links
-		conf.tt_guest = < tt_guest
-		conf.tt_board = < tt_board
-		conf.tt_calender = < tt_calender
-		conf.tt_rating < tt_rating
-		conf.tt_products = < tt_products
-		conf.tt_news = < tt_news
-		conf.tt_poll = < plugin.tt_poll
-	}
-	20.1= RECORDS
-	20.1 {
-		source.field = records
-		tables = {$content.shortcut.tables}
-		conf.tt_poll = < plugin.tt_poll
-		conf.tt_poll.code = RESULT,SUBMITTEDVOTE
-	}
 
-	20.stdWrap {
-		editIcons = tt_content: records
-		editIcons.iconTitle.data = LLL:EXT:css_styled_content/pi1/locallang.xml:eIcon.recordList
+	# Records
+	10 = RECORDS
+	10 {
+		source {
+			field = records
+		}
 
-		prefixComment = 2 | Inclusion of other records (by reference):
+		tables = {$styles.content.tables}
 	}
 }
 
-
-# ****************
-# CType: list
-# ****************
-# Should be a complete copy from the old static template "content (default)" (except "lib.stdheader")
+# LIST
 tt_content.list = COA
 tt_content.list {
-	10 = < lib.stdheader
 
+	# Header
+	10 =< lib.stdheader
+
+	# Plugin
 	20 = CASE
-	20.key.field = list_type
 	20 {
-		# LIST element references (NOT copy of objects!)
-		# THESE are OLD plugins. Modern plugins registers themselves automatically!
-		3 = CASE
-		3.key.field = layout
-		3.0 = < plugin.tt_guest
-
-		4 = CASE
-		4.key.field = layout
-		4.0 = < plugin.tt_board_list
-		4.1 = < plugin.tt_board_tree
-
-		2 = CASE
-		2.key.field = layout
-		2.0 = < plugin.tt_board_tree
-
-		5 = CASE
-		5.key.field = layout
-		5.0 = < plugin.tt_products
-
-		7 = CASE
-		7.key.field = layout
-		7.0 = < plugin.tt_calender
-
-		8 = CASE
-		8.key.field = layout
-		8.0 = < plugin.tt_rating
-
-		9 = CASE
-		9.key.field = layout
-		9.0 = < plugin.tt_news
-
-		11 = CASE
-		11.key.field = layout
-		11.0 = < plugin.tipafriend
-
-		20 = CASE
-		20.key.field = layout
-		20.0 = < plugin.feadmin.fe_users
-
-		21 = CASE
-		21.key.field = layout
-		21.0 = < plugin.feadmin.dmailsubscription
-	}
-
-	20.stdWrap {
-		editIcons = tt_content: list_type, layout, select_key, pages [recursive]
-		editIcons.iconTitle.data = LLL:EXT:css_styled_content/pi1/locallang.xml:eIcon.plugin
-
-		prefixComment = 2 | Plugin inserted:
+		key {
+			field = list_type
+		}
 	}
 }
 
-
-# ****************
-# CType: script
-# ****************
-# OBSOLETE! Please make extensions instead. The "script" content element was meant for these custom purposes in the past. Today extensions will do the job better.
-tt_content.script = TEXT
-tt_content.script {
-	value =
-
-	prefixComment = 2 | Script element (Deprecated)
-}
-
-
-# ****************
-# CType: div
-# ****************
-tt_content.div = TEXT
+# DIVIDER
+tt_content.div = COA
 tt_content.div {
-	value = <hr />
-	wrap = <div class="csc-divider">|</div>
-	prefixComment = 2 | Div element
+
+	# Wrap
+	stdWrap {
+		wrap = <div class="csc-divider">|</div>
+	}
+
+	# Divider
+	10 = TEXT
+	10 {
+		value = <hr />
+	}
 }
 
-
-# ****************
-# CType: html
-# ****************
-# This truely IS a content object, launched from inside the PHP class of course.
-# Should be a complete copy from the old static template "content (default)"
-tt_content.html = TEXT
+# HTML
+tt_content.html = COA
 tt_content.html {
-	field = bodytext
-
-	editIcons = tt_content: pages
-	editIcons.iconTitle.data = LLL:EXT:css_styled_content/pi1/locallang.xml:eIcon.html
-
-	prefixComment = 2 | Raw HTML content:
+	10 = TEXT
+	10 {
+		field = bodytext
+	}
 }
 
 
-# ****************
-# Default error msg:
-# ****************
-tt_content.default = TEXT
+# DEFAULT
+tt_content.default = COA
 tt_content.default {
-	field = CType
-	wrap = <p style="background-color: yellow;"><b>ERROR:</b> Content Element type "|" has no rendering definition!</p>
+	stdWrap {
+		wrap = <p>|</p>
+	}
 
-	prefixComment = 2 | Unknown element message:
+	10 = TEXT
+	10 {
+		stdWrap {
+			wrap = Content element type "|" has no rendering definition!
+		}
+
+		field = CType
+	}
 }
 
-# *********************************************************************
-# ACCESSIBILTY MODE
-# *********************************************************************
-
+# STYLES
 plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 
 	/* HTML5 */
@@ -1947,10 +1778,22 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 		zoom: 1;
 	}
 
-	/* Header */
-	.csc-alignment-center .csc-header { text-align: center; }
-	.csc-alignment-right .csc-header { text-align: right; }
-	.csc-alignment-left .csc-header { text-align: left; }
+	/* Headers */
+	.csc-header,
+	.csc-subheader,
+	.csc-date {
+		text-align: left;
+	}
+	.csc-alignment-center .csc-header,
+	.csc-alignment-center .csc-subheader,
+	.csc-alignment-center .csc-date {
+		text-align: center;
+	}
+	.csc-alignment-right .csc-header,
+	.csc-alignment-right .csc-subheader,
+	.csc-alignment-right .csc-date {
+		text-align: right;
+	}
 
 	/* Image */
 	.csc-image {
@@ -1964,7 +1807,7 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 		float: left;
 	}
 
-	/* Pictures on left, add margin on right */
+	/* Image, left */
 	.csc-orientation-left .csc-image,
 	.csc-orientation-lefttop .csc-image,
 	.csc-orientation-leftbottom .csc-image,
@@ -1972,7 +1815,7 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 		margin-right: {$styles.content.imgtext.colSpace}px;
 	}
 
-	/* Pictures on right, add margin on left */
+	/* Image, right */
 	.csc-orientation-right .csc-image,
 	.csc-orientation-righttop .csc-image,
 	.csc-orientation-rightbottom .csc-image,
@@ -1980,30 +1823,25 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 		margin-left: {$styles.content.imgtext.colSpace}px;
 	}
 
-	/* Pictures centered, add margin on left */
+	/* Image, center */
 	.csc-orientation-centertop .csc-image,
 	.csc-orientation-centerbottom .csc-image {
 		margin-left: {$styles.content.imgtext.colSpace}px;
 	}
 
-	/* Add margin from image-block to text (in case of "Text w/ images") */
+	/* Image, left of text */
 	.csc-orientation-left .csc-imagewrap,
 	.csc-orientation-floatleft .csc-imagewrap {
 		margin-right: {$styles.content.imgtext.textMargin}px;
 	}
+
+	/* Image, right of text */
 	.csc-orientation-right .csc-imagewrap,
 	.csc-orientation-floatright .csc-imagewrap {
 		margin-left: {$styles.content.imgtext.textMargin}px;
 	}
 
-	/* Above */
-	.csc-orientation-lefttop .csc-text,
-	.csc-orientation-righttop .csc-text,
-	.csc-orientation-centertop .csc-text {
-		clear: both;
-	}
-
-	/* Center (above or below) */
+	/* Orientation, center */
 	.csc-orientation-centertop,
 	.csc-orientation-centerbottom {
 		text-align: center;
@@ -2019,7 +1857,7 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 		text-align: left;
 	}
 
-	/* Right (above or below or in text) */
+	/* Wrap, right */
 	.csc-orientation-righttop .csc-imagewrap,
 	.csc-orientation-rightbottom .csc-imagewrap,
 	.csc-orientation-right .csc-imagewrap,
@@ -2031,7 +1869,7 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 		clear: right;
 	}
 
-	/* Left (above or below or in text) */
+	/* Wrap, left */
 	.csc-orientation-lefttop .csc-imagewrap,
 	.csc-orientation-leftbottom .csc-imagewrap,
 	.csc-orientation-left .csc-imagewrap,
@@ -2049,29 +1887,31 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 		overflow: hidden;
 	}
 
-	/* Wrap */
+	/* Column */
+	.csc-imagewrap .csc-column {
+		float: left;
+	}
 	.csc-imagewrap .csc-column-first {
 		margin-left: 0;
 	}
 	.csc-imagewrap .csc-column-last {
 		margin-right: 0;
 	}
+
+	/* Row */
 	.csc-imagewrap .csc-row {
 		overflow: hidden;
 	}
-	.csc-imagewrap .csc-column {
-		float: left;
-	}
 
 	/* Caption */
+	.csc-caption {
+		text-align: left;
+	}
 	.csc-alignment-center .csc-caption {
 		text-align: center;
 	}
 	.csc-alignment-right .csc-caption {
 		text-align: right;
-	}
-	.csc-alignment-left .csc-caption {
-		text-align: left;
 	}
 
 	/* Anchor */
