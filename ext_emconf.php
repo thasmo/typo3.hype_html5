@@ -43,6 +43,7 @@ $EM_CONF[$_EXTKEY] = array(
 			'html5_kickstart' => '0.0.0-0.0.0',
 			'html5_readykit' => '0.0.0-0.0.0',
 			'html5boilerplate' => '0.0.0-0.0.0',
+			'crt_bodytext_variables' => '0.0.0-0.0.0',
 		),
 		'suggests' => array(
 		),
