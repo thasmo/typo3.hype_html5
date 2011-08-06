@@ -1,144 +1,146 @@
-# ***************************************************************************
-# Notice: "styles." (and "temp.") objects are UNSET after template parsing!
-# Use "lib." for persisting storage of objects.
-# ***************************************************************************
-
-# Clear out any constants in this reserved room!
-styles.content >
-
-# get content
-styles.content.get = CONTENT
-styles.content.get {
-	table = tt_content
-	select.orderBy = sorting
-	select.where = colPos=0
-	select.languageField = sys_language_uid
+# Includes
+includeLibs {
+	tx_cssstyledcontent_pi1 = EXT:css_styled_content/pi1/class.tx_cssstyledcontent_pi1.php
 }
 
-# get content, left
-styles.content.getLeft < styles.content.get
-styles.content.getLeft.select.where = colPos=1
+# Content
+styles {
+	content >
 
-# get content, right
-styles.content.getRight < styles.content.get
-styles.content.getRight.select.where = colPos=2
+	content {
 
-# get content, margin
-styles.content.getBorder < styles.content.get
-styles.content.getBorder.select.where = colPos=3
+		# Normal
+		get = CONTENT
+		get {
+			table = tt_content
 
-# get news
-styles.content.getNews < styles.content.get
-styles.content.getNews.select.pidInList = {$styles.content.getNews.newsPid}
+			select {
+				orderBy = sorting
+				where = colPos=0
+				languageField = sys_language_uid
+			}
+		}
 
-# Edit page object:
-styles.content.editPanelPage = COA
-styles.content.editPanelPage {
-	10 = EDITPANEL
-	10 {
-		allow = toolbar,move,hide
-		label.data = LLL:EXT:css_styled_content/pi1/locallang.xml:eIcon.page
-		label.wrap = |&nbsp;<b>%s</b>
-	}
-}
+		# Left
+		getLeft < .get
+		getLeft {
+			select {
+				where = colPos=1
+			}
+		}
 
+		# Right
+		getRight < .get
+		getRight {
+			select {
+				where = colPos=2
+			}
+		}
 
+		# Border
+		getBorder < .get
+		getBorder {
+			select {
+				where = colPos=3
+			}
+		}
 
+		# Panel
+		editPanelPage = COA
+		editPanelPage {
+			10 = EDITPANEL
+			10 {
+				allow = toolbar, move, hide
 
-
-
-
-
-
-
-
-# *********************************************************************
-# "lib." objects are preserved from unsetting after template parsing
-# *********************************************************************
-
-# Creates persistent ParseFunc setup for non-HTML content. This is recommended to use (as a reference!)
-lib.parseFunc {
-	makelinks = 1
-	makelinks.http.keep = {$styles.content.links.keep}
-	makelinks.http.extTarget = {$styles.content.links.extTarget}
-	makelinks.mailto.keep = path
-	tags {
-		link = TEXT
-		link {
-			current = 1
-			typolink.parameter.data = parameters : allParams
-			typolink.extTarget = {$styles.content.links.extTarget}
-			typolink.target = {$styles.content.links.target}
-			parseFunc.constants =1
+				label {
+					data = LLL:EXT:css_styled_content/pi1/locallang.xml:eIcon.page
+					wrap = |&nbsp;<strong>%s</strong>
+				}
+			}
 		}
 	}
-	allowTags = {$styles.content.links.allowTags}
-	denyTags = *
-	sword = <span class="csc-sword">|</span>
-	constants = 1
-
-	nonTypoTagStdWrap.HTMLparser = 1
-	nonTypoTagStdWrap.HTMLparser {
-		keepNonMatchedTags = 1
-		htmlSpecialChars = 2
-	}
 }
 
-# good old parsefunc in "styles.content.parseFunc" is created for backwards compatibility. Don't use it, just ignore.
-styles.content.parseFunc < lib.parseFunc
-
-# Creates persistent ParseFunc setup for RTE content (which is mainly HTML) based on the "ts_css" transformation.
-lib.parseFunc_RTE < lib.parseFunc
-lib.parseFunc_RTE {
-	//  makelinks >
-	# Processing <table> and <blockquote> blocks separately
-	externalBlocks = table, blockquote, ol,ul, div
-	externalBlocks {
-		# The blockquote content is passed into parseFunc again...
-		blockquote.stripNL=1
-		blockquote.callRecursive=1
-		blockquote.callRecursive.tagStdWrap.HTMLparser = 1
-		blockquote.callRecursive.tagStdWrap.HTMLparser.tags.blockquote.overrideAttribs = style="margin-bottom:0;margin-top:0;"
-
-		ol.stripNL=1
-		ol.stdWrap.parseFunc = < lib.parseFunc
-
-		ul.stripNL=1
-		ul.stdWrap.parseFunc = < lib.parseFunc
-
-		table.stripNL=1
-		table.stdWrap.HTMLparser = 1
-		table.stdWrap.HTMLparser.tags.table.fixAttrib.class {
-			default = contenttable
-			always = 1
-			list = contenttable
-		}
-		table.stdWrap.HTMLparser.keepNonMatchedTags = 1
-		table.HTMLtableCells=1
-		table.HTMLtableCells {
-			default.callRecursive=1
-			addChr10BetweenParagraphs=1
-		}
-		div.stripNL = 1
-		div.callRecursive = 1
-	}
-	nonTypoTagStdWrap.encapsLines {
-		encapsTagList = cite,div,p,pre,h1,h2,h3,h4,h5,h6,blockquote
-		remapTag.DIV = P
-		nonWrappedTag = P
-		innerStdWrap_all.ifBlank = &nbsp;
-		#addAttributes.P.class = bodytext
-		addAttributes.P.class.setOnly=blank
-	}
-	nonTypoTagStdWrap.HTMLparser = 1
-	nonTypoTagStdWrap.HTMLparser {
-		keepNonMatchedTags = 1
-		htmlSpecialChars = 2
-	}
-}
-
-# HEADER
+# Library
 lib {
+
+	# Parse Function
+	parseFunc {
+		makelinks = 1
+		makelinks.http.keep = {$styles.content.links.keep}
+		makelinks.http.extTarget = {$styles.content.links.extTarget}
+		makelinks.mailto.keep = path
+		tags {
+			link = TEXT
+			link {
+				current = 1
+				typolink.parameter.data = parameters : allParams
+				typolink.extTarget = {$styles.content.links.extTarget}
+				typolink.target = {$styles.content.links.target}
+				parseFunc.constants =1
+			}
+		}
+		allowTags = {$styles.content.links.allowTags}
+		denyTags = *
+		sword = <span class="csc-sword">|</span>
+		constants = 1
+
+		nonTypoTagStdWrap.HTMLparser = 1
+		nonTypoTagStdWrap.HTMLparser {
+			keepNonMatchedTags = 1
+			htmlSpecialChars = 2
+		}
+	}
+
+	# RTE Parse Function
+	parseFunc_RTE < .parseFunc
+	parseFunc_RTE {
+		//  makelinks >
+		# Processing <table> and <blockquote> blocks separately
+		externalBlocks = table, blockquote, ol,ul, div
+		externalBlocks {
+			# The blockquote content is passed into parseFunc again...
+			blockquote.stripNL=1
+			blockquote.callRecursive=1
+			blockquote.callRecursive.tagStdWrap.HTMLparser = 1
+			blockquote.callRecursive.tagStdWrap.HTMLparser.tags.blockquote.overrideAttribs = style="margin-bottom:0;margin-top:0;"
+
+			ol.stripNL=1
+			ol.stdWrap.parseFunc = < lib.parseFunc
+
+			ul.stripNL=1
+			ul.stdWrap.parseFunc = < lib.parseFunc
+
+			table.stripNL=1
+			table.stdWrap.HTMLparser = 1
+			table.stdWrap.HTMLparser.tags.table.fixAttrib.class {
+				default = contenttable
+				always = 1
+				list = contenttable
+			}
+			table.stdWrap.HTMLparser.keepNonMatchedTags = 1
+			table.HTMLtableCells=1
+			table.HTMLtableCells {
+				default.callRecursive=1
+				addChr10BetweenParagraphs=1
+			}
+			div.stripNL = 1
+			div.callRecursive = 1
+		}
+		nonTypoTagStdWrap.encapsLines {
+			encapsTagList = cite,div,p,pre,h1,h2,h3,h4,h5,h6,blockquote
+			remapTag.DIV = P
+			nonWrappedTag = P
+			innerStdWrap_all.ifBlank = &nbsp;
+			#addAttributes.P.class = bodytext
+			addAttributes.P.class.setOnly=blank
+		}
+		nonTypoTagStdWrap.HTMLparser = 1
+		nonTypoTagStdWrap.HTMLparser {
+			keepNonMatchedTags = 1
+			htmlSpecialChars = 2
+		}
+	}
 
 	# Header
 	stdheader = COA
@@ -324,10 +326,7 @@ lib {
 	}
 }
 
-# LIBRARY
-includeLibs.tx_cssstyledcontent_pi1 = EXT:css_styled_content/pi1/class.tx_cssstyledcontent_pi1.php
-
-# CONTENT
+# Content
 tt_content >
 tt_content = CASE
 tt_content {
@@ -565,32 +564,971 @@ tt_content {
 	}
 }
 
-# HEADER
-tt_content.header = COA
-tt_content.header {
+# Elements
+tt_content {
 
 	# Header
-	10 =< lib.stdheader
-}
+	header = COA
+	header {
 
-# TEXT
-tt_content.text = COA
-tt_content.text {
-
-	# Header
-	10 =< lib.stdheader
+		# Header
+		10 =< lib.stdheader
+	}
 
 	# Text
-	20 = TEXT
-	20 {
-		field = bodytext
-		required = 1
+	text = COA
+	text {
 
-		parseFunc =< lib.parseFunc_RTE
+		# Header
+		10 =< lib.stdheader
+
+		# Text
+		20 = TEXT
+		20 {
+			field = bodytext
+			required = 1
+
+			parseFunc =< lib.parseFunc_RTE
+		}
+	}
+
+	# Text/Image
+	textpic = COA
+	textpic {
+
+		# Header
+		10 = COA
+		10 {
+			if {
+				value = 25
+				isLessThan.field = imageorient
+			}
+
+			10 =< lib.stdheader
+		}
+
+		# Content
+		20 =< tt_content.image.20
+		20 {
+			text {
+				wrap = <div class="csc-text">|</div>
+
+				# Header
+				10 = COA
+				10 {
+					if {
+						value = 24
+						isGreaterThan.field = imageorient
+					}
+
+					10 =< lib.stdheader
+				}
+
+				# Text
+				20 =< tt_content.text.20
+			}
+		}
+	}
+
+	# Bullets
+	bullets = COA
+	bullets {
+
+		# Header
+		10 =< lib.stdheader
+
+		# Bullets
+		20 = COA
+		20 {
+			stdWrap {
+				wrap = <ul>|</ul>
+				required = 1
+			}
+
+			# Items
+			10 = TEXT
+			10 {
+				field = bodytext
+
+				trim = 1
+
+				split {
+					token {
+						char = 10
+					}
+
+					cObjNum = |*|1||2|*|
+
+					# Odd bullet
+					1 {
+						dataWrap = <li id="csc-{field:uid}:{register:SPLIT_COUNT}" class="csc-odd">|</li>
+
+						current = 1
+						trim = 1
+						parseFunc =< lib.parseFunc
+					}
+
+					# Even bullet
+					2 < .1
+					2 {
+						dataWrap = <li id="csc-{field:uid}:{register:SPLIT_COUNT}" class="csc-even">|</li>
+					}
+				}
+			}
+		}
+	}
+
+	# Table
+	table = COA
+	table {
+
+		# Header
+		10 =< lib.stdheader
+
+		# Table
+		20 = USER
+		20 {
+			userFunc = tx_cssstyledcontent_pi1->render_table
+			field = bodytext
+
+			# Cell Wrap
+			innerStdWrap {
+				wrap = |
+				parseFunc =< lib.parseFunc
+			}
+		}
+	}
+
+	# Uploads
+	uploads = COA
+	uploads {
+
+		# Header
+		10 =< lib.stdheader
+
+		# Files
+		20 = USER
+		20 {
+			userFunc = tx_cssstyledcontent_pi1->render_uploads
+			field = media
+			filePath.field = select_key
+
+			outerWrap = <dl>|</dl>
+
+			itemRendering = COA
+			itemRendering {
+
+				# File
+				10 = COA
+				10 {
+					stdWrap {
+						wrap = <dt id="csc-{field:uid}:{register:filename}" class="csc-odd csc-file-{register:fileExtension}">|</dt> |*| <dt id="csc-{field:uid}:{register:filename}" class="csc-even csc-file-{register:fileExtension}">|</dt> || <dt id="csc-{field:uid}:{register:filename}" class="csc-odd csc-file-{register:fileExtension}">|</dt> |*|
+						insertData = 1
+					}
+
+					# Icon
+					10 = TEXT
+					10 {
+						data = register:linkedIcon
+						noTrimWrap = |<span class="csc-icon">|</span> |
+						if.isPositive.field = layout
+					}
+
+					# Link
+					20 = COA
+					20 {
+						wrap = |
+
+						1 = TEXT
+						1 {
+							data = register:linkedLabel
+							wrap = |
+						}
+					}
+
+					# Size
+					30 = TEXT
+					30 {
+						data = register:fileSize
+
+						wrap = , <span class="csc-file-size">|</span>
+
+						bytes = 1
+						bytes {
+							labels = {$styles.content.uploads.filesizeBytesLabels}
+						}
+
+						if.isTrue.field = filelink_size
+					}
+				}
+
+				# Description
+				20 = COA
+				20 {
+					stdWrap {
+						wrap = <dd class="csc-odd csc-description">|</dd> |*| <dd class="csc-even csc-description">|</dd> || <dd class="csc-odd csc-description">|</dd> |*|
+					}
+
+					10 = TEXT
+					10 {
+						value = &#8203;
+
+						override {
+							cObject = TEXT
+							cObject {
+								data = register:description
+								htmlSpecialChars = 1
+							}
+						}
+					}
+				}
+			}
+
+			useSpacesInLinkText = 0
+			stripFileExtensionFromLinkText = 0
+
+			linkProc {
+				target = _blank
+				jumpurl = {$styles.content.uploads.jumpurl}
+				jumpurl.secure = {$styles.content.uploads.jumpurl_secure}
+				jumpurl.secure.mimeTypes = {$styles.content.uploads.jumpurl_secure_mimeTypes}
+				removePrependedNumbers = 1
+
+				iconCObject = IMAGE
+				iconCObject.file.import.data = register : ICON_REL_PATH
+				iconCObject.file.width = 150
+			}
+
+			filesize {
+				bytes = 1
+				bytes.labels = {$styles.content.uploads.filesizeBytesLabels}
+			}
+		}
+	}
+
+	# Menu
+	menu = COA
+	menu {
+
+		# Header
+		10 =< lib.stdheader
+
+		# Menu
+		20 = CASE
+		20 {
+			key.field = menu_type
+
+			# Menu of Pages
+			default = HMENU
+			default {
+				special = list
+				special {
+					value.field = pages
+				}
+
+				wrap = <ul class="csc-menu-pages">|</ul>
+
+				1 = TMENU
+				1 {
+					target = {$PAGE_TARGET}
+
+					NO {
+						wrapItemAndSub = <li>|</li>
+						stdWrap.htmlSpecialChars = 1
+						ATagTitle.field = description // title
+					}
+
+					noBlur = 1
+				}
+			}
+
+			# Menu of Subpages
+			1 < .default
+			1 {
+				special = directory
+				wrap = <ul class="csc-menu-subpages">|</ul>
+			}
+
+			# Sitemap
+			2 = HMENU
+			2 {
+				wrap = <ul class="csc-menu-sitemap">|</ul>
+
+				1 = TMENU
+				1 {
+					target = {$PAGE_TARGET}
+
+					noBlur = 1
+					expAll = 1
+
+					NO {
+						wrapItemAndSub = <li>|</li>
+						stdWrap.htmlSpecialChars = 1
+						ATagTitle.field = description // title
+					}
+				}
+
+				2 < .1
+				3 < .1
+				4 < .1
+				5 < .1
+				6 < .1
+				7 < .1
+				8 < .1
+				9 < .1
+			}
+
+			# Section Index
+			3 < styles.content.get
+			3 {
+				wrap = <ul class="csc-menu-sections">|</ul>
+
+				select {
+					andWhere = sectionIndex!=0
+					pidInList.override.field = pages
+				}
+
+				renderObj = TEXT
+				renderObj {
+					wrap = <li class="csc-section">|</li>
+
+					field = header
+					fieldRequired = header
+
+					trim = 1
+					htmlSpecialChars = 1
+					noBlur = 1
+
+					typolink.parameter.field = pid
+					typolink.section.field = uid
+				}
+			}
+
+			# Menu of Subpages with Abstract
+			4 < .1
+			4 {
+				wrap = <dl class="csc-menu-subpages-abstract">|</dl>
+
+				1.NO {
+					wrapItemAndSub >
+
+					linkWrap = <dt>|</dt>
+
+					after {
+						wrap = <dd>|</dd>
+
+						data = field : abstract // field : description // field : subtitle
+						data.htmlSpecialChars = 1
+
+						ifEmpty = &#8203;
+					}
+
+					ATagTitle.field = description // title
+				}
+			}
+
+			# Updates Pages
+			5 < .default
+			5 {
+				wrap = <ul class="csc-menu-pages-updates">|</ul>
+
+				special = updated
+				special {
+					maxAge = 3600*24*7
+					excludeNoSearchPages = 1
+				}
+			}
+
+			# Related Pages
+			6 < .default
+			6 {
+				wrap = <ul class="csc-menu-pages-relations">|</ul>
+
+				special = keywords
+				special {
+					excludeNoSearchPages = 1
+				}
+			}
+
+			# Menu of Subpages with Sections
+			7 < .1
+			7 {
+				wrap = <ul class="csc-menu-subpages-sections">|</ul>
+
+				1.expAll = 1
+
+				2 < .1
+				2 {
+					wrap = <ul class="csc-menu-sections">|</ul>
+
+					sectionIndex = 1
+					sectionIndex.type = header
+
+					NO.wrapItemAndSub = <li>|</li>
+				}
+			}
+		}
+	}
+
+	# Multimedia
+	multimedia = COA
+	multimedia {
+
+		# Header
+		10 =< lib.stdheader
+
+		# Object
+		20 = MULTIMEDIA
+		20 {
+			file {
+				wrap = uploads/media/
+				field = multimedia
+				listNum = 0
+			}
+
+			params.field = bodytext
+		}
+	}
+
+
+	# SWF Object
+	swfobject = COA
+	swfobject {
+
+		# Header
+		10 =< lib.stdheader
+
+		# Object
+		20 = SWFOBJECT
+		20 {
+			file =
+			width =
+			height =
+
+			alternativeContent.field = bodytext
+			flexParams.field = pi_flexform
+
+			layout = ###SWFOBJECT###
+
+			video {
+				player = {$styles.content.media.videoPlayer}
+
+				defaultWidth = {$styles.content.media.defaultVideoWidth}
+				defaultHeight = {$styles.content.media.defaultVideoHeight}
+
+				default {
+					params {
+						quality = high
+						menu = false
+						allowScriptAccess = sameDomain
+						allowFullScreen = true
+					}
+				}
+
+				mapping {
+
+				}
+			}
+
+			audio {
+				player = {$styles.content.media.audioPlayer}
+
+				defaultWidth = {$styles.content.media.defaultAudioWidth}
+				defaultHeight = {$styles.content.media.defaultAudioHeight}
+
+				default {
+					params {
+						quality = high
+						allowScriptAccess = sameDomain
+						menu = false
+					}
+				}
+
+				mapping {
+					flashvars {
+						file = soundFile
+					}
+				}
+			}
+		}
+	}
+
+	# QT Object
+	qtobject = COA
+	qtobject {
+
+		# Header
+		10 =< lib.stdheader
+
+		# Object
+		20 = QTOBJECT
+		20 {
+			file =
+			width =
+			height =
+
+			flexParams.field = pi_flexform
+			alternativeContent.field = bodytext
+
+			layout = ###QTOBJECT###
+
+			video {
+				player = {$styles.content.media.videoPlayer}
+
+				defaultWidth  = {$styles.content.media.defaultVideoWidth}
+				defaultHeight  = {$styles.content.media.defaultVideoHeight}
+
+				default {
+					params {
+						quality = high
+						menu = false
+						allowScriptAccess = sameDomain
+						allowFullScreen = true
+					}
+				}
+
+				mapping {
+
+				}
+			}
+
+			audio {
+				player = {$styles.content.media.audioPlayer}
+
+				defaultWidth = {$styles.content.media.defaultAudioWidth}
+				defaultHeight = {$styles.content.media.defaultAudioHeight}
+
+				default {
+					params {
+						quality = high
+						allowScriptAccess = sameDomain
+						menu = false
+					}
+				}
+
+				mapping {
+					flashvars {
+						file = soundFile
+					}
+				}
+			}
+		}
+	}
+
+	# Media
+	media = COA
+	media {
+
+		# Header
+		10 =< lib.stdheader
+
+		# Media
+		20 = MEDIA
+		20 {
+			flexParams.field = pi_flexform
+			alternativeContent < tt_content.text.20
+			alternativeContent {
+				field = bodytext
+			}
+
+			type = video
+			renderType = auto
+			allowEmptyUrl = 0
+			forcePlayer = 1
+
+			fileExtHandler {
+				default = MEDIA
+				avi = MEDIA
+				asf = MEDIA
+				class = MEDIA
+				wmv = MEDIA
+				mp3 = SWF
+				mp4 = SWF
+				m4v = SWF
+				swa = SWF
+				flv = SWF
+				swf = SWF
+				mov = QT
+				m4v = QT
+				m4a = QT
+			}
+
+			mimeConf.swfobject < tt_content.swfobject.20
+			mimeConf.qtobject < tt_content.qtobject.20
+		}
+	}
+
+	# Shortcut
+	shortcut = COA
+	shortcut {
+
+		# Records
+		10 = RECORDS
+		10 {
+			source {
+				field = records
+			}
+
+			tables = {$styles.content.tables}
+		}
+	}
+
+	# Mailform
+	mailform = COA
+	mailform {
+
+		# Header
+		10 =< lib.stdheader
+
+		# Form
+		20 = FORM
+		20 {
+			stdWrap {
+				wrap = <fieldset class="csc-mailform">|</fieldset>
+				required = 1
+			}
+
+			accessibility = 1
+			noWrapAttr = 1
+			formName = mailform
+			dontMd5FieldNames = 1
+
+			layout = <div class="csc-mailform-field">###LABEL### ###FIELD###</div>
+
+			labelWrap.wrap = |
+			commentWrap.wrap = |
+			radioWrap.wrap = |<br />
+			radioWrap.accessibilityWrap = <fieldset###RADIO_FIELD_ID###><legend>###RADIO_GROUP_LABEL###</legend>|</fieldset>
+			hiddenFields.stdWrap.wrap = <div style="display:none;">|</div>
+
+			REQ = 1
+			REQ.labelWrap.wrap = |
+			COMMENT.layout = <div class="csc-mailform-label">###LABEL###</div>
+			RADIO.layout = <div class="csc-mailform-field">###LABEL### <span class="csc-mailform-radio">###FIELD###</span></div>
+			LABEL.layout = <div class="csc-mailform-field">###LABEL### <span class="csc-mailform-label">###FIELD###</span></div>
+
+			target = {$styles.content.mailform.target}
+			goodMess = {$styles.content.mailform.goodMess}
+			badMess = {$styles.content.mailform.badMess}
+
+			redirect.field = pages
+			redirect.listNum = 0
+
+			recipient.field = subheader
+			data.field = bodytext
+			locationData = 1
+
+			params {
+				radio = class="csc-mailform-radio"
+				check = class="csc-mailform-check"
+				submit = class="csc-mailform-submit"
+			}
+		}
+	}
+
+
+	# Search
+	search = COA
+	search {
+
+		# Header
+		10 =< lib.stdheader
+
+		# Result
+		20 = SEARCHRESULT
+		20 {
+			allowedCols = pages.title-subtitle-keywords-description : tt_content.header-bodytext-imagecaption : tt_address.name-title-address-email-company-city-country : tt_links.title-note-note2-url : tt_board.subject-message-author-email : tt_calender.title-note : tt_products.title-note-itemnumber
+			languageField.tt_content = sys_language_uid
+
+			renderObj = COA
+			renderObj {
+
+				# Header
+				10 = TEXT
+				10 {
+					wrap = <h3 class="csc-searchResultHeader">|</h3>
+
+					field = pages_title
+					htmlSpecialChars = 1
+
+					typolink {
+						parameter.field = uid
+						target = {$styles.content.searchresult.resultTarget}
+
+						additionalParams {
+							data = register:SWORD_PARAMS
+							required = 1
+							wrap = &no_cache=1
+						}
+					}
+				}
+
+				# Data
+				20 = COA
+				20 {
+					stdWrap {
+						crop = 200 | ...
+						wrap = <p class="csc-searchResult">|</p>
+					}
+
+					10 = TEXT
+					10 {
+						field = tt_content_bodytext
+						stripHtml = 1
+						htmlSpecialChars = 1
+					}
+				}
+			}
+
+			layout = COA
+			layout {
+				wrap = <table border="0" cellspacing="0" cellpadding="2" class="csc-searchResultInfo"><tr> | </tr></table> ###RESULT###
+
+				10 = TEXT
+				10 {
+					data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.resultRange
+					wrap = <td class="csc-searchResultRange"><p>|</p></td>
+				}
+
+				20 = TEXT
+				20 {
+					value = ###PREV###&nbsp;&nbsp;&nbsp;###NEXT###
+					wrap = <td class="csc-searchResultPrevNext"><p>|</p></td>
+				}
+			}
+
+			noResultObj = COA
+			noResultObj {
+				10 = TEXT
+				10 {
+					data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.emptySearch
+					wrap = <h3 class="csc-noSearchResultMsg">|</h3>
+				}
+			}
+
+			next = TEXT
+			next.data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.searchResultNext
+
+			prev = TEXT
+			prev.data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.searchResultPrev
+
+			target = {$styles.content.searchresult.target}
+			range = 20
+		}
+
+		# Form
+		30 < tt_content.mailform.20
+		30 {
+			stdWrap {
+				wrap = <table border="0" cellspacing="1" cellpadding="1" class="csc-searchform">|</table>
+				required = 1
+			}
+
+			no_cache = 1
+			locationData = HTTP_POST_VARS
+
+			goodMess = {$styles.content.searchform.goodMess}
+
+			redirect >
+			recipient >
+			data >
+
+			dataArray {
+				10 {
+					label.data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.searchWord
+					type = sword=input
+				}
+
+				20 {
+					label.data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.searchIn
+					type = scols=select
+					valueArray {
+						10 {
+							label.data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.headersKeywords
+							value = pages.title-subtitle-keywords-description:tt_content.header
+						}
+
+						20 {
+							label.data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.pageContent
+							value = tt_content.header-bodytext-imagecaption
+						}
+					}
+				}
+
+				30 {
+					type = stype=hidden
+					value = L0
+				}
+
+				40 {
+					type = submit=submit
+					value.data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.searchButton
+				}
+			}
+
+			type {
+				field = pages
+				listNum = 0
+			}
+		}
+	}
+
+
+	# Login
+	login < tt_content.mailform
+	login {
+
+		# Header
+		10 =< lib.stdheader
+
+		# Form
+		20 {
+			stdWrap {
+				wrap = <div class="csc-loginform"> | </div>
+				required = 1
+			}
+
+			target = {$styles.content.loginform.target}
+			locationData = 0
+
+			goodMess = {$styles.content.loginform.goodMess}
+
+			redirect >
+			recipient >
+			data >
+
+			dataArray {
+				10 {
+					label.data = LLL:EXT:css_styled_content/pi1/locallang.xml:login.username
+					type = *user=input
+				}
+
+				20 {
+					label.data = LLL:EXT:css_styled_content/pi1/locallang.xml:login.password
+					type = *pass=password
+				}
+
+				30 {
+					type = logintype=hidden
+					value = login
+				}
+
+				40 {
+					type = submit=submit
+					value.data = LLL:EXT:css_styled_content/pi1/locallang.xml:login.login
+				}
+			}
+
+			type {
+				field = pages
+				listNum = 0
+			}
+
+			hiddenFields {
+				pid = TEXT
+				pid {
+					value = {$styles.content.loginform.pid}
+
+					override {
+						field = pages
+						listNum = 1
+					}
+				}
+			}
+		}
+	}
+
+	# List
+	list = COA
+	list {
+
+		# Header
+		10 =< lib.stdheader
+
+		# Plugin
+		20 = CASE
+		20 {
+			key {
+				field = list_type
+			}
+		}
+	}
+
+	# Divider
+	div = COA
+	div {
+
+		# Wrap
+		stdWrap {
+			wrap = <div class="csc-divider">|</div>
+		}
+
+		# Divider
+		10 = TEXT
+		10 {
+			value = <hr />
+		}
+	}
+
+	# HTML
+	html = COA
+	html {
+		10 = TEXT
+		10 {
+			field = bodytext
+		}
+	}
+
+	# Default
+	default = COA
+	default {
+		stdWrap {
+			wrap = <p>|</p>
+		}
+
+		10 = TEXT
+		10 {
+			stdWrap {
+				wrap = Content element type "|" has no rendering definition!
+			}
+
+			field = CType
+		}
 	}
 }
 
-# IMAGE
+# Login
+[loginUser = *]
+tt_content {
+	login {
+		20 {
+			dataArray >
+			dataArray {
+				10 {
+					label.data = LLL:EXT:css_styled_content/pi1/locallang.xml:login.username
+					label.wrap = |&nbsp;<!--###USERNAME###-->
+				}
+
+				30 {
+					type = logintype=hidden
+					value = logout
+				}
+
+				40 {
+					type = submit=submit
+					value.data = LLL:EXT:css_styled_content/pi1/locallang.xml:login.logout
+				}
+			}
+		}
+	}
+}
+[global]
+
+
+
+
+
+# Image
 tt_content.image = COA
 tt_content.image.10 = < lib.stdheader
 tt_content.image.20 = USER
@@ -647,8 +1585,8 @@ tt_content.image.20 {
 		titleText < .altText
 		titleText.field = titleText
 
-		longdescURL < .altText
-		longdescURL.field = longdescURL
+		#longdescURL < .altText
+		#longdescURL.field = longdescURL
 
 		emptyTitleHandling = {$styles.content.imgtext.emptyTitleHandling}
 		titleInLink = {$styles.content.imgtext.titleInLink}
@@ -683,6 +1621,7 @@ tt_content.image.20 {
 			split.returnKey.data = register : IMAGE_NUM_CURRENT
 		}
 	}
+
 	# captionSplit is deprecated, use imageTextSplit instead
 	captionSplit = {$styles.content.imgtext.captionSplit}
 	captionAlign.field = imagecaption_position
@@ -785,32 +1724,24 @@ tt_content.image.20 {
 	imageStdWrapNoWidth < .imageStdWrap
 
 	# if noRows is set, wrap around each column:
-	imageColumnStdWrap.dataWrap = <div class="csc-column"> | </div>
+	imageColumnStdWrap {
+		dataWrap = <div class="csc-column">|</div>
+	}
 
 	layout = CASE
 	layout {
 		key.field = imageorient
 
-		# above-center
-		# above-right
-		# above-left
-		# intext-right
-		# intext-left
-		# intext-right-nowrap
-		# intext-left-nowrap
+		# default
 		default = TEXT
 		default {
 			value = ###IMAGES######TEXT###
 		}
 
-		# below-center
+		# below
 		8 = TEXT
 		8.value = ###TEXT######IMAGES###
-
-		# below-right
 		9 < .8
-
-		# below-left
 		10 < .8
 	}
 
@@ -882,6 +1813,7 @@ tt_content.image.20 {
 				}
 			}
 		}
+
 		ul {
 			# Just one image without a caption => don't need the ul-overhead, use the "simple" rendering
 			fallbackRendering < tt_content.image.20.rendering.dl.fallbackRendering.10
@@ -911,6 +1843,7 @@ tt_content.image.20 {
 				}
 			}
 		}
+
 		div {
 			# Just one image without a caption => don't need the div-overhead, use the "simple" rendering
 			fallbackRendering < tt_content.image.20.rendering.dl.fallbackRendering.10
@@ -940,6 +1873,7 @@ tt_content.image.20 {
 				}
 			}
 		}
+
 		simple {
 			imageRowStdWrap.dataWrap = <div class="csc-row"> | </div>
 			imageLastRowStdWrap.dataWrap = <div class="csc-row"> | </div>
@@ -970,843 +1904,15 @@ tt_content.image.20 {
 			imageStdWrapNoWidth.wrap = |
 		}
 	}
+
 	renderMethod = dl
-
-	editIcons = tt_content : image [imageorient|imagewidth|imageheight], [imagecols|image_noRows|imageborder],[image_link|image_zoom],[image_compression|image_effects|image_frames],imagecaption[imagecaption_position]
-	editIcons.iconTitle.data = LLL:EXT:css_styled_content/pi1/locallang.xml:eIcon.images
-
-	caption.editIcons = tt_content : imagecaption[imagecaption_position]
-	caption.editIcons.beforeLastTag=1
-	caption.editIcons.iconTitle.data = LLL:EXT:css_styled_content/pi1/locallang.xml:eIcon.caption
-
-	stdWrap.prefixComment = 2 | Image block:
-}
-
-# TEXTPIC
-tt_content.textpic = COA
-tt_content.textpic {
-	10 = COA
-	10.if.value = 25
-	10.if.isLessThan.field = imageorient
-	10.10 = < lib.stdheader
-
-	20  = < tt_content.image.20
-	20 {
-		text.10 = COA
-		text.10 {
-			if.value = 24
-			if.isGreaterThan.field = imageorient
-			10 = < lib.stdheader
-		}
-		text.20 = < tt_content.text.20
-		text.wrap = <div class="csc-text"> | </div>
-	}
-}
-
-# BULLET
-tt_content.bullets = COA
-tt_content.bullets {
-
-	# Header
-	10 =< lib.stdheader
-
-	# Bullets
-	20 = COA
-	20 {
-		stdWrap {
-			wrap = <ul>|</ul>
-			required = 1
-		}
-
-		# Items
-		10 = TEXT
-		10 {
-			field = bodytext
-
-			trim = 1
-
-			split {
-				token {
-					char = 10
-				}
-
-				cObjNum = |*|1||2|*|
-
-				# Odd bullet
-				1 {
-					dataWrap = <li id="csc-{field:uid}:{register:SPLIT_COUNT}" class="csc-odd">|</li>
-
-					current = 1
-					trim = 1
-					parseFunc =< lib.parseFunc
-				}
-
-				# Even bullet
-				2 < .1
-				2 {
-					dataWrap = <li id="csc-{field:uid}:{register:SPLIT_COUNT}" class="csc-even">|</li>
-				}
-			}
-		}
-	}
-}
-
-# TABLE
-tt_content.table = COA
-tt_content.table {
-
-	# Header
-	10 =< lib.stdheader
-
-	# Table
-	20 = USER
-	20.userFunc = tx_cssstyledcontent_pi1->render_table
-	20.field = bodytext
-
-	20.color {
-		default =
-		1 = #EDEBF1
-		2 = #F5FFAA
-	}
-	20.tableParams_0 {
-		border =
-		cellpadding =
-		cellspacing =
-	}
-	20.tableParams_1 {
-		border =
-		cellpadding =
-		cellspacing =
-	}
-	20.tableParams_2 {
-		border =
-		cellpadding =
-		cellspacing =
-	}
-	20.tableParams_3 {
-		border =
-		cellpadding =
-		cellspacing =
-	}
-	20.innerStdWrap.wrap = |
-	20.innerStdWrap.parseFunc = < lib.parseFunc
-
-	20.stdWrap {
-		editIcons = tt_content: cols, bodytext, [layout], [table_bgColor|table_border|table_cellspacing|table_cellpadding]
-		editIcons.beforeLastTag = 1
-		editIcons.iconTitle.data = LLL:EXT:css_styled_content/pi1/locallang.xml:eIcon.table
-
-		prefixComment = 2 | Table:
-	}
-}
-
-# UPLOADS
-tt_content.uploads = COA
-tt_content.uploads {
-
-	# Header
-	10 =< lib.stdheader
-
-	# Files
-	20 = USER
-	20 {
-		userFunc = tx_cssstyledcontent_pi1->render_uploads
-
-		field = media
-
-		filePath {
-			field = select_key
-		}
-
-		outerWrap = <dl>|</dl>
-
-		itemRendering = COA
-		itemRendering {
-
-			# File
-			10 = COA
-			10 {
-				stdWrap {
-					wrap = <dt id="csc-{field:uid}:{register:filename}" class="csc-odd csc-file-{register:fileExtension}">|</dt> |*| <dt id="csc-{field:uid}:{register:filename}" class="csc-even csc-file-{register:fileExtension}">|</dt> || <dt id="csc-{field:uid}:{register:filename}" class="csc-odd csc-file-{register:fileExtension}">|</dt> |*|
-					insertData = 1
-				}
-
-				# Icon
-				10 = TEXT
-				10 {
-					data = register:linkedIcon
-					noTrimWrap = |<span class="csc-icon">|</span> |
-					if.isPositive.field = layout
-				}
-
-				# Link
-				20 = COA
-				20 {
-					wrap = |
-
-					1 = TEXT
-					1 {
-						data = register:linkedLabel
-						wrap = |
-					}
-				}
-
-				# Size
-				30 = TEXT
-				30 {
-					data = register:fileSize
-
-					wrap = , <span class="csc-file-size">|</span>
-
-					bytes = 1
-					bytes {
-						labels = {$styles.content.uploads.filesizeBytesLabels}
-					}
-
-					if.isTrue.field = filelink_size
-				}
-			}
-
-			# Description
-			20 = COA
-			20 {
-				stdWrap {
-					wrap = <dd class="csc-odd csc-description">|</dd> |*| <dd class="csc-even csc-description">|</dd> || <dd class="csc-odd csc-description">|</dd> |*|
-				}
-
-				10 = TEXT
-				10 {
-					value = &#8203;
-
-					override {
-						cObject = TEXT
-						cObject {
-							data = register:description
-							htmlSpecialChars = 1
-						}
-					}
-				}
-			}
-		}
-
-		useSpacesInLinkText = 0
-		stripFileExtensionFromLinkText = 0
-
-		linkProc {
-			target = _blank
-			jumpurl = {$styles.content.uploads.jumpurl}
-			jumpurl.secure = {$styles.content.uploads.jumpurl_secure}
-			jumpurl.secure.mimeTypes = {$styles.content.uploads.jumpurl_secure_mimeTypes}
-			removePrependedNumbers = 1
-
-			iconCObject = IMAGE
-			iconCObject.file.import.data = register : ICON_REL_PATH
-			iconCObject.file.width = 150
-		}
-
-		filesize {
-			bytes = 1
-			bytes.labels = {$styles.content.uploads.filesizeBytesLabels}
-		}
-	}
-}
-
-# MULTIMEDIA
-tt_content.multimedia = COA
-tt_content.multimedia {
-
-	# Header
-	10 =< lib.stdheader
-
-	# Object
-	20 = MULTIMEDIA
-	20.file.field = multimedia
-	20.file.wrap = uploads/media/
-	20.file.listNum = 0
-	20.params.field = bodytext
-
-	20.stdWrap {
-		editIcons = tt_content: multimedia, bodytext
-		editIcons.iconTitle.data = LLL:EXT:css_styled_content/pi1/locallang.xml:eIcon.multimedia
-
-		prefixComment = 2 | Multimedia element:
-	}
-}
-
-# SWFOBJECT
-tt_content.swfobject = COA
-tt_content.swfobject {
-
-	# Header
-	10 =< lib.stdheader
-
-	# Object
-	20 = SWFOBJECT
-	20 {
-		file =
-		width =
-		height =
-
-		flexParams.field = pi_flexform
-
-		alternativeContent.field = bodytext
-
-		layout = ###SWFOBJECT###
-
-		video {
-			player = {$styles.content.media.videoPlayer}
-
-			defaultWidth  = {$styles.content.media.defaultVideoWidth}
-			defaultHeight  = {$styles.content.media.defaultVideoHeight}
-
-			default {
-				params.quality = high
-				params.menu = false
-				params.allowScriptAccess = sameDomain
-				params.allowFullScreen = true
-			}
-			mapping {
-
-			}
-		}
-
-		audio {
-			player = {$styles.content.media.audioPlayer}
-
-			defaultWidth = {$styles.content.media.defaultAudioWidth}
-			defaultHeight = {$styles.content.media.defaultAudioHeight}
-
-			default {
-				params.quality = high
-				params.allowScriptAccess = sameDomain
-				params.menu = false
-			}
-			mapping {
-				flashvars.file = soundFile
-			}
-		}
-
-	}
-	20.stdWrap {
-		editIcons = tt_content: multimedia, imagewidth, imageheight, pi_flexform, bodytext
-		editIcons.iconTitle.data = LLL:EXT:css_styled_content/pi1/locallang.xml:eIcon.multimedia
-
-		prefixComment = 2 | SWFobject element:
-	}
-}
-
-# QTOBJECT
-tt_content.qtobject = COA
-tt_content.qtobject {
-	10 = < lib.stdheader
-
-	20 = QTOBJECT
-	20 {
-		file =
-		width =
-		height =
-
-		flexParams.field = pi_flexform
-
-		alternativeContent.field = bodytext
-
-		layout = ###QTOBJECT###
-
-		video {
-			player = {$styles.content.media.videoPlayer}
-
-			defaultWidth  = {$styles.content.media.defaultVideoWidth}
-			defaultHeight  = {$styles.content.media.defaultVideoHeight}
-
-			default {
-				params.quality = high
-				params.menu = false
-				params.allowScriptAccess = sameDomain
-				params.allowFullScreen = true
-			}
-			mapping {
-
-			}
-		}
-
-		audio {
-			player = {$styles.content.media.audioPlayer}
-
-			defaultWidth = {$styles.content.media.defaultAudioWidth}
-			defaultHeight = {$styles.content.media.defaultAudioHeight}
-
-			default {
-				params.quality = high
-				params.allowScriptAccess = sameDomain
-				params.menu = false
-			}
-			mapping {
-				flashvars.file = soundFile
-			}
-		}
-	}
-	20.stdWrap {
-		editIcons = tt_content: multimedia, imagewidth, imageheight, pi_flexform, bodytext
-		editIcons.iconTitle.data = LLL:EXT:css_styled_content/pi1/locallang.xml:eIcon.multimedia
-
-		prefixComment = 2 | QTobject element:
-	}
-}
-
-# MEDIA
-tt_content.media = COA
-tt_content.media {
-	10 = < lib.stdheader
-
-	20 = MEDIA
-	20 {
-
-		flexParams.field = pi_flexform
-		alternativeContent < tt_content.text.20
-		alternativeContent.field = bodytext
-
-		type = video
-		renderType = auto
-		allowEmptyUrl = 0
-		forcePlayer = 1
-
-		fileExtHandler {
-			default = MEDIA
-			avi = MEDIA
-			asf = MEDIA
-			class = MEDIA
-			wmv = MEDIA
-			mp3 = SWF
-			mp4 = SWF
-			m4v = SWF
-			swa = SWF
-			flv = SWF
-			swf = SWF
-			mov = QT
-			m4v = QT
-			m4a = QT
-		}
-
-		mimeConf.swfobject < tt_content.swfobject.20
-		mimeConf.qtobject < tt_content.qtobject.20
-
-	}
-	20.stdWrap {
-		editIcons = tt_content: pi_flexform, bodytext
-		editIcons.iconTitle.data = LLL:EXT:css_styled_content/pi1/locallang.xml:eIcon.multimedia
-
-		prefixComment = 2 | Media element:
-	}
-}
-
-# MAILFORM
-tt_content.mailform = COA
-tt_content.mailform.10 = < lib.stdheader
-tt_content.mailform.20 = FORM
-tt_content.mailform.20 {
-	accessibility = 1
-	noWrapAttr=1
-	formName = mailform
-	dontMd5FieldNames = 1
-	layout = <div class="csc-mailform-field">###LABEL### ###FIELD###</div>
-	labelWrap.wrap = |
-	commentWrap.wrap = |
-	radioWrap.wrap = |<br />
-	radioWrap.accessibilityWrap = <fieldset###RADIO_FIELD_ID###><legend>###RADIO_GROUP_LABEL###</legend>|</fieldset>
-	REQ = 1
-	REQ.labelWrap.wrap = |
-	COMMENT.layout = <div class="csc-mailform-label">###LABEL###</div>
-	RADIO.layout = <div class="csc-mailform-field">###LABEL### <span class="csc-mailform-radio">###FIELD###</span></div>
-	LABEL.layout = <div class="csc-mailform-field">###LABEL### <span class="csc-mailform-label">###FIELD###</span></div>
-	target = {$styles.content.mailform.target}
-	goodMess = {$styles.content.mailform.goodMess}
-	badMess = {$styles.content.mailform.badMess}
-	redirect.field = pages
-	redirect.listNum = 0
-	recipient.field = subheader
-	data.field = bodytext
-	locationData = 1
-	hiddenFields.stdWrap.wrap = <div style="display:none;">|</div>
-
-	params.radio = class="csc-mailform-radio"
-	params.check = class="csc-mailform-check"
-	params.submit = class="csc-mailform-submit"
-
-	stdWrap.wrap = <fieldset class="csc-mailform"> | </fieldset>
-	stdWrap {
-		editIcons = tt_content: bodytext, pages, subheader
-		editIcons.iconTitle.data = LLL:EXT:css_styled_content/pi1/locallang.xml:eIcon.form
-
-		prefixComment = 2 | Mail form inserted:
-	}
-}
-
-# SEARCH
-tt_content.search = COA
-tt_content.search.10 = < lib.stdheader
-# Result:
-tt_content.search.20 = SEARCHRESULT
-tt_content.search.20 {
-	allowedCols = pages.title-subtitle-keywords-description : tt_content.header-bodytext-imagecaption : tt_address.name-title-address-email-company-city-country : tt_links.title-note-note2-url : tt_board.subject-message-author-email : tt_calender.title-note : tt_products.title-note-itemnumber
-	languageField.tt_content = sys_language_uid
-	renderObj = COA
-	renderObj {
-
-		10 = TEXT
-		10.field = pages_title
-		10.htmlSpecialChars = 1
-		10.typolink {
-			parameter.field = uid
-			target = {$styles.content.searchresult.resultTarget}
-			additionalParams.data = register:SWORD_PARAMS
-			additionalParams.required = 1
-			additionalParams.wrap = &no_cache=1
-		}
-		10.htmlSpecialChars = 1
-		10.wrap = <h3 class="csc-searchResultHeader">|</h3>
-
-		20 = COA
-		20 {
-			10 = TEXT
-			10.field = tt_content_bodytext
-			10.stripHtml = 1
-			10.htmlSpecialChars = 1
-		}
-		20.stdWrap.crop = 200 | ...
-		20.stdWrap.wrap = <p class="csc-searchResult">|</p>
-	}
-
-	layout = COA
-	layout {
-		wrap = <table border="0" cellspacing="0" cellpadding="2" class="csc-searchResultInfo"><tr> | </tr></table> ###RESULT###
-
-		10 = TEXT
-		10.data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.resultRange
-		10.wrap = <td class="csc-searchResultRange"><p>|</p></td>
-
-		20 = TEXT
-		20.value = ###PREV###&nbsp;&nbsp;&nbsp;###NEXT###
-		20.wrap = <td class="csc-searchResultPrevNext"><p>|</p></td>
-	}
-
-	noResultObj = COA
-	noResultObj {
-		10 = TEXT
-		10.data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.emptySearch
-		10.wrap = <h3 class="csc-noSearchResultMsg">|</h3>
-	}
-
-	next = TEXT
-	next.data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.searchResultNext
-
-	prev = TEXT
-	prev.data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.searchResultPrev
-
-	target = {$styles.content.searchresult.target}
-	range = 20
-
-	stdWrap.prefixComment = 2 | Search result:
-}
-
-# Form:
-tt_content.search.30 < tt_content.mailform.20
-tt_content.search.30 {
-	goodMess = {$styles.content.searchform.goodMess}
-	redirect >
-	recipient >
-	data >
-	dataArray {
-		10.label.data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.searchWord
-		10.type = sword=input
-		20.label.data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.searchIn
-		20.type = scols=select
-		20.valueArray {
-			10.label.data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.headersKeywords
-			10.value = pages.title-subtitle-keywords-description:tt_content.header
-			20.label.data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.pageContent
-			20.value = tt_content.header-bodytext-imagecaption
-		}
-		30.type = stype=hidden
-		30.value = L0
-		40.type = submit=submit
-		40.value.data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.searchButton
-	}
-	type.field = pages
-	type.listNum = 0
-	locationData = HTTP_POST_VARS
-	no_cache = 1
-
-	stdWrap.wrap = <table border="0" cellspacing="1" cellpadding="1" class="csc-searchform">  | </table>
-	stdWrap {
-		editIcons.iconTitle.data = LLL:EXT:css_styled_content/pi1/locallang.xml:eIcon.search
-
-		prefixComment = 2 | Search form inserted:
-	}
-}
-
-# LOGIN
-tt_content.login < tt_content.mailform
-tt_content.login.10 = < lib.stdheader
-tt_content.login.20 {
-	goodMess = {$styles.content.loginform.goodMess}
-	redirect >
-	recipient >
-	data >
-	dataArray {
-		10.label.data = LLL:EXT:css_styled_content/pi1/locallang.xml:login.username
-		10.type = *user=input
-		20.label.data = LLL:EXT:css_styled_content/pi1/locallang.xml:login.password
-		20.type = *pass=password
-		30.type = logintype=hidden
-		30.value = login
-		40.type = submit=submit
-		40.value.data = LLL:EXT:css_styled_content/pi1/locallang.xml:login.login
-	}
-	type.field = pages
-	type.listNum = 0
-	target = {$styles.content.loginform.target}
-	locationData = 0
-	hiddenFields.pid = TEXT
-	hiddenFields.pid {
-		value = {$styles.content.loginform.pid}
-		override.field = pages
-		override.listNum = 1
-	}
-
-	stdWrap.wrap = <div class="csc-loginform"> | </div>
-	stdWrap {
-		editIcons.iconTitle.data = LLL:EXT:css_styled_content/pi1/locallang.xml:eIcon.login
-
-		prefixComment = 2 | Login/Logout form:
-	}
-}
-[loginUser = *]
-tt_content.login.20 {
-	dataArray >
-	dataArray {
-		10.label.data = LLL:EXT:css_styled_content/pi1/locallang.xml:login.username
-		10.label.wrap = |&nbsp;<!--###USERNAME###-->
-		30.type = logintype=hidden
-		30.value = logout
-		40.type = submit=submit
-		40.value.data = LLL:EXT:css_styled_content/pi1/locallang.xml:login.logout
-	}
-}
-[global]
-
-# MENU
-tt_content.menu = COA
-tt_content.menu {
-	10 = < lib.stdheader
-
-	20 = CASE
-	20 {
-		key.field = menu_type
-
-		# "Menu of these pages"
-		default = HMENU
-		default {
-			special = list
-			special.value.field = pages
-			wrap = <ul class="csc-menu csc-menu-def">|</ul>
-			1 = TMENU
-			1 {
-				target = {$PAGE_TARGET}
-				NO {
-					stdWrap.htmlSpecialChars = 1
-					wrapItemAndSub = <li>|</li>
-					ATagTitle.field = description // title
-				}
-				noBlur = 1
-			}
-		}
-
-		# "Menu of subpages to these pages"
-		1 < .default
-		1 {
-			special = directory
-			wrap = <ul class="csc-menu csc-menu-1">|</ul>
-		}
-
-		# "Sitemap - liststyle"
-		2 = HMENU
-		2 {
-			wrap = <div class="csc-sitemap">|</div>
-			1 = TMENU
-			1 {
-				target = {$PAGE_TARGET}
-				noBlur = 1
-				expAll = 1
-				wrap = <ul>|</ul>
-				NO {
-					stdWrap.htmlSpecialChars = 1
-					wrapItemAndSub = <li>|</li>
-					ATagTitle.field = description // title
-				}
-			}
-			2 < .1
-			3 < .1
-			4 < .1
-			5 < .1
-			6 < .1
-			7 < .1
-		}
-
-		# "Section index (pagecontent w/Index checked - liststyle)"
-		3 < styles.content.get
-		3 {
-			wrap = <ul class="csc-menu csc-menu-3">|</ul>
-			select.andWhere = sectionIndex!=0
-			select.pidInList.override.field = pages
-			renderObj = TEXT
-			renderObj {
-				fieldRequired = header
-				trim = 1
-				field = header
-				htmlSpecialChars = 1
-				noBlur = 1
-				wrap = <li class="csc-section">|</li>
-				typolink.parameter.field = pid
-				typolink.section.field = uid
-			}
-		}
-
-		# "Menu of subpages to these pages (with abstract)"
-		4 < .1
-		4 {
-			wrap = <dl class="csc-menu csc-menu-4">|</dl>
-			1.NO {
-				wrapItemAndSub >
-				linkWrap = <dt>|</dt>
-				after {
-					data = field : abstract // field : description // field : subtitle
-					required = 1
-					htmlSpecialChars = 1
-					wrap = <dd>|</dd>
-				}
-				ATagTitle.field = description // title
-			}
-		}
-
-		# "Recently updated pages"
-		5 < .default
-		5 {
-			wrap = <ul class="csc-menu csc-menu-5">|</ul>
-			special = updated
-			special {
-				maxAge = 3600*24*7
-				excludeNoSearchPages = 1
-			}
-		}
-
-		# "Related pages (based on keywords)"
-		6 < .default
-		6 {
-			wrap = <ul class="csc-menu csc-menu-6">|</ul>
-			special = keywords
-			special {
-				excludeNoSearchPages = 1
-			}
-		}
-
-		# "Menu of subpages to these pages + sections - liststyle"
-		7 < .1
-		7 {
-			wrap = <ul class="csc-menu csc-menu-7">|</ul>
-			1.expAll = 1
-			2 < .1
-			2 {
-				sectionIndex = 1
-				sectionIndex.type = header
-				wrap = <ul>|</ul>
-				NO.wrapItemAndSub = <li class="csc-section">|</li>
-			}
-		}
-	}
-
-	20.stdWrap {
-		editIcons = tt_content: menu_type, pages
-		editIcons.iconTitle.data = LLL:EXT:css_styled_content/pi1/locallang.xml:eIcon.menuSitemap
-
-		prefixComment = 2 | Menu/Sitemap element:
-	}
-}
-
-# SHORTCUT
-tt_content.shortcut = COA
-tt_content.shortcut {
-
-	# Records
-	10 = RECORDS
-	10 {
-		source {
-			field = records
-		}
-
-		tables = {$styles.content.tables}
-	}
-}
-
-# LIST
-tt_content.list = COA
-tt_content.list {
-
-	# Header
-	10 =< lib.stdheader
-
-	# Plugin
-	20 = CASE
-	20 {
-		key {
-			field = list_type
-		}
-	}
-}
-
-# DIVIDER
-tt_content.div = COA
-tt_content.div {
-
-	# Wrap
-	stdWrap {
-		wrap = <div class="csc-divider">|</div>
-	}
-
-	# Divider
-	10 = TEXT
-	10 {
-		value = <hr />
-	}
-}
-
-# HTML
-tt_content.html = COA
-tt_content.html {
-	10 = TEXT
-	10 {
-		field = bodytext
-	}
 }
 
 
-# DEFAULT
-tt_content.default = COA
-tt_content.default {
-	stdWrap {
-		wrap = <p>|</p>
-	}
 
-	10 = TEXT
-	10 {
-		stdWrap {
-			wrap = Content element type "|" has no rendering definition!
-		}
 
-		field = CType
-	}
-}
 
-# STYLES
+# Styles
 plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 
 	/* HTML5 */
@@ -1821,6 +1927,10 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 
 	audio:not([controls]) {
 		display: none;
+	}
+
+	svg {
+		overflow: hidden;
 	}
 
 	[hidden] {

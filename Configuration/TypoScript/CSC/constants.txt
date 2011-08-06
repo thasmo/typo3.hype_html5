@@ -42,11 +42,11 @@ styles.content.imgtext {
     # cat=content/cImage/c2; type=boolean; label= Advanced, New window: If set, every click-enlarged image will open in it's own popup window and not the current popup window (which may have a wrong size for the image to fit in)
   linkWrap.newWindow = 0
     # cat=content/cImage/c3; type=boolean; label= Lightbox click-enlarge rendering: Whether images with click-enlarge checked should be rendered lightbox-compliant
-  linkWrap.lightboxEnabled = 0
+  linkWrap.lightboxEnabled = 1
     # cat=content/cImage/c4; type=string; label= Lightbox CSS class: Which CSS class to use for lightbox links (only applicable if lightbox rendering is enabled)
-  linkWrap.lightboxCssClass = lightbox
+  linkWrap.lightboxCssClass = lightbox-{field:uid}
     # cat=content/cImage/c5; type=string; label= Lightbox rel="" attribute: Which rel="" attribute to use for lightbox links (only applicable if lightbox rendering is enabled)
-  linkWrap.lightboxRelAttribute = lightbox[{field:uid}]
+  linkWrap.lightboxRelAttribute =
 
   captionSplit = 0
     # cat=content/cImage/e1; type=boolean; label= Images, text split: If this is checked, then the image text (caption, alt, title, longdesc) will be split by each line and they will appear on the corresponding images in the imagelist.
