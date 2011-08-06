@@ -8,5 +8,6 @@ plugin.tx_hypehtml5 {
 		removeScriptAttributes = 1
 		removeStyleAttributes = 1
 		removeImageAttributes = 1
+		removeTableAttributes = 1
 	}
 }

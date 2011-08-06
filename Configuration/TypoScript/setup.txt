@@ -29,5 +29,6 @@ plugin.tx_hypehtml5 {
 		removeScriptAttributes = {$plugin.tx_hypehtml5.clean.removeScriptAttributes}
 		removeStyleAttributes = {$plugin.tx_hypehtml5.clean.removeStyleAttributes}
 		removeImageAttributes = {$plugin.tx_hypehtml5.clean.removeImageAttributes}
+		removeTableAttributes = {$plugin.tx_hypehtml5.clean.removeTableAttributes}
 	}
 }

@@ -51,19 +51,24 @@ class ux_t3lib_parsehtml extends t3lib_parsehtml {
 
 			switch(TRUE) {
 
-				# remove type attribute from script elements
-				case preg_match('~^<script~i', $tag) && $this->settings['clean.']['removeScriptAttributes']:
+				# Remove type attribute from scripts.
+				case preg_match('~^<script~iU', $tag) && $this->settings['clean.']['removeScriptAttributes']:
 					$tag = str_ireplace(' type="text/javascript"', '', $tag);
 					break;
 
-				# remove type and media (all) attribute from stylesheet link elements
-				case preg_match('~^<link.+rel="stylesheet"~i', $tag) && $this->settings['clean.']['removeStyleAttributes']:
+				# Remove type and media (all) attributes from stylesheet links.
+				case preg_match('~^<link.*rel="stylesheet"~iU', $tag) && $this->settings['clean.']['removeStyleAttributes']:
 					$tag = str_ireplace(array(' type="text/css"', ' media="all"'), '', $tag);
 					break;
 
-				# remove width and height attributes from image elements
-				case preg_match('~<img~i', $tag) && $this->settings['clean.']['removeImageAttributes']:
-					$tag = preg_replace('~.{1}(width|height)=".*"~iU', '', $tag);
+				# Remove width and height attributes from images.
+				case preg_match('~<img~iU', $tag) && $this->settings['clean.']['removeImageAttributes']:
+					$tag = preg_replace('~ (width|height)=".*"~iU', '', $tag);
+					break;
+
+				# Remove summary attribute from tables.
+				case preg_match('~<table~iU', $tag) && $this->settings['clean.']['removeTableAttributes']:
+					$tag = preg_replace('~ summary=".*"~iU', '', $tag);
 					break;
 			}
 		}
