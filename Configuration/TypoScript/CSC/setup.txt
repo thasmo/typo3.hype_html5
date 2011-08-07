@@ -592,6 +592,305 @@ tt_content {
 		}
 	}
 
+	# Image
+	image = COA
+	image {
+
+		# Header
+		10 =< lib.stdheader
+
+		# Images
+		20 = USER
+		20 {
+			userFunc = tx_cssstyledcontent_pi1->render_textpic
+
+			imgList.field = image
+			imgPath = uploads/pics/
+
+			imgObjNum = 1
+			1 {
+				file {
+					import.current = 1
+					width.field = imagewidth
+				}
+
+				imageLinkWrap = 1
+				imageLinkWrap {
+					bodyTag = <body style="margin:0; background:#fff;">
+					wrap = <a href="javascript:close();"> | </a>
+					width = {$styles.content.imgtext.linkWrap.width}
+					height = {$styles.content.imgtext.linkWrap.height}
+					effects = {$styles.content.imgtext.linkWrap.effects}
+
+					JSwindow = 1
+					JSwindow.newWindow = {$styles.content.imgtext.linkWrap.newWindow}
+					JSwindow.if.isFalse = {$styles.content.imgtext.linkWrap.lightboxEnabled}
+
+					directImageLink = {$styles.content.imgtext.linkWrap.lightboxEnabled}
+
+					enable.field = image_zoom
+					enable.ifEmpty.typolink.parameter.field = image_link
+					enable.ifEmpty.typolink.parameter.listNum.splitChar = 10
+					enable.ifEmpty.typolink.parameter.listNum.stdWrap.data = register : IMAGE_NUM_CURRENT
+					enable.ifEmpty.typolink.returnLast = url
+
+					typolink.parameter.field = image_link
+					typolink.parameter.listNum.splitChar = 10
+					typolink.parameter.listNum.stdWrap.data = register : IMAGE_NUM_CURRENT
+					typolink.target = {$styles.content.links.target}
+					typolink.extTarget = {$styles.content.links.extTarget}
+
+					linkParams.ATagParams.dataWrap =  class="{$styles.content.imgtext.linkWrap.lightboxCssClass}" rel="{$styles.content.imgtext.linkWrap.lightboxRelAttribute}"
+				}
+
+				altText = TEXT
+				altText {
+					field = altText
+					stripHtml = 1
+					split.token.char = 10
+					split.token.if.isTrue = {$styles.content.imgtext.imageTextSplit}
+					split.returnKey.data = register : IMAGE_NUM_CURRENT
+				}
+
+				titleText < .altText
+				titleText.field = titleText
+
+				emptyTitleHandling = {$styles.content.imgtext.emptyTitleHandling}
+				titleInLink = {$styles.content.imgtext.titleInLink}
+				titleInLinkAndImg = {$styles.content.imgtext.titleInLinkAndImg}
+			}
+
+			textPos.field = imageorient
+			maxW = {$styles.content.imgtext.maxW}
+			maxW.override.data = register:maxImageWidth
+			maxWInText = {$styles.content.imgtext.maxWInText}
+			maxWInText.override.data = register:maxImageWidthInText
+
+			equalH.field = imageheight
+
+			image_compression.field = image_compression
+			image_effects.field = image_effects
+
+			noRows.field = image_noRows
+
+			cols.field = imagecols
+			border.field = imageborder
+
+			caption {
+				1 = TEXT
+				1 {
+					field = imagecaption
+					required = 1
+					parseFunc =< lib.parseFunc
+					split.token.char = 10
+					split.token.if.isPositive = {$styles.content.imgtext.imageTextSplit} + {$styles.content.imgtext.captionSplit}
+					split.returnKey.data = register : IMAGE_NUM_CURRENT
+				}
+			}
+
+			# captionSplit is deprecated, use imageTextSplit instead
+			captionSplit = {$styles.content.imgtext.captionSplit}
+			captionAlign.field = imagecaption_position
+			# caption/alttext/title/longdescURL splitting
+			imageTextSplit = {$styles.content.imgtext.imageTextSplit}
+
+			borderCol = {$styles.content.imgtext.borderColor}
+			borderThick = {$styles.content.imgtext.borderThick}
+			borderClass = {$styles.content.imgtext.borderClass}
+			colSpace = {$styles.content.imgtext.colSpace}
+			rowSpace = {$styles.content.imgtext.rowSpace}
+			textMargin = {$styles.content.imgtext.textMargin}
+
+			borderSpace = {$styles.content.imgtext.borderSpace}
+			separateRows = {$styles.content.imgtext.separateRows}
+
+			addClasses =
+			addClassesImage =
+			addClassesImage {
+				ifEmpty = csc-column-first csc-column-last
+
+				override = csc-column-first |*| |*| csc-column-last
+				override {
+					if {
+						isGreaterThan.field = imagecols
+						value = 1
+					}
+				}
+			}
+
+			imageStdWrap {
+				stdWrap {
+					innerWrap {
+						cObject = COA
+						cObject {
+
+							# Opening tag
+							10 = TEXT
+							10 {
+								value = <div
+							}
+
+							# Class attribute
+							20 = COA
+							20 {
+								stdWrap {
+									noTrimWrap = | class="csc-imagewrap|"|
+								}
+
+								# Caption alignment
+								10 = TEXT
+								10 {
+									stdWrap {
+										noTrimWrap = | csc-alignment-||
+										fieldRequired = imagecaption_position
+									}
+
+									field = imagecaption_position
+								}
+
+								# Border
+								20 = TEXT
+								20 {
+									stdWrap {
+										noTrimWrap = | ||
+										required = 1
+									}
+
+									value = csc-border
+									fieldRequired = imageborder
+								}
+
+								# Effects
+								30 = TEXT
+								30 {
+									stdWrap {
+										noTrimWrap = | csc-effect-||
+										fieldRequired = image_effects
+									}
+
+									field = image_effects
+								}
+
+								# Compression
+								40 = TEXT
+								40 {
+									stdWrap {
+										noTrimWrap = | csc-quality-||
+										fieldRequired = image_compression
+									}
+
+									field = image_compression
+								}
+							}
+
+							# Closing tag
+							30 = TEXT
+							30 {
+								value = >|</div>
+							}
+						}
+					}
+				}
+			}
+
+			imageStdWrapNoWidth < .imageStdWrap
+
+			# if noRows is set, wrap around each column:
+			imageColumnStdWrap.dataWrap = <div class="csc-column">|</div>
+
+			layout = CASE
+			layout {
+				key.field = imageorient
+
+				# top
+				default = TEXT
+				default {
+					value = ###IMAGES######TEXT###
+				}
+
+				# bottom
+				8 = TEXT
+				8.value = ###TEXT######IMAGES###
+				9 < .8
+				10 < .8
+			}
+
+			rendering {
+
+				# Default
+				default {
+					fallbackRendering = COA
+					fallbackRendering {
+
+						# Global caption
+						10 = TEXT
+						10 {
+							if {
+								value = 1
+								isGreaterThan.data = register:imageCount
+								isTrue.if.isTrue.data = register:renderGlobalCaption
+								isTrue.field = imagecaption
+							}
+
+							value = extended
+						}
+					}
+
+					imageRowStdWrap.dataWrap = <div class="csc-row">|</div>
+					imageLastRowStdWrap.dataWrap = <div class="csc-row csc-row-last">|</div>
+					noRowsStdWrap.wrap =
+					oneImageStdWrap.dataWrap = <figure class="csc-image###CLASSES###">|</figure>
+					imgTagStdWrap.wrap = |
+
+					caption {
+						required = 1
+						wrap = <figcaption class="csc-caption">|</figcaption>
+
+						typolink {
+							parameter {
+								field = longdescURL
+
+								listNum {
+									stdWrap {
+										data = register:IMAGE_NUM_CURRENT
+									}
+
+									splitChar = 10
+								}
+							}
+
+							target = {$styles.content.links.target}
+							extTarget = {$styles.content.links.extTarget}
+						}
+					}
+				}
+
+				extended {
+					imageRowStdWrap.dataWrap = <div class="csc-row">|</div>
+					imageLastRowStdWrap.dataWrap = <div class="csc-row csc-row-last">|</div>
+					noRowsStdWrap.wrap = |
+					oneImageStdWrap.dataWrap = <div class="csc-image###CLASSES###">|</div>
+					imgTagStdWrap.wrap = |
+
+					imageStdWrap < tt_content.image.20.imageStdWrap
+					imageStdWrap.stdWrap.innerWrap.cObject {
+
+						# Opening tag
+						10.value = <figure
+
+						# Closing tag
+						30.value = >|</figure>
+					}
+
+					caption < tt_content.image.20.rendering.default.caption
+					caption.br = 1
+				}
+			}
+
+			renderMethod = default
+		}
+	}
+
 	# Text/Image
 	textpic = COA
 	textpic {
@@ -1524,394 +1823,6 @@ tt_content {
 }
 [global]
 
-
-
-
-
-# Image
-tt_content.image = COA
-tt_content.image.10 = < lib.stdheader
-tt_content.image.20 = USER
-tt_content.image.20 {
-	userFunc = tx_cssstyledcontent_pi1->render_textpic
-
-	# Image source
-	imgList.field = image
-	imgPath = uploads/pics/
-
-	# Single image rendering
-	imgObjNum = 1
-	1 {
-		file.import.current = 1
-		file.width.field = imagewidth
-		imageLinkWrap = 1
-		imageLinkWrap {
-			bodyTag = <body style="margin:0; background:#fff;">
-			wrap = <a href="javascript:close();"> | </a>
-			width = {$styles.content.imgtext.linkWrap.width}
-			height = {$styles.content.imgtext.linkWrap.height}
-			effects = {$styles.content.imgtext.linkWrap.effects}
-
-			JSwindow = 1
-			JSwindow.newWindow = {$styles.content.imgtext.linkWrap.newWindow}
-			JSwindow.if.isFalse = {$styles.content.imgtext.linkWrap.lightboxEnabled}
-
-			directImageLink = {$styles.content.imgtext.linkWrap.lightboxEnabled}
-
-			enable.field = image_zoom
-			enable.ifEmpty.typolink.parameter.field = image_link
-			enable.ifEmpty.typolink.parameter.listNum.splitChar = 10
-			enable.ifEmpty.typolink.parameter.listNum.stdWrap.data = register : IMAGE_NUM_CURRENT
-			enable.ifEmpty.typolink.returnLast = url
-
-			typolink.parameter.field = image_link
-			typolink.parameter.listNum.splitChar = 10
-			typolink.parameter.listNum.stdWrap.data = register : IMAGE_NUM_CURRENT
-			typolink.target = {$styles.content.links.target}
-			typolink.extTarget = {$styles.content.links.extTarget}
-
-			linkParams.ATagParams.dataWrap =  class="{$styles.content.imgtext.linkWrap.lightboxCssClass}" rel="{$styles.content.imgtext.linkWrap.lightboxRelAttribute}"
-		}
-
-		altText = TEXT
-		altText {
-			field = altText
-			stripHtml = 1
-			split.token.char = 10
-			split.token.if.isTrue = {$styles.content.imgtext.imageTextSplit}
-			split.returnKey.data = register : IMAGE_NUM_CURRENT
-		}
-
-		titleText < .altText
-		titleText.field = titleText
-
-		#longdescURL < .altText
-		#longdescURL.field = longdescURL
-
-		emptyTitleHandling = {$styles.content.imgtext.emptyTitleHandling}
-		titleInLink = {$styles.content.imgtext.titleInLink}
-		titleInLinkAndImg = {$styles.content.imgtext.titleInLinkAndImg}
-	}
-
-	textPos.field = imageorient
-	maxW = {$styles.content.imgtext.maxW}
-	maxW.override.data = register:maxImageWidth
-	maxWInText = {$styles.content.imgtext.maxWInText}
-	maxWInText.override.data = register:maxImageWidthInText
-
-	equalH.field = imageheight
-
-	image_compression.field = image_compression
-	image_effects.field = image_effects
-
-	noRows.field = image_noRows
-
-	cols.field = imagecols
-	border.field = imageborder
-
-	caption {
-		1 = TEXT
-		1 {
-			field = imagecaption
-			required = 1
-			parseFunc =< lib.parseFunc
-			br = 1
-			split.token.char = 10
-			split.token.if.isPositive = {$styles.content.imgtext.imageTextSplit} + {$styles.content.imgtext.captionSplit}
-			split.returnKey.data = register : IMAGE_NUM_CURRENT
-		}
-	}
-
-	# captionSplit is deprecated, use imageTextSplit instead
-	captionSplit = {$styles.content.imgtext.captionSplit}
-	captionAlign.field = imagecaption_position
-	# caption/alttext/title/longdescURL splitting
-	imageTextSplit = {$styles.content.imgtext.imageTextSplit}
-
-	borderCol = {$styles.content.imgtext.borderColor}
-	borderThick = {$styles.content.imgtext.borderThick}
-	borderClass = {$styles.content.imgtext.borderClass}
-	colSpace = {$styles.content.imgtext.colSpace}
-	rowSpace = {$styles.content.imgtext.rowSpace}
-	textMargin = {$styles.content.imgtext.textMargin}
-
-	borderSpace = {$styles.content.imgtext.borderSpace}
-	separateRows = {$styles.content.imgtext.separateRows}
-	addClasses =
-	addClassesImage =
-	addClassesImage.ifEmpty = csc-column-first csc-column-last
-	addClassesImage.override = csc-column-first |*| |*| csc-column-last
-	addClassesImage.override.if {
-		isGreaterThan.field = imagecols
-		value = 1
-	}
-
-	imageStdWrap {
-		stdWrap {
-			innerWrap {
-				cObject = COA
-				cObject {
-
-					# Opening tag
-					10 = TEXT
-					10 {
-						value = <div
-					}
-
-					# Class attribute
-					20 = COA
-					20 {
-						stdWrap {
-							noTrimWrap = | class="csc-imagewrap|"|
-						}
-
-						# Caption alignment
-						10 = TEXT
-						10 {
-							stdWrap {
-								noTrimWrap = | csc-alignment-||
-								fieldRequired = imagecaption_position
-							}
-
-							field = imagecaption_position
-						}
-
-						# Border
-						20 = TEXT
-						20 {
-							stdWrap {
-								noTrimWrap = | ||
-								required = 1
-							}
-
-							value = csc-border
-							fieldRequired = imageborder
-						}
-
-						# Effects
-						30 = TEXT
-						30 {
-							stdWrap {
-								noTrimWrap = | csc-effect-||
-								fieldRequired = image_effects
-							}
-
-							field = image_effects
-						}
-
-						# Compression
-						40 = TEXT
-						40 {
-							stdWrap {
-								noTrimWrap = | csc-quality-||
-								fieldRequired = image_compression
-							}
-
-							field = image_compression
-						}
-					}
-
-					# Closing tag
-					30 = TEXT
-					30 {
-						value = >|</div>
-					}
-				}
-			}
-		}
-	}
-
-	imageStdWrapNoWidth < .imageStdWrap
-
-	# if noRows is set, wrap around each column:
-	imageColumnStdWrap {
-		dataWrap = <div class="csc-column">|</div>
-	}
-
-	layout = CASE
-	layout {
-		key.field = imageorient
-
-		# default
-		default = TEXT
-		default {
-			value = ###IMAGES######TEXT###
-		}
-
-		# below
-		8 = TEXT
-		8.value = ###TEXT######IMAGES###
-		9 < .8
-		10 < .8
-	}
-
-	rendering {
-		dl {
-			# Choose another rendering for special edge cases
-			fallbackRendering = COA
-			fallbackRendering {
-				# Just one image without a caption => don't need the dl-overhead, use the "simple" rendering
-				10 = TEXT
-				10 {
-					if {
-						isFalse.field = imagecaption
-						value = 1
-						equals.data = register:imageCount
-					}
-					value = simple
-				}
-
-				# Multiple images and one global caption => "ul"
-				20 = TEXT
-				20 {
-					if {
-						value = 1
-						isGreaterThan.data = register:imageCount
-						isTrue.if.isTrue.data = register:renderGlobalCaption
-						isTrue.field = imagecaption
-					}
-					value = ul
-				}
-
-				# Multiple images and no caption at all => "ul"
-				30 = TEXT
-				30 {
-					if {
-						value = 1
-						isGreaterThan.data = register:imageCount
-						isFalse.field = imagecaption
-					}
-					value = ul
-				}
-			}
-			imageRowStdWrap.dataWrap = <div class="csc-row"> | </div>
-			imageLastRowStdWrap.dataWrap = <div class="csc-row"> | </div>
-			noRowsStdWrap.wrap =
-			oneImageStdWrap.dataWrap = <figure class="csc-image###CLASSES###"> | </figure>
-			imgTagStdWrap.wrap = |
-			editIconsStdWrap.wrap = <dd> | </dd>
-			caption {
-				required = 1
-				wrap = <figcaption class="csc-caption"> | </figcaption>
-			}
-			caption {
-				typolink {
-					parameter {
-						field = longdescURL
-
-						listNum {
-							stdWrap {
-								data = register:IMAGE_NUM_CURRENT
-							}
-
-							splitChar = 10
-						}
-					}
-
-					target = {$styles.content.links.target}
-					extTarget = {$styles.content.links.extTarget}
-				}
-			}
-		}
-
-		ul {
-			# Just one image without a caption => don't need the ul-overhead, use the "simple" rendering
-			fallbackRendering < tt_content.image.20.rendering.dl.fallbackRendering.10
-			imageRowStdWrap.dataWrap = <div class="csc-row"> | </div>
-			imageLastRowStdWrap.dataWrap = <div class="csc-row"> | </div>
-			noRowsStdWrap.wrap = |
-			oneImageStdWrap.dataWrap = <figure class="csc-image###CLASSES###"> | </figure>
-			imgTagStdWrap.wrap =
-			editIconsStdWrap.wrap = <div> | </div>
-			caption.wrap = <figcaption class="csc-caption"> | </figcaption>
-			caption {
-				typolink {
-					parameter {
-						field = longdescURL
-
-						listNum {
-							stdWrap {
-								data = register:IMAGE_NUM_CURRENT
-							}
-
-							splitChar = 10
-						}
-					}
-
-					target = {$styles.content.links.target}
-					extTarget = {$styles.content.links.extTarget}
-				}
-			}
-		}
-
-		div {
-			# Just one image without a caption => don't need the div-overhead, use the "simple" rendering
-			fallbackRendering < tt_content.image.20.rendering.dl.fallbackRendering.10
-			imageRowStdWrap.dataWrap = <div class="csc-row"> | </div>
-			imageLastRowStdWrap.dataWrap = <div class="csc-row"> | </div>
-			noRowsStdWrap.wrap =
-			oneImageStdWrap.dataWrap = <div class="csc-image###CLASSES###"> | </div>
-			imgTagStdWrap.wrap = <div> | </div>
-			editIconsStdWrap.wrap = <div> | </div>
-			caption.wrap = <figcaption class="csc-caption"> | </figcaption>
-			caption {
-				typolink {
-					parameter {
-						field = longdescURL
-
-						listNum {
-							stdWrap {
-								data = register:IMAGE_NUM_CURRENT
-							}
-
-							splitChar = 10
-						}
-					}
-
-					target = {$styles.content.links.target}
-					extTarget = {$styles.content.links.extTarget}
-				}
-			}
-		}
-
-		simple {
-			imageRowStdWrap.dataWrap = <div class="csc-row"> | </div>
-			imageLastRowStdWrap.dataWrap = <div class="csc-row"> | </div>
-			noRowsStdWrap.wrap =
-			oneImageStdWrap.dataWrap = <figure class="csc-image###CLASSES###"> | </figure>
-			imgTagStdWrap.wrap = |
-			editIconsStdWrap.wrap = |
-			caption.wrap = <figcaption class="csc-caption"> | </figcaption>
-			caption {
-				typolink {
-					parameter {
-						field = longdescURL
-
-						listNum {
-							stdWrap {
-								data = register:IMAGE_NUM_CURRENT
-							}
-
-							splitChar = 10
-						}
-					}
-
-					target = {$styles.content.links.target}
-					extTarget = {$styles.content.links.extTarget}
-				}
-			}
-			imageStdWrap.dataWrap = |
-			imageStdWrapNoWidth.wrap = |
-		}
-	}
-
-	renderMethod = dl
-}
-
-
-
-
-
 # Styles
 plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 
@@ -2087,6 +1998,7 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 
 	/* Caption */
 	.csc-caption {
+		clear: both;
 		text-align: left;
 	}
 	.csc-alignment-center .csc-caption {
