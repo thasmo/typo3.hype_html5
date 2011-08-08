@@ -1890,7 +1890,7 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 
 	/* Image */
 	.csc-image {
-		display: block;
+		display: table;
 		margin-bottom: {$styles.content.imgtext.rowSpace}px;
 	}
 	.csc-image img {
@@ -1998,6 +1998,8 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 
 	/* Caption */
 	.csc-caption {
+		display: table-caption;
+		caption-side: bottom;
 		clear: both;
 		text-align: left;
 	}
