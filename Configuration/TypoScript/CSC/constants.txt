@@ -15,6 +15,9 @@ content {
   spaceAfter = 0
 
   splash.bgCol = white
+
+  permalink = 0
+  permalink.placeholder = #
 }
 
 

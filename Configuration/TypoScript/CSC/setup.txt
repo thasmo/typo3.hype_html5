@@ -212,19 +212,59 @@ lib {
 				}
 
 				# H1
-				default = TEXT
+				default = COA
 				default {
 					wrap = <h1 class="csc-header">|</h1>
 
-					htmlSpecialChars = 1
-					brTag = <br />
+					# Text
+					10 = TEXT
+					10 {
+						htmlSpecialChars = 1
+						brTag = <br />
 
-					field = header
+						field = header
 
-					typolink {
-						parameter {
-							field = header_link
+						typolink {
+							parameter {
+								field = header_link
+							}
 						}
+					}
+
+					# Permalink
+					20 = COA
+					20 {
+						stdWrap {
+							noTrimWrap = | ||
+							required = 1
+						}
+
+						# Link
+						10 = TEXT
+						10 {
+							value = {$content.permalink.placeholder}
+							value {
+								htmlSpecialChars = 1
+							}
+
+							typolink {
+								parameter {
+									data = TSFE:id
+								}
+
+								section = csc-{field:uid}
+								section {
+									insertData = 1
+								}
+
+								ATagParams = class="csc-permalink"
+								ATagParams {
+									insertData = 1
+								}
+							}
+						}
+
+						if.isTrue = {$content.permalink}
 					}
 				}
 
@@ -1882,10 +1922,6 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 	.csc-alignment-right .csc-subheader,
 	.csc-alignment-right .csc-date {
 		text-align: right;
-	}
-
-	.csc-header a {
-		display: block;
 	}
 
 	/* Image */
