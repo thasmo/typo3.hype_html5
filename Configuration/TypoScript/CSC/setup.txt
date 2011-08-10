@@ -1509,6 +1509,19 @@ tt_content {
 			}
 
 			tables = {$styles.content.tables}
+
+			conf {
+				tt_content =< tt_content
+				tt_address =< tt_address
+				tt_links =< tt_links
+				tt_guest =< tt_guest
+				tt_board =< tt_board
+				tt_calender =< tt_calender
+				tt_rating =< tt_rating
+				tt_products =< tt_products
+				tt_news =< tt_news
+				tt_poll =< plugin.tt_poll
+			}
 		}
 	}
 
