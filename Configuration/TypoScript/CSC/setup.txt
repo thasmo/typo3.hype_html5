@@ -1790,6 +1790,47 @@ tt_content {
 			key {
 				field = list_type
 			}
+
+			3 = CASE
+			3.key.field = layout
+			3.0 =< plugin.tt_guest
+
+			4 = CASE
+			4.key.field = layout
+			4.0 =< plugin.tt_board_list
+			4.1 =< plugin.tt_board_tree
+
+			2 = CASE
+			2.key.field = layout
+			2.0 =< plugin.tt_board_tree
+
+			5 = CASE
+			5.key.field = layout
+			5.0 =< plugin.tt_products
+
+			7 = CASE
+			7.key.field = layout
+			7.0 =< plugin.tt_calender
+
+			8 = CASE
+			8.key.field = layout
+			8.0 =< plugin.tt_rating
+
+			9 = CASE
+			9.key.field = layout
+			9.0 =< plugin.tt_news
+
+			11 = CASE
+			11.key.field = layout
+			11.0 =< plugin.tipafriend
+
+			20 = CASE
+			20.key.field = layout
+			20.0 =< plugin.feadmin.fe_users
+
+			21 = CASE
+			21.key.field = layout
+			21.0 =< plugin.feadmin.dmailsubscription
 		}
 	}
 
