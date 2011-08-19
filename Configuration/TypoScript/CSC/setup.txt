@@ -1926,12 +1926,14 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 
 	/* HTML5 */
 	article, aside, details, figcaption, figure,
-	footer, header, hgroup, menu, nav, section {
+	footer, header, hgroup, nav, section {
 		display: block;
 	}
 
 	audio, canvas, video {
 		display: inline-block;
+		*display: inline;
+		*zoom: 1;
 	}
 
 	audio:not([controls]) {
