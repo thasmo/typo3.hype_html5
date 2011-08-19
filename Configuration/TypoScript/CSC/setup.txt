@@ -1940,7 +1940,7 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 		display: none;
 	}
 
-	svg {
+	svg:not(:root) {
 		overflow: hidden;
 	}
 
