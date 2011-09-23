@@ -1,17 +1,16 @@
-
 EXT: Hype HTML5
 Extension Key: hype_html5
 Language: en
-Keywords: html5, csc
-Copyright 2000-2010, Thomas "Thasmo" Deinhamer, <thasmo@gmail.com>
+Version: 1.3.6
+Keywords: html5, modernizr, csc, style, content
+Copyright 2011, Thomas “Thasmo” Deinhamer, <thasmo@gmail.com>
 
 This document is published under the Open Content License
 available from http://www.opencontent.org/opl.shtml
 
-The content of this document is related to TYPO3
+The content of this document is related to TYPO3 
 - a GNU/GPL CMS/Framework available from www.typo3.org
 Table of Contents
-EXT: Hype HTML5	1
 Introduction	3
 What does it do?	3
 Users manual	4
@@ -19,16 +18,14 @@ Administration	5
 Installation	5
 Configuration	6
 TypoScript	6
+Modernizr	6
 Tutorial	7
 Known problems	8
 To-Do list	9
 
-
 Introduction
 What does it do?
 Hype HTML5 enables TYPO3 to render valid and semantically correct HTML markup. Besides that it provides some neat features to spice up specific HTML elements, like a feature to define namespaces for the HTML element.
-Users manual
-A user manual does not apply as this extension is intended to be used by administrators and developers only.
 Administration
 Installation
 1. Import and install the extension.
@@ -53,42 +50,39 @@ includeStylesFirst
 boolean
 Ensures that CSS styles for the content are included first, before styles of all other installed extensions.
 1
-markup
-.doctype
+markup.
+doctype
 string
 Overrides the default HTML doctype. Setting this is completely optionally as TYPO3 already renders a nice HTML5 doctype.
 Empty.
-markup
-.htmlTag 
+markup.
+htmlTag 
 string
 Overrides the default HTML tag. Specific markers are replaced:
 {$language} will be replaced by a 2-character language token.
 {$namespace} will be replaced by the defined namespaces.
 See file.
-markup
-.htmlTag.namespace
+markup.
+htmlTag.
+namespace
 array
 Definitions of namespaces which get wrapped into the HTML tag. 
 See file.
-clean
-.removeScriptAttributes
+clean.
+removeScriptAttributes
 boolean
 Removes the type attribute from script tags in the source.
 1
-clean
-.removeStyleAttributes
+clean.
+removeStyleAttributes
 boolean
 Removes the type and the media=”all” attribute from related stylesheets.
 1
-clean
-.removeImageAttributes
+clean.
+removeImageAttributes
 boolean
 Removes the width and the height attribute from image tags.
 1
-
-Tutorial
-No tutorial available.
-Known problems
-No problems known.
-To-Do list
-Hype HTML5 on http://forge.typo3.org/
+Modernizr
+Hype HTML5 includes a small, custom modernizr build, which helps to have a better HTML5 experience for all browsers. Modernizr uses a HTML5 shim to enable IE6 to style unknown HTML5 elements. Modernizr was built with the following features enabled: iepp, respond, mq, cssclasses, teststyles, load. If you need more features, it’s recommended to configure your own build and use it instead of the one which comes with Hype HTML5.
+To use your own Modernizr build you just need to include it as a JS library via TypoScript. Hype HTML5 checks the included JS libraries and if one library is called ‘modernizr’ it won’t include the own build. Another way is to disable the inclusion of the modernizr build, setting common.enableScript to 0 and including your own build.
