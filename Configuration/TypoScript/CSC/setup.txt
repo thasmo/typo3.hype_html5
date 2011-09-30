@@ -188,6 +188,15 @@ lib {
 			}
 
 			required = 1
+
+			if {
+				equals {
+					field = header_layout
+				}
+
+				value = 100
+				negate = 1
+			}
 		}
 
 		# Group
