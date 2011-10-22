@@ -1515,25 +1515,41 @@ tt_content {
 	shortcut {
 
 		# Records
-		10 = RECORDS
+		10 = CASE
 		10 {
-			source {
-				field = records
+			key {
+				field = layout
 			}
 
-			tables = {$styles.content.tables}
+			0 = RECORDS
+			0 {
+				source.field = records
+				tables = {$content.shortcut.tables}
 
-			conf {
-				tt_content =< tt_content
-				tt_address =< tt_address
-				tt_links =< tt_links
-				tt_guest =< tt_guest
-				tt_board =< tt_board
-				tt_calender =< tt_calender
-				tt_rating =< tt_rating
-				tt_products =< tt_products
-				tt_news =< tt_news
-				tt_poll =< plugin.tt_poll
+				conf {
+					tt_content =< tt_content
+					tt_address =< tt_address
+					tt_links =< tt_links
+					tt_guest =< tt_guest
+					tt_board =< tt_board
+					tt_calender =< tt_calender
+					tt_rating < tt_rating
+					tt_products =< tt_products
+					tt_news =< tt_news
+					tt_poll =< plugin.tt_poll
+				}
+			}
+
+			1 = RECORDS
+			1 {
+				source.field = records
+				tables = {$content.shortcut.tables}
+				conf {
+					tt_poll =< plugin.tt_poll
+					tt_poll {
+						code = RESULT,SUBMITTEDVOTE
+					}
+				}
 			}
 		}
 	}
