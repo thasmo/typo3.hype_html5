@@ -1515,8 +1515,8 @@ tt_content {
 	shortcut {
 
 		# Records
-		10 = CASE
-		10 {
+		20 = CASE
+		20 {
 			key {
 				field = layout
 			}
