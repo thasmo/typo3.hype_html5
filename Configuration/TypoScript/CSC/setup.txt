@@ -383,6 +383,16 @@ tt_content {
 	# Wrap
 	stdWrap {
 		innerWrap {
+
+			if {
+				equals {
+					field = CType
+				}
+
+				value = header
+				negate = 1
+			}
+
 			cObject = COA
 			cObject {
 
@@ -622,6 +632,34 @@ tt_content {
 
 		# Header
 		10 < lib.stdheader
+		10 {
+			# Wrap
+			stdWrap {
+				innerWrap {
+					cObject {
+
+						# id attribute
+						15 = TEXT
+						15 {
+							noTrimWrap = | id="csc-|"|
+							field = uid
+						}
+
+						# class attribute
+						20 {
+							# wrapper class names
+							5 < tt_content.stdWrap.innerWrap.cObject.10.default.20
+							5 {
+								stdWrap >
+								stdWrap {
+									noTrimWrap = || |
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	# Text
