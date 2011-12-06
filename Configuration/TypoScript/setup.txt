@@ -8,9 +8,9 @@ plugin.tx_hypehtml5 {
 		doctype =
 
 		htmlTag (
-			<!--[if lt IE 7]><html class="no-js ie6 legacy" lang="{$language}"{$namespace}><![endif]-->
-			<!--[if IE 7]>   <html class="no-js ie7 legacy" lang="{$language}"{$namespace}><![endif]-->
-			<!--[if IE 8]>   <html class="no-js ie8 legacy" lang="{$language}"{$namespace}><![endif]-->
+			<!--[if lt IE 7]><html class="no-js ie6 oldie" lang="{$language}"{$namespace}><![endif]-->
+			<!--[if IE 7]>   <html class="no-js ie7 oldie" lang="{$language}"{$namespace}><![endif]-->
+			<!--[if IE 8]>   <html class="no-js ie8 oldie" lang="{$language}"{$namespace}><![endif]-->
 			<!--[if gt IE 8]><!--><html class="no-js" lang="{$language}"{$namespace}><!--<![endif]-->
 		)
 
