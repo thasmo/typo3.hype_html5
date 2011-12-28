@@ -1280,7 +1280,7 @@ tt_content {
 
 				renderObj = TEXT
 				renderObj {
-					wrap = <li class="csc-section">|</li>
+					wrap = <li>|</li>
 
 					field = header
 					fieldRequired = header
