@@ -261,7 +261,7 @@ lib {
 									data = TSFE:id
 								}
 
-								section = csc-{field:uid}
+								section = c{field:uid}
 								section {
 									insertData = 1
 								}
@@ -412,7 +412,7 @@ tt_content {
 						# Opening tag
 						10 = TEXT
 						10 {
-							value = <section id="csc-{field:uid}"
+							value = <section id="c{field:uid}"
 							insertData = 1
 						}
 
@@ -576,7 +576,7 @@ tt_content {
 					shortcut {
 
 						# Opening tag
-						10.value = <div id="csc-{field:uid}"
+						10.value = <div id="c{field:uid}"
 
 						# Class attribute
 						20.20.stdWrap.noTrimWrap = | csc-||
@@ -589,7 +589,7 @@ tt_content {
 					div {
 
 						# Opening tag
-						10.value = <div id="csc-{field:uid}"
+						10.value = <div id="c{field:uid}"
 
 						# Class attribute
 						20.20.stdWrap.noTrimWrap = | csc-||
@@ -602,7 +602,7 @@ tt_content {
 					html {
 
 						# Opening tag
-						10.value = <div id="csc-{field:uid}"
+						10.value = <div id="c{field:uid}"
 
 						# Class attribute
 						20.20.stdWrap.noTrimWrap = | csc-||
@@ -641,7 +641,7 @@ tt_content {
 						# id attribute
 						15 = TEXT
 						15 {
-							noTrimWrap = | id="csc-|"|
+							noTrimWrap = | id="c|"|
 							field = uid
 						}
 
@@ -1047,7 +1047,7 @@ tt_content {
 
 					# Odd bullet
 					1 {
-						dataWrap = <li id="csc-{field:uid}:{register:SPLIT_COUNT}" class="csc-odd">|</li>
+						dataWrap = <li id="c{field:uid}:{register:SPLIT_COUNT}" class="csc-odd">|</li>
 
 						current = 1
 						trim = 1
@@ -1057,7 +1057,7 @@ tt_content {
 					# Even bullet
 					2 < .1
 					2 {
-						dataWrap = <li id="csc-{field:uid}:{register:SPLIT_COUNT}" class="csc-even">|</li>
+						dataWrap = <li id="c{field:uid}:{register:SPLIT_COUNT}" class="csc-even">|</li>
 					}
 				}
 			}
@@ -1108,7 +1108,7 @@ tt_content {
 				10 = COA
 				10 {
 					stdWrap {
-						wrap = <dt id="csc-{field:uid}:{register:filename}" class="csc-odd csc-file-{register:fileExtension}">|</dt> |*| <dt id="csc-{field:uid}:{register:filename}" class="csc-even csc-file-{register:fileExtension}">|</dt> || <dt id="csc-{field:uid}:{register:filename}" class="csc-odd csc-file-{register:fileExtension}">|</dt> |*|
+						wrap = <dt id="c{field:uid}:{register:filename}" class="csc-odd csc-file-{register:fileExtension}">|</dt> |*| <dt id="c{field:uid}:{register:filename}" class="csc-even csc-file-{register:fileExtension}">|</dt> || <dt id="c{field:uid}:{register:filename}" class="csc-odd csc-file-{register:fileExtension}">|</dt> |*|
 						insertData = 1
 					}
 
