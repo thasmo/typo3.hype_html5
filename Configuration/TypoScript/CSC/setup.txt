@@ -1921,11 +1921,6 @@ tt_content {
 	div = COA
 	div {
 
-		# Wrap
-		stdWrap {
-			wrap = <div class="csc-divider">|</div>
-		}
-
 		# Divider
 		10 = TEXT
 		10 {
