@@ -53,7 +53,7 @@ class ux_t3lib_parsehtml extends t3lib_parsehtml {
 
 				# Remove type attribute from scripts.
 				case preg_match('~^<script~iU', $tag) && $this->settings['clean.']['removeScriptAttributes']:
-					$tag = str_ireplace(' type="text/javascript"', '', $tag);
+					$tag = preg_replace('~[ ]*type="text/javascript"[ ]*~iU', '', $tag);
 					break;
 
 				# Remove type and media (all) attributes from stylesheet links.
