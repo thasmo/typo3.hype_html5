@@ -11,6 +11,7 @@ if(!defined('TYPO3_MODE'))
 if(TYPO3_MODE == 'FE') {
 
 	# TSLib Frontend
+	$GLOBALS['TYPO3_CONF_VARS']['FE']['XCLASS']['tslib/class.tslib_fe.php'] = t3lib_extMgm::extPath('hype_html5', 'Classes/XClass/class.ux_tslib_fe.php');
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['configArrayPostProc'][$_EXTKEY] = 'EXT:' . $_EXTKEY . '/Classes/Hook/class.user_hypehtml5_tslib_fe.php:user_hypehtml5_tslib_fe->configArrayPostProc';
 
 	# Page renderer
