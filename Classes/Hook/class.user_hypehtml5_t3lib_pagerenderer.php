@@ -15,10 +15,11 @@ class user_hypehtml5_t3lib_pagerenderer {
 	}
 
 	/**
-	 * Adds modernizr HTML5 support for browsers
+	 * Adds Modernizr and Chrome Frame Installer
 	 */
 	public function renderPreProcess($parameters, $renderer) {
 
+		# add modernizr
 		if($this->settings['common.']['enableScript'] &&
 		   !$parameters['jsLibs']['modernizr'] &&
 		   in_array($GLOBALS['TSFE']->config['config']['doctype'], array('html5', 'html_5'))) {
@@ -29,6 +30,27 @@ class user_hypehtml5_t3lib_pagerenderer {
 				'section' => 1,
 				'compress' => FALSE,
 				'forceOnTop' => TRUE
+			);
+		}
+
+		# add chrome frame installer
+		if($this->settings['common.']['installChromeFrame']) {
+			$parameters['jsFiles']['//ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js'] = array(
+				'type' => 'text/javascript',
+				'section' => 2,
+				'compress' => FALSE,
+				'forceOnTop' => FALSE,
+				'external' => TRUE,
+				'allWrap' => '<!--[if lt IE 7]>|<![endif]-->'
+			);
+
+			$parameters['jsFiles']['typo3conf/ext/hype_html5/Resources/Public/Media/Script/chrome-frame.js'] = array(
+				'type' => 'text/javascript',
+				'section' => 2,
+				'compress' => FALSE,
+				'forceOnTop' => FALSE,
+				'external' => TRUE,
+				'allWrap' => '<!--[if lt IE 7]>|<![endif]-->'
 			);
 		}
 	}

@@ -2,6 +2,7 @@ plugin.tx_hypehtml5 {
 	common {
 		enableScript = 1
 		includeStylesFirst = 1
+		installChromeFrame = 1
 	}
 
 	clean {
