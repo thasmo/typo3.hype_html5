@@ -2,7 +2,7 @@ plugin.tx_hypehtml5 {
 	common {
 		enableScript = {$plugin.tx_hypehtml5.common.enableScript}
 		includeStylesFirst = {$plugin.tx_hypehtml5.common.includeStylesFirst}
-		installChromeFrame = {$plugin.tx_hypehtml5.common.promptChromeFrame}
+		installChromeFrame = {$plugin.tx_hypehtml5.common.installChromeFrame}
 	}
 
 	markup {
