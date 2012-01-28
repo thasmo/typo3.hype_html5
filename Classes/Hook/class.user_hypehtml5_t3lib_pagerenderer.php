@@ -29,28 +29,33 @@ class user_hypehtml5_t3lib_pagerenderer {
 				'type' => 'text/javascript',
 				'section' => 1,
 				'compress' => FALSE,
-				'forceOnTop' => TRUE
+				'forceOnTop' => TRUE,
 			);
 		}
 
 		# add chrome frame installer
 		if($this->settings['common.']['installChromeFrame']) {
 			$parameters['jsFiles']['//ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js'] = array(
+				'file' => '//ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js',
 				'type' => 'text/javascript',
 				'section' => 2,
 				'compress' => FALSE,
 				'forceOnTop' => FALSE,
 				'external' => TRUE,
-				'allWrap' => '<!--[if lt IE 7]>|<![endif]-->'
+				'excludeFromConcatenation' => TRUE,
+				'disableCompression' => TRUE,
+				'allWrap' => '<!--[if lt IE 7]>|<![endif]-->',
 			);
 
 			$parameters['jsFiles']['typo3conf/ext/hype_html5/Resources/Public/Media/Script/chrome-frame.js'] = array(
+				'file' => 'typo3conf/ext/hype_html5/Resources/Public/Media/Script/chrome-frame.js',
 				'type' => 'text/javascript',
 				'section' => 2,
 				'compress' => FALSE,
 				'forceOnTop' => FALSE,
 				'external' => TRUE,
-				'allWrap' => '<!--[if lt IE 7]>|<![endif]-->'
+				'excludeFromConcatenation' => TRUE,
+				'allWrap' => '<!--[if lt IE 7]>|<![endif]-->',
 			);
 		}
 	}
