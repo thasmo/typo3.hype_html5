@@ -631,7 +631,7 @@ tt_content {
 	header {
 
 		# Header
-		10 < lib.stdheader
+		10 =< lib.stdheader
 		10 {
 			# Wrap
 			stdWrap {
@@ -667,7 +667,7 @@ tt_content {
 	text {
 
 		# Header
-		10 < lib.stdheader
+		10 =< lib.stdheader
 
 		# Text
 		20 = TEXT
@@ -684,7 +684,7 @@ tt_content {
 	image {
 
 		# Header
-		10 < lib.stdheader
+		10 =< lib.stdheader
 
 		# Images
 		20 = USER
@@ -990,7 +990,7 @@ tt_content {
 				isLessThan.field = imageorient
 			}
 
-			10 < lib.stdheader
+			10 =< lib.stdheader
 		}
 
 		# Content
@@ -1007,7 +1007,7 @@ tt_content {
 						isGreaterThan.field = imageorient
 					}
 
-					10 < lib.stdheader
+					10 =< lib.stdheader
 				}
 
 				# Text
@@ -1021,7 +1021,7 @@ tt_content {
 	bullets {
 
 		# Header
-		10 < lib.stdheader
+		10 =< lib.stdheader
 
 		# Bullets
 		20 = COA
@@ -1069,7 +1069,7 @@ tt_content {
 	table {
 
 		# Header
-		10 < lib.stdheader
+		10 =< lib.stdheader
 
 		# Table
 		20 = USER
@@ -1090,7 +1090,7 @@ tt_content {
 	uploads {
 
 		# Header
-		10 < lib.stdheader
+		10 =< lib.stdheader
 
 		# Files
 		20 = USER
@@ -1197,7 +1197,7 @@ tt_content {
 	menu {
 
 		# Header
-		10 < lib.stdheader
+		10 =< lib.stdheader
 
 		# Menu
 		20 = CASE
@@ -1365,7 +1365,7 @@ tt_content {
 	multimedia {
 
 		# Header
-		10 < lib.stdheader
+		10 =< lib.stdheader
 
 		# Object
 		20 = MULTIMEDIA
@@ -1386,7 +1386,7 @@ tt_content {
 	swfobject {
 
 		# Header
-		10 < lib.stdheader
+		10 =< lib.stdheader
 
 		# Object
 		20 = SWFOBJECT
@@ -1448,7 +1448,7 @@ tt_content {
 	qtobject {
 
 		# Header
-		10 < lib.stdheader
+		10 =< lib.stdheader
 
 		# Object
 		20 = QTOBJECT
@@ -1510,7 +1510,7 @@ tt_content {
 	media {
 
 		# Header
-		10 < lib.stdheader
+		10 =< lib.stdheader
 
 		# Media
 		20 = MEDIA
@@ -1597,7 +1597,7 @@ tt_content {
 	mailform {
 
 		# Header
-		10 < lib.stdheader
+		10 =< lib.stdheader
 		10 {
 			10.20 >
 		}
@@ -1654,7 +1654,7 @@ tt_content {
 	search {
 
 		# Header
-		10 < lib.stdheader
+		10 =< lib.stdheader
 
 		# Result
 		20 = SEARCHRESULT
@@ -1801,7 +1801,7 @@ tt_content {
 	login {
 
 		# Header
-		10 < lib.stdheader
+		10 =< lib.stdheader
 
 		# Form
 		20 {
@@ -1865,7 +1865,7 @@ tt_content {
 	list {
 
 		# Header
-		10 < lib.stdheader
+		10 =< lib.stdheader
 
 		# Plugin
 		20 = CASE
