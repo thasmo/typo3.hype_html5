@@ -16,20 +16,42 @@ class user_hypehtml5_t3lib_pagerenderer {
 
 	/**
 	 * Adds Modernizr and Chrome Frame Installer
+	 *
+	 * @param array $parameters
+	 * @param t3lib_PageRenderer $renderer
+	 * @return void
 	 */
 	public function renderPreProcess($parameters, $renderer) {
 
-		# add modernizr
-		if($this->settings['common.']['enableScript'] &&
-		   !$parameters['jsLibs']['modernizr'] &&
+		# add respond.js
+		if($this->settings['common.']['enableRespondJs'] &&
 		   in_array($GLOBALS['TSFE']->config['config']['doctype'], array('html5', 'html_5'))) {
 
-			$parameters['jsLibs']['modernizr'] = array(
-				'file' => 'typo3conf/ext/hype_html5/Resources/Public/Media/Script/modernizr.js',
+			$parameters['jsLibs']['respond'] = array(
+				'file' => 'typo3conf/ext/hype_html5/Resources/Public/Media/Script/respond.min.js',
 				'type' => 'text/javascript',
 				'section' => 1,
 				'compress' => FALSE,
-				'forceOnTop' => TRUE,
+				'forceOnTop' => FALSE,
+				'external' => FALSE,
+				'excludeFromConcatenation' => FALSE,
+				'disableCompression' => FALSE,
+			);
+		}
+
+		# add modernizr
+		if($this->settings['common.']['enableModernizr'] &&
+		   in_array($GLOBALS['TSFE']->config['config']['doctype'], array('html5', 'html_5'))) {
+
+			$parameters['jsLibs']['modernizr'] = array(
+				'file' => 'typo3conf/ext/hype_html5/Resources/Public/Media/Script/modernizr.min.js',
+				'type' => 'text/javascript',
+				'section' => 1,
+				'compress' => FALSE,
+				'forceOnTop' => FALSE,
+				'external' => FALSE,
+				'excludeFromConcatenation' => FALSE,
+				'disableCompression' => FALSE,
 			);
 		}
 

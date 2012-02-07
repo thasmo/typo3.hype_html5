@@ -1,6 +1,7 @@
 plugin.tx_hypehtml5 {
 	common {
-		enableScript = {$plugin.tx_hypehtml5.common.enableScript}
+		enableRespondJs = {$plugin.tx_hypehtml5.common.enableRespondJs}
+		enableModernizr = {$plugin.tx_hypehtml5.common.enableModernizr}
 		includeStylesFirst = {$plugin.tx_hypehtml5.common.includeStylesFirst}
 		installChromeFrame = {$plugin.tx_hypehtml5.common.installChromeFrame}
 	}

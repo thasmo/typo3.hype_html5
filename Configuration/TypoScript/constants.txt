@@ -1,6 +1,7 @@
 plugin.tx_hypehtml5 {
 	common {
-		enableScript = 1
+		enableRespondJs = 1
+		enableModernizr = 1
 		includeStylesFirst = 1
 		installChromeFrame = 1
 	}
