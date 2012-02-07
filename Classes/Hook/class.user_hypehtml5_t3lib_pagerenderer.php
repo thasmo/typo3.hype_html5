@@ -23,6 +23,23 @@ class user_hypehtml5_t3lib_pagerenderer {
 	 */
 	public function renderPreProcess($parameters, $renderer) {
 
+		# add selectivizr.js
+		if($this->settings['common.']['enableSelectivizr'] &&
+		   in_array($GLOBALS['TSFE']->config['config']['doctype'], array('html5', 'html_5'))) {
+
+			$parameters['jsLibs']['selectivizr'] = array(
+				'file' => 'typo3conf/ext/hype_html5/Resources/Public/Media/Script/selectivizr.min.js',
+				'type' => 'text/javascript',
+				'section' => 1,
+				'compress' => FALSE,
+				'forceOnTop' => FALSE,
+				'external' => FALSE,
+				'excludeFromConcatenation' => TRUE,
+				'disableCompression' => FALSE,
+				'allWrap' => '<!--[if lt IE 9]>|<![endif]-->',
+			);
+		}
+
 		# add respond.js
 		if($this->settings['common.']['enableRespondJs'] &&
 		   in_array($GLOBALS['TSFE']->config['config']['doctype'], array('html5', 'html_5'))) {
@@ -34,12 +51,13 @@ class user_hypehtml5_t3lib_pagerenderer {
 				'compress' => FALSE,
 				'forceOnTop' => FALSE,
 				'external' => FALSE,
-				'excludeFromConcatenation' => FALSE,
+				'excludeFromConcatenation' => TRUE,
 				'disableCompression' => FALSE,
+				'allWrap' => '<!--[if lt IE 9]>|<![endif]-->',
 			);
 		}
 
-		# add modernizr
+		# add modernizr.js
 		if($this->settings['common.']['enableModernizr'] &&
 		   in_array($GLOBALS['TSFE']->config['config']['doctype'], array('html5', 'html_5'))) {
 

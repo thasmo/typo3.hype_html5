@@ -1,5 +1,6 @@
 plugin.tx_hypehtml5 {
 	common {
+		enableSelectivizr = {$plugin.tx_hypehtml5.common.enableSelectivizr}
 		enableRespondJs = {$plugin.tx_hypehtml5.common.enableRespondJs}
 		enableModernizr = {$plugin.tx_hypehtml5.common.enableModernizr}
 		includeStylesFirst = {$plugin.tx_hypehtml5.common.includeStylesFirst}
@@ -10,9 +11,9 @@ plugin.tx_hypehtml5 {
 		doctype =
 
 		htmlTag (
-			<!--[if lt IE 7]><html class="no-js ie6 oldie" lang="{$language}"{$namespace}><![endif]-->
-			<!--[if IE 7]>   <html class="no-js ie7 oldie" lang="{$language}"{$namespace}><![endif]-->
-			<!--[if IE 8]>   <html class="no-js ie8 oldie" lang="{$language}"{$namespace}><![endif]-->
+			<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="{$language}"{$namespace}><![endif]-->
+			<!--[if IE 7]>   <html class="no-js lt-ie9 lt-ie8" lang="{$language}"{$namespace}><![endif]-->
+			<!--[if IE 8]>   <html class="no-js lt-ie9" lang="{$language}"{$namespace}><![endif]-->
 			<!--[if gt IE 8]><!--><html class="no-js" lang="{$language}"{$namespace}><!--<![endif]-->
 		)
 

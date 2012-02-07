@@ -1,9 +1,9 @@
 EXT: Hype HTML5
 Extension Key: hype_html5
 Language: en
-Version: 1.3.6
-Keywords: html5, modernizr, csc, style, content
-Copyright 2011, Thomas “Thasmo” Deinhamer, <thasmo@gmail.com>
+Version: 1.4.0
+Keywords: html5, csc, style, content, modernizr, selectivizr, respond.js
+Copyright 2012, Thomas “Thasmo” Deinhamer, <thasmo@gmail.com>
 
 This document is published under the Open Content License
 available from http://www.opencontent.org/opl.shtml
@@ -13,15 +13,11 @@ The content of this document is related to TYPO3
 Table of Contents
 Introduction	3
 What does it do?	3
-Users manual	4
-Administration	5
-Installation	5
-Configuration	6
-TypoScript	6
-Modernizr	6
-Tutorial	7
-Known problems	8
-To-Do list	9
+Administration	4
+Installation	4
+Configuration	5
+TypoScript	5
+Modernizr	5
 
 Introduction
 What does it do?
@@ -32,7 +28,7 @@ Installation
 2. Include the static typoscript template files.
 3. Adapt the configuration to your needs.
 Note
-You may not include the static typoscript template files from the extension css_styled_content.
+You may not include the static TypoScript template files from the extension css_styled_content.
 To fully enable HTML5 capabilities you need to configure config.doctype with the value html5.
 Configuration
 TypoScript
@@ -41,9 +37,19 @@ Data type:
 Description:
 Default:
 common.
-enableScript
+enableSelectivizr
 boolean
-Enables the HTML5 script to be able to style new HTML5 elements in legacy browsers like IE.
+Includes the selectivizr script to enable various CSS3 pseudo classes and selectors in IE 6, 7 and 8.
+1
+common.
+enableRespondJs
+boolean
+Includes the respond.js script to enable simple CSS media queries in IE 6, 7 and 8.
+1
+common.
+enableModernizr
+boolean
+Includes a small custom modernizr build to enable HTML5 elements in IE 6, 7 and 8.
 1
 common.
 includeStylesFirst
@@ -84,5 +90,5 @@ boolean
 Removes the width and the height attribute from image tags.
 1
 Modernizr
-Hype HTML5 includes a small, custom modernizr build, which helps to have a better HTML5 experience for all browsers. Modernizr uses a HTML5 shim to enable IE6 to style unknown HTML5 elements. Modernizr was built with the following features enabled: iepp, respond, mq, cssclasses, teststyles, load. If you need more features, it’s recommended to configure your own build and use it instead of the one which comes with Hype HTML5.
-To use your own Modernizr build you just need to include it as a JS library via TypoScript. Hype HTML5 checks the included JS libraries and if one library is called ‘modernizr’ it won’t include the own build. Another way is to disable the inclusion of the modernizr build, setting common.enableScript to 0 and including your own build.
+Hype HTML5 includes a small, custom modernizr build, which helps to have a better HTML5 experience for all browsers. Modernizr uses a HTML5 shim to enable IE6 to style unknown HTML5 elements. Modernizr was built with the following features enabled: printshiv, mq, cssclasses, teststyles, load. If you need more features, it’s recommended to configure your own build and use it instead of the one which comes with Hype HTML5.
+To use your own Modernizr build you just need to include it as a JS library via TypoScript and disable the one from Hype HTML5.

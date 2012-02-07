@@ -3,7 +3,7 @@
 ########################################################################
 # Extension Manager/Repository config file for ext "hype_html5".
 #
-# Auto generated 28-01-2012 23:04
+# Auto generated 07-02-2012 23:28
 #
 # Manual updates:
 # Only the data in the array - everything else is removed by next
@@ -15,7 +15,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'description' => 'Brings the future to TYPO3. Content is rendered using appropriate HTML5 elements using less wraps but useful class names.',
 	'category' => 'fe',
 	'shy' => 0,
-	'version' => '1.3.12',
+	'version' => '1.4.0',
 	'dependencies' => 'css_styled_content',
 	'conflicts' => 'html5meta_t3lib_pagerenderer,html5_kickstart,html5_readykit,html5boilerplate,crt_bodytext_variables',
 	'priority' => '',
@@ -48,7 +48,7 @@ $EM_CONF[$_EXTKEY] = array(
 		'suggests' => array(
 		),
 	),
-	'_md5_values_when_last_written' => 'a:19:{s:12:"ext_icon.gif";s:4:"6226";s:17:"ext_localconf.php";s:4:"997e";s:14:"ext_tables.php";s:4:"967b";s:10:"readme.txt";s:4:"2e2b";s:56:"Classes/Hook/class.user_hypehtml5_t3lib_pagerenderer.php";s:4:"d915";s:46:"Classes/Hook/class.user_hypehtml5_tslib_fe.php";s:4:"435a";s:43:"Classes/XClass/class.ux_t3lib_parsehtml.php";s:4:"dff2";s:36:"Classes/XClass/class.ux_tslib_fe.php";s:4:"18a0";s:38:"Configuration/TypoScript/constants.txt";s:4:"65bc";s:34:"Configuration/TypoScript/setup.txt";s:4:"ca48";s:42:"Configuration/TypoScript/CSC/constants.txt";s:4:"2969";s:42:"Configuration/TypoScript/CSC/editorcfg.txt";s:4:"6f06";s:38:"Configuration/TypoScript/CSC/setup.txt";s:4:"e4be";s:33:"Resources/Public/Media/_.htaccess";s:4:"9119";s:45:"Resources/Public/Media/Script/chrome-frame.js";s:4:"848c";s:42:"Resources/Public/Media/Script/modernizr.js";s:4:"5d8f";s:14:"doc/manual.pdf";s:4:"5da4";s:14:"doc/manual.sxw";s:4:"ecc1";s:14:"doc/manual.txt";s:4:"351a";}',
+	'_md5_values_when_last_written' => 'a:20:{s:12:"ext_icon.gif";s:4:"6226";s:17:"ext_localconf.php";s:4:"997e";s:14:"ext_tables.php";s:4:"967b";s:10:"readme.txt";s:4:"2e2b";s:56:"Classes/Hook/class.user_hypehtml5_t3lib_pagerenderer.php";s:4:"d6d8";s:46:"Classes/Hook/class.user_hypehtml5_tslib_fe.php";s:4:"435a";s:43:"Classes/XClass/class.ux_t3lib_parsehtml.php";s:4:"dff2";s:36:"Classes/XClass/class.ux_tslib_fe.php";s:4:"18a0";s:38:"Configuration/TypoScript/constants.txt";s:4:"8ad1";s:34:"Configuration/TypoScript/setup.txt";s:4:"87e2";s:42:"Configuration/TypoScript/CSC/constants.txt";s:4:"2969";s:42:"Configuration/TypoScript/CSC/editorcfg.txt";s:4:"6f06";s:38:"Configuration/TypoScript/CSC/setup.txt";s:4:"a817";s:45:"Resources/Public/Media/Script/chrome-frame.js";s:4:"848c";s:46:"Resources/Public/Media/Script/modernizr.min.js";s:4:"e1de";s:44:"Resources/Public/Media/Script/respond.min.js";s:4:"f6ca";s:48:"Resources/Public/Media/Script/selectivizr.min.js";s:4:"c702";s:14:"doc/manual.pdf";s:4:"a270";s:14:"doc/manual.sxw";s:4:"f4ac";s:14:"doc/manual.txt";s:4:"0d75";}',
 	'suggests' => array(
 	),
 );
