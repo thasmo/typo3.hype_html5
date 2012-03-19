@@ -925,7 +925,7 @@ tt_content {
 
 					imageRowStdWrap.dataWrap = <div class="csc-row">|</div>
 					imageLastRowStdWrap.dataWrap = <div class="csc-row csc-row-last">|</div>
-					noRowsStdWrap.wrap =
+					noRowsStdWrap.wrap = |
 					oneImageStdWrap.dataWrap = <figure class="csc-image###CLASSES###">|</figure>
 					imgTagStdWrap.wrap = |
 
@@ -2048,13 +2048,12 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 	/* Image */
 	.csc-image {
 		display: table;
+		table-layout: fixed;
+		float: left;
 		margin-bottom: {$styles.content.imgtext.rowSpace}px;
 	}
 	.csc-image img {
 		display: block;
-	}
-	.csc-row .csc-image {
-		float: left;
 	}
 
 	/* Image, left */
@@ -2146,6 +2145,9 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 	}
 	.csc-imagewrap .csc-column-last {
 		margin-right: 0;
+	}
+	.csc-imagewrap .csc-column .csc-image {
+		clear: both;
 	}
 
 	/* Row */
