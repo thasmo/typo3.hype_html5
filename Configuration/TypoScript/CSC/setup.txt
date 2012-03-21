@@ -2048,7 +2048,7 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 		display: table;
 		table-layout: fixed;
 		float: left;
-		margin-bottom: {$styles.content.imgtext.rowSpace}px;
+		margin: 0 0 {$styles.content.imgtext.rowSpace}px 0;
 	}
 	.csc-image img {
 		display: block;
