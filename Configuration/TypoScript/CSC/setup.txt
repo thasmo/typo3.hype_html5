@@ -2014,10 +2014,8 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 	.clearfix:after,
 	.csc-default:before,
 	.csc-default:after {
-		content: "\0020";
-		display: block;
-		height: 0;
-		overflow: hidden;
+		display: table;
+		content: "";
 	}
 	.clearfix:after,
 	.csc-default:after {
@@ -2025,7 +2023,7 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 	}
 	.clearfix,
 	.csc-default {
-		zoom: 1;
+		*zoom: 1;
 	}
 
 	/* Headers */
