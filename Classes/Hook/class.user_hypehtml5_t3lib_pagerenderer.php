@@ -23,6 +23,18 @@ class user_hypehtml5_t3lib_pagerenderer {
 	 */
 	public function renderPreProcess($parameters, $renderer) {
 
+		# add normalize.css
+		if($this->settings['common.']['enableNormalize']) {
+			$parameters['cssFiles']['typo3conf/ext/hype_html5/Resources/Public/Media/Style/normalize.css'] = array(
+				'rel' => 'stylesheet',
+				'media' => 'all',
+				'title' => '',
+				'compress' => FALSE,
+				'forceOnTop' => TRUE,
+				'allWrap' => ''
+			);
+		}
+
 		# add selectivizr.js
 		if($this->settings['common.']['enableSelectivizr'] &&
 		   in_array($GLOBALS['TSFE']->config['config']['doctype'], array('html5', 'html_5'))) {
@@ -82,7 +94,7 @@ class user_hypehtml5_t3lib_pagerenderer {
 				'compress' => FALSE,
 				'forceOnTop' => FALSE,
 				'external' => TRUE,
-				'excludeFromConcatenation' => TRUE,
+				'excludeFromConcatenation' => FALSE,
 				'disableCompression' => TRUE,
 				'allWrap' => '<!--[if lt IE 7]>|<![endif]-->',
 			);
@@ -93,8 +105,8 @@ class user_hypehtml5_t3lib_pagerenderer {
 				'section' => 2,
 				'compress' => FALSE,
 				'forceOnTop' => FALSE,
-				'external' => TRUE,
-				'excludeFromConcatenation' => TRUE,
+				'external' => FALSE,
+				'excludeFromConcatenation' => FALSE,
 				'allWrap' => '<!--[if lt IE 7]>|<![endif]-->',
 			);
 		}

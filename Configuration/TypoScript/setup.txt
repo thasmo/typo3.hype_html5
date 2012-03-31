@@ -1,5 +1,6 @@
 plugin.tx_hypehtml5 {
 	common {
+		enableNormalize = {$plugin.tx_hypehtml5.common.enableNormalize}
 		enableSelectivizr = {$plugin.tx_hypehtml5.common.enableSelectivizr}
 		enableRespondJs = {$plugin.tx_hypehtml5.common.enableRespondJs}
 		enableModernizr = {$plugin.tx_hypehtml5.common.enableModernizr}
