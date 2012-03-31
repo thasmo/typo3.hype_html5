@@ -8,6 +8,11 @@ class user_hypehtml5_t3lib_pagerenderer {
 	protected $settings;
 
 	/**
+	 * @var string Holds the extension's configuration.
+	 */
+	protected $inlineScript;
+
+	/**
 	 *
 	 */
 	public function __construct() {
@@ -36,36 +41,30 @@ class user_hypehtml5_t3lib_pagerenderer {
 		}
 
 		# add selectivizr.js
-		if($this->settings['common.']['enableSelectivizr'] &&
-		   in_array($GLOBALS['TSFE']->config['config']['doctype'], array('html5', 'html_5'))) {
-
-			$parameters['jsLibs']['selectivizr'] = array(
-				'file' => 'typo3conf/ext/hype_html5/Resources/Public/Media/Script/selectivizr.min.js',
-				'type' => 'text/javascript',
-				'section' => 1,
-				'compress' => FALSE,
-				'forceOnTop' => FALSE,
-				'external' => FALSE,
-				'excludeFromConcatenation' => TRUE,
-				'disableCompression' => FALSE,
-				'allWrap' => '<!--[if lt IE 9]>|<![endif]-->',
-			);
+		if($this->settings['common.']['enableSelectivizr'] && in_array($GLOBALS['TSFE']->config['config']['doctype'], array('html5', 'html_5'))) {
+			$this->inlineScript .= 'if(/*@cc_on!@*/false){if(typeof Modernizr !== \'undefined\'){Modernizr.load(\'/typo3conf/ext/hype_html5/Resources/Public/Media/Script/selectivizr.min.js\');}}';
 		}
 
 		# add respond.js
-		if($this->settings['common.']['enableRespondJs'] &&
-		   in_array($GLOBALS['TSFE']->config['config']['doctype'], array('html5', 'html_5'))) {
+		if($this->settings['common.']['enableRespondJs'] && in_array($GLOBALS['TSFE']->config['config']['doctype'], array('html5', 'html_5'))) {
+			$this->inlineScript .= 'if(typeof Modernizr !== \'undefined\'){Modernizr.load({test: Modernizr.mq(\'only all\'), nope: \'/typo3conf/ext/hype_html5/Resources/Public/Media/Script/respond.min.js\'});}';
+		}
 
-			$parameters['jsLibs']['respond'] = array(
-				'file' => 'typo3conf/ext/hype_html5/Resources/Public/Media/Script/respond.min.js',
+		if($this->inlineScript) {
+
+			# generate file
+			$filePath = TSpagegen::inline2TempFile($this->inlineScript, 'js');
+
+			# add file
+			$parameters['jsFiles'][$filePath] = array(
+				'file' => $filePath,
 				'type' => 'text/javascript',
-				'section' => 1,
+				'section' => 2,
 				'compress' => FALSE,
-				'forceOnTop' => FALSE,
+				'forceOnTop' => TRUE,
 				'external' => FALSE,
-				'excludeFromConcatenation' => TRUE,
-				'disableCompression' => FALSE,
-				'allWrap' => '<!--[if lt IE 9]>|<![endif]-->',
+				'excludeFromConcatenation' => FALSE,
+				'disableCompression' => TRUE,
 			);
 		}
 
