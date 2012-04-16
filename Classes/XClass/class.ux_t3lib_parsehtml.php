@@ -46,8 +46,7 @@ class ux_t3lib_parsehtml extends t3lib_parsehtml {
 
 		$tag = parent::processTag($value, $conf, $endTag, $protected);
 
-		if(!$protected && !$endTag && $conf['xhtml'] &&
-		   in_array($GLOBALS['TSFE']->config['config']['doctype'], array('html5', 'html_5'))) {
+		if(!$protected && !$endTag && in_array($GLOBALS['TSFE']->config['config']['doctype'], array('html5', 'html_5'))) {
 
 			switch(TRUE) {
 
