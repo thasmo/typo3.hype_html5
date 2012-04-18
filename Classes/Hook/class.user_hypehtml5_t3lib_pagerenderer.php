@@ -31,6 +31,7 @@ class user_hypehtml5_t3lib_pagerenderer {
 		# add normalize.css
 		if($this->settings['common.']['enableNormalize']) {
 			$parameters['cssFiles']['typo3conf/ext/hype_html5/Resources/Public/Media/Style/normalize.css'] = array(
+				'file' => 'typo3conf/ext/hype_html5/Resources/Public/Media/Style/normalize.css',
 				'rel' => 'stylesheet',
 				'media' => 'all',
 				'title' => '',
