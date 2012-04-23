@@ -2003,9 +2003,9 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 	}
 
 	/* Headers */
-	.csc-header,
-	.csc-subheader,
-	.csc-date {
+	.csc-alignment-left .csc-header,
+	.csc-alignment-left .csc-subheader,
+	.csc-alignment-left .csc-date {
 		text-align: left;
 	}
 	.csc-alignment-center .csc-header,
