@@ -2039,20 +2039,23 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 		*zoom: 1;
 	}
 
-	/* Headers */
+	/* Alignment */
 	.csc-alignment-left .csc-header,
 	.csc-alignment-left .csc-subheader,
-	.csc-alignment-left .csc-date {
+	.csc-alignment-left .csc-date,
+	.csc-alignment-left .csc-caption {
 		text-align: left;
 	}
 	.csc-alignment-center .csc-header,
 	.csc-alignment-center .csc-subheader,
-	.csc-alignment-center .csc-date {
+	.csc-alignment-center .csc-date,
+	.csc-alignment-center .csc-caption {
 		text-align: center;
 	}
 	.csc-alignment-right .csc-header,
 	.csc-alignment-right .csc-subheader,
-	.csc-alignment-right .csc-date {
+	.csc-alignment-right .csc-date,
+	.csc-alignment-right .csc-caption {
 		text-align: right;
 	}
 
@@ -2171,15 +2174,6 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 		display: table-caption;
 		caption-side: bottom;
 		clear: both;
-	}
-	.csc-alignment-left .csc-caption {
-		text-align: left;
-	}
-	.csc-alignment-center .csc-caption {
-		text-align: center;
-	}
-	.csc-alignment-right .csc-caption {
-		text-align: right;
 	}
 
 	/* Link */
