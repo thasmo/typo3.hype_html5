@@ -236,6 +236,11 @@ lib {
 						typolink {
 							parameter {
 								field = header_link
+
+								if {
+									isTrue.field = tx_hypehtml5_link
+									negate = 1
+								}
 							}
 						}
 					}
@@ -273,7 +278,16 @@ lib {
 							}
 						}
 
-						if.isTrue = {$content.permalink}
+						if {
+							isTrue = {$content.permalink}
+
+							isTrue {
+								if {
+									isTrue.field = tx_hypehtml5_link
+									negate = 1
+								}
+							}
+						}
 					}
 				}
 
@@ -408,6 +422,14 @@ tt_content {
 					# Default wrap
 					default = COA
 					default {
+
+						stdWrap {
+							typolink {
+								parameter.field = header_link
+								ATagParams = class="csc-link"
+								fieldRequired = tx_hypehtml5_link
+							}
+						}
 
 						# Opening tag
 						10 = TEXT
@@ -563,6 +585,11 @@ tt_content {
 								value = <p class="csc-anchor"><a href="#">{LLL:EXT:css_styled_content/pi1/locallang.xml:label.toTop}</a></p>
 								fieldRequired = linkToTop
 								insertData = 1
+
+								if {
+									isTrue.field = tx_hypehtml5_link
+									negate = 1
+								}
 							}
 
 							30 = TEXT
@@ -715,11 +742,21 @@ tt_content {
 
 					directImageLink = {$styles.content.imgtext.linkWrap.lightboxEnabled}
 
-					enable.field = image_zoom
-					enable.ifEmpty.typolink.parameter.field = image_link
-					enable.ifEmpty.typolink.parameter.listNum.splitChar = 10
-					enable.ifEmpty.typolink.parameter.listNum.stdWrap.data = register : IMAGE_NUM_CURRENT
-					enable.ifEmpty.typolink.returnLast = url
+					enable {
+						field = image_zoom
+
+						ifEmpty {
+							typolink.parameter.field = image_link
+							typolink.parameter.listNum.splitChar = 10
+							typolink.parameter.listNum.stdWrap.data = register : IMAGE_NUM_CURRENT
+							typolink.returnLast = url
+						}
+
+						if {
+							isTrue.field = tx_hypehtml5_link
+							negate = 1
+						}
+					}
 
 					typolink.parameter.field = image_link
 					typolink.parameter.listNum.splitChar = 10
@@ -2141,6 +2178,11 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 	}
 	.csc-alignment-right .csc-caption {
 		text-align: right;
+	}
+
+	/* Link */
+	.csc-link {
+		text-decoration: none;
 	}
 
 	/* Anchor */
