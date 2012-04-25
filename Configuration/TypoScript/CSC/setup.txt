@@ -2171,6 +2171,8 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 		display: table-caption;
 		caption-side: bottom;
 		clear: both;
+	}
+	.csc-alignment-left .csc-caption {
 		text-align: left;
 	}
 	.csc-alignment-center .csc-caption {
