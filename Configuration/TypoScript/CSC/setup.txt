@@ -1085,6 +1085,7 @@ tt_content {
 					# Odd bullet
 					1 {
 						dataWrap = <li id="c{field:uid}:{register:SPLIT_COUNT}" class="csc-odd">|</li>
+						required = 1
 
 						current = 1
 						trim = 1
@@ -2039,26 +2040,6 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 		*zoom: 1;
 	}
 
-	/* Alignment */
-	.csc-alignment-left .csc-header,
-	.csc-alignment-left .csc-subheader,
-	.csc-alignment-left .csc-date,
-	.csc-alignment-left .csc-caption {
-		text-align: left;
-	}
-	.csc-alignment-center .csc-header,
-	.csc-alignment-center .csc-subheader,
-	.csc-alignment-center .csc-date,
-	.csc-alignment-center .csc-caption {
-		text-align: center;
-	}
-	.csc-alignment-right .csc-header,
-	.csc-alignment-right .csc-subheader,
-	.csc-alignment-right .csc-date,
-	.csc-alignment-right .csc-caption {
-		text-align: right;
-	}
-
 	/* Image */
 	.csc-image {
 		display: table;
@@ -2116,7 +2097,13 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 	.csc-orientation-centertop .csc-image,
 	.csc-orientation-centerbottom .csc-image,
 	.csc-orientation-centertop .csc-text,
-	.csc-orientation-centerbottom .csc-text {
+	.csc-orientation-centerbottom .csc-text,
+	.csc-orientation-centertop .csc-header,
+	.csc-orientation-centerbottom .csc-header,
+	.csc-orientation-centertop .csc-subheader,
+	.csc-orientation-centerbottom .csc-subheader,
+	.csc-orientation-centertop .csc-date,
+	.csc-orientation-centerbottom .csc-date {
 		text-align: left;
 	}
 
@@ -2186,16 +2173,23 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 		clear: both;
 	}
 
-	/* Legacy */
-	.lt-ie8 audio,
-	.lt-ie8 video,
-	.lt-ie8 canvas {
-		display: inline;
-		zoom: 1;
+	/* Alignment */
+	.csc-alignment-left .csc-header,
+	.csc-alignment-left .csc-subheader,
+	.csc-alignment-left .csc-date,
+	.csc-alignment-left .csc-caption {
+		text-align: left;
 	}
-
-	.lt-ie8 .csc-orientation-centertop .csc-imagewrap {
-		display: inline;
-		zoom: 1;
+	.csc-alignment-center .csc-header,
+	.csc-alignment-center .csc-subheader,
+	.csc-alignment-center .csc-date,
+	.csc-alignment-center .csc-caption {
+		text-align: center;
+	}
+	.csc-alignment-right .csc-header,
+	.csc-alignment-right .csc-subheader,
+	.csc-alignment-right .csc-date,
+	.csc-alignment-right .csc-caption {
+		text-align: right;
 	}
 )
