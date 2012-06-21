@@ -1,41 +1,66 @@
 EXT: Hype HTML5
 Extension Key: hype_html5
 Language: en
-Version: 1.4.0
-Keywords: html5, csc, style, content, modernizr, selectivizr, respond.js
-Copyright 2012, Thomas “Thasmo” Deinhamer, <thasmo@gmail.com>
+Version: 1.5.2
+Keywords: hype, html5, content, csc, modernizr, shim, shiv
+Copyright 2011-2012, Thomas “Thasmo” Deinhamer, <thasmo@gmail.com>
 
 This document is published under the Open Content License
 available from http://www.opencontent.org/opl.shtml
 
 The content of this document is related to TYPO3 
 - a GNU/GPL CMS/Framework available from www.typo3.org
+
 Table of Contents
+EXT: Hype HTML5	1
 Introduction	3
 What does it do?	3
 Administration	4
-Installation	4
+FAQ	4
 Configuration	5
 TypoScript	5
-Modernizr	5
+
 
 Introduction
 What does it do?
-Hype HTML5 enables TYPO3 to render valid and semantically correct HTML markup. Besides that it provides some neat features to spice up specific HTML elements, like a feature to define namespaces for the HTML element.
+Hype HTML5 focuses on teaching TYPO3 how to render HTML5-friendly markup. Besides that it provides some functionality to ease the development of HTML5-powered websites.
+
+Features
+New CSC alternative, rendering HTML5-friendly markup in the frontend.
+Integration of normalize.css for consistent cross browser rendering.
+Integration of several recommended JavaScript helpers like modernizr, seletivizr and respond.js.
+Custom namespace configuration for the <html/> element.
+Checkbox for the content element, to link the entire element, not only the header.
+Provide the chrome frame installer for Internet Explorer version 6 and below.
+
 Administration
-Installation
 1. Import and install the extension.
-2. Include the static typoscript template files.
+2. Include the static TypoScript template files.
 3. Adapt the configuration to your needs.
-Note
-You may not include the static TypoScript template files from the extension css_styled_content.
-To fully enable HTML5 capabilities you need to configure config.doctype with the value html5.
+
+FAQ
+1. Is it needed to import the static TypoScript file from the extension css_styled_content?
+No, you should not include it.
+2. Is it possible to uninstall the extension css_styled_content?
+No, Hype HTML5 relies on some functions of it.
+3. Does the order of installation matter?
+Probably. It's recommended to install hype_html5 first.
+4. Does this extension extend the tt_content TypoScript configuration?
+No, it brings it's own, totally new tt_content configuration, which may not be compatible to some other extensions which modify the tt_content TypoScript configuration.
+5. Why is this extension not compatible to TYPO3 4.7?
+TYPO3 4.7 and above has support for HTML5-friendly frontend markup built-in.
+
 Configuration
 TypoScript
-Property:
-Data type:
-Description:
-Default:
+Property
+Data type
+Description
+Default
+common.
+enableNormalize
+boolean
+Includes the normalize.css file for consistent cross browser rendering.
+1
 common.
 enableSelectivizr
 boolean
@@ -56,6 +81,31 @@ includeStylesFirst
 boolean
 Ensures that CSS styles for the content are included first, before styles of all other installed extensions.
 1
+common.
+installChromeFrame
+boolean
+Prompts users of IE 6 and below to install chrome frame.
+1
+clean.
+removeScriptAttributes
+boolean
+Removes the type attribute from script tags.
+1
+clean.
+removeStyleAttributes
+boolean
+Removes the type and the media=”all” attribute from link tags.
+1
+clean.
+removeImageAttributes
+boolean
+Removes the width and the height attribute from image tags.
+1
+clean.
+removeTableAttributes
+boolean
+Removes the summary attribute from table tags.
+1
 markup.
 doctype
 string
@@ -74,21 +124,4 @@ namespace
 array
 Definitions of namespaces which get wrapped into the HTML tag. 
 See file.
-clean.
-removeScriptAttributes
-boolean
-Removes the type attribute from script tags in the source.
-1
-clean.
-removeStyleAttributes
-boolean
-Removes the type and the media=”all” attribute from related stylesheets.
-1
-clean.
-removeImageAttributes
-boolean
-Removes the width and the height attribute from image tags.
-1
-Modernizr
-Hype HTML5 includes a small, custom modernizr build, which helps to have a better HTML5 experience for all browsers. Modernizr uses a HTML5 shim to enable IE6 to style unknown HTML5 elements. Modernizr was built with the following features enabled: printshiv, mq, cssclasses, teststyles, load. If you need more features, it’s recommended to configure your own build and use it instead of the one which comes with Hype HTML5.
-To use your own Modernizr build you just need to include it as a JS library via TypoScript and disable the one from Hype HTML5.
+
