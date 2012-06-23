@@ -394,21 +394,29 @@ tt_content >
 tt_content = CASE
 tt_content {
 
+	# Key
+	key {
+		field = CType
+	}
+
 	# Wrap
 	stdWrap {
+		required = 1
+
 		innerWrap {
-
-			if {
-				equals {
-					field = CType
-				}
-
-				value = header
-				negate = 1
-			}
 
 			cObject = COA
 			cObject {
+				stdWrap {
+					typolink {
+						parameter {
+							field = header_link
+							if.isTrue.field = tx_hypehtml5_link
+						}
+
+						ATagParams = class="csc-link"
+					}
+				}
 
 				# Wrap
 				10 = CASE
@@ -422,15 +430,6 @@ tt_content {
 					# Default wrap
 					default = COA
 					default {
-
-						stdWrap {
-							typolink {
-								parameter.field = header_link
-								ATagParams = class="csc-link"
-								fieldRequired = tx_hypehtml5_link
-							}
-						}
-
 						# Opening tag
 						10 = TEXT
 						10 {
@@ -570,6 +569,37 @@ tt_content {
 							}
 						}
 
+						# Style tag
+						25 = COA
+						25 {
+							stdWrap {
+								noTrimWrap = | style="|"|
+								required = 1
+							}
+
+							# Margin Top
+							10 = TEXT
+							10 {
+								stdWrap {
+									wrap = margin-top:|px;
+									fieldReduired = spaceBefore
+								}
+
+								field = spaceBefore
+							}
+
+							# Margin Bottom
+							20 = TEXT
+							20 {
+								stdWrap {
+									wrap = margin-bottom:|px;
+									fieldReduired = spaceAfter
+								}
+
+								field = spaceAfter
+							}
+						}
+
 						# Closing tag
 						30 = COA
 						30 {
@@ -599,6 +629,26 @@ tt_content {
 						}
 					}
 
+					# Header
+					header = TEXT
+					header {
+						value = |
+					}
+
+					# Menu
+					menu < .default
+					menu {
+						20.25 = TEXT
+						20.25 {
+							stdWrap {
+								noTrimWrap = | csc-menu-||
+							}
+
+							field = menu_type
+						}
+					}
+
+					# Insert Records
 					shortcut < .default
 					shortcut {
 
@@ -612,6 +662,7 @@ tt_content {
 						30.30.value = </div>
 					}
 
+					# Divider
 					div < .default
 					div {
 
@@ -625,6 +676,7 @@ tt_content {
 						30.30.value = </div>
 					}
 
+					# HTML
 					html < .default
 					html {
 
@@ -640,13 +692,6 @@ tt_content {
 				}
 			}
 		}
-
-		required = 1
-	}
-
-	# Key
-	key {
-		field = CType
 	}
 }
 
@@ -737,13 +782,20 @@ tt_content {
 					effects = {$styles.content.imgtext.linkWrap.effects}
 
 					JSwindow = 1
-					JSwindow.newWindow = {$styles.content.imgtext.linkWrap.newWindow}
-					JSwindow.if.isFalse = {$styles.content.imgtext.linkWrap.lightboxEnabled}
+					JSwindow {
+						newWindow = {$styles.content.imgtext.linkWrap.newWindow}
+						if.isFalse = {$styles.content.imgtext.linkWrap.lightboxEnabled}
+					}
 
 					directImageLink = {$styles.content.imgtext.linkWrap.lightboxEnabled}
 
 					enable {
 						field = image_zoom
+
+						if {
+							isTrue.field = tx_hypehtml5_link
+							negate = 1
+						}
 
 						ifEmpty {
 							typolink.parameter.field = image_link
@@ -751,20 +803,25 @@ tt_content {
 							typolink.parameter.listNum.stdWrap.data = register : IMAGE_NUM_CURRENT
 							typolink.returnLast = url
 						}
-
-						if {
-							isTrue.field = tx_hypehtml5_link
-							negate = 1
-						}
 					}
 
-					typolink.parameter.field = image_link
-					typolink.parameter.listNum.splitChar = 10
-					typolink.parameter.listNum.stdWrap.data = register : IMAGE_NUM_CURRENT
-					typolink.target = {$styles.content.links.target}
-					typolink.extTarget = {$styles.content.links.extTarget}
+					typolink {
+						parameter {
+							if {
+								isTrue.field = tx_hypehtml5_link
+								negate = 1
+							}
 
-					linkParams.ATagParams.dataWrap =  class="{$styles.content.imgtext.linkWrap.lightboxCssClass}" rel="{$styles.content.imgtext.linkWrap.lightboxRelAttribute}"
+							field = image_link
+							listNum.splitChar = 10
+							listNum.stdWrap.data = register : IMAGE_NUM_CURRENT
+						}
+
+						target = {$styles.content.links.target}
+						extTarget = {$styles.content.links.extTarget}
+					}
+
+					linkParams.ATagParams.dataWrap = class="{$styles.content.imgtext.linkWrap.lightboxCssClass}" rel="{$styles.content.imgtext.linkWrap.lightboxRelAttribute}"
 				}
 
 				altText = TEXT
@@ -981,6 +1038,11 @@ tt_content {
 
 									splitChar = 10
 								}
+
+								if {
+									isTrue.field = tx_hypehtml5_link
+									negate = 1
+								}
 							}
 
 							target = {$styles.content.links.target}
@@ -1175,7 +1237,7 @@ tt_content {
 					30 {
 						data = register:fileSize
 
-						wrap = , <span class="csc-file-size">|</span>
+						noTrimWrap = | <span class="csc-file-size">|</span>|
 
 						bytes = 1
 						bytes {
@@ -1219,7 +1281,7 @@ tt_content {
 				removePrependedNumbers = 1
 
 				iconCObject = IMAGE
-				iconCObject.file.import.data = register : ICON_REL_PATH
+				iconCObject.file.import.data = register:ICON_REL_PATH
 				iconCObject.file.width = 150
 			}
 
@@ -1250,7 +1312,7 @@ tt_content {
 					value.field = pages
 				}
 
-				wrap = <ul class="csc-menu-pages">|</ul>
+				wrap = <ul>|</ul>
 
 				1 = TMENU
 				1 {
@@ -1270,14 +1332,11 @@ tt_content {
 			1 < .default
 			1 {
 				special = directory
-				wrap = <ul class="csc-menu-subpages">|</ul>
 			}
 
 			# Sitemap
 			2 = HMENU
 			2 {
-				wrap = <ul class="csc-menu-sitemap">|</ul>
-
 				1 = TMENU
 				1 {
 					target = {$PAGE_TARGET}
@@ -1309,8 +1368,6 @@ tt_content {
 			# Section Index
 			3 < styles.content.get
 			3 {
-				wrap = <ul class="csc-menu-sections">|</ul>
-
 				select {
 					andWhere = sectionIndex!=0
 					pidInList.override.field = pages
@@ -1335,7 +1392,7 @@ tt_content {
 			# Menu of Subpages with Abstract
 			4 < .1
 			4 {
-				wrap = <dl class="csc-menu-subpages-abstract">|</dl>
+				wrap = <dl>|</dl>
 
 				1.NO {
 					wrapItemAndSub >
@@ -1358,8 +1415,6 @@ tt_content {
 			# Updates Pages
 			5 < .default
 			5 {
-				wrap = <ul class="csc-menu-pages-updates">|</ul>
-
 				special = updated
 				special {
 					maxAge = 3600*24*7
@@ -1370,8 +1425,6 @@ tt_content {
 			# Related Pages
 			6 < .default
 			6 {
-				wrap = <ul class="csc-menu-pages-relations">|</ul>
-
 				special = keywords
 				special {
 					excludeNoSearchPages = 1
@@ -1381,8 +1434,6 @@ tt_content {
 			# Menu of Subpages with Sections
 			7 < .1
 			7 {
-				wrap = <ul class="csc-menu-subpages-sections">|</ul>
-
 				1.expAll = 1
 
 				2 < .1
@@ -1417,7 +1468,6 @@ tt_content {
 			params.field = bodytext
 		}
 	}
-
 
 	# SWF Object
 	swfobject = COA
