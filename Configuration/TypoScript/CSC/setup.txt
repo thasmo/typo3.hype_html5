@@ -582,7 +582,7 @@ tt_content {
 							10 {
 								stdWrap {
 									wrap = margin-top:|px;
-									fieldReduired = spaceBefore
+									fieldRequired = spaceBefore
 								}
 
 								field = spaceBefore
@@ -593,7 +593,7 @@ tt_content {
 							20 {
 								stdWrap {
 									wrap = margin-bottom:|px;
-									fieldReduired = spaceAfter
+									fieldRequired = spaceAfter
 								}
 
 								field = spaceAfter
