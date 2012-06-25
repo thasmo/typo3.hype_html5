@@ -1,3 +1,5 @@
+# HTML5 Content Rendering (TYPO3 4.6)
+
 # Includes
 includeLibs {
 	tx_cssstyledcontent_pi1 = EXT:css_styled_content/pi1/class.tx_cssstyledcontent_pi1.php
@@ -6,7 +8,6 @@ includeLibs {
 # Content
 styles {
 	content >
-
 	content {
 
 		# Normal
@@ -97,7 +98,7 @@ lib {
 	parseFunc_RTE {
 		//  makelinks >
 		# Processing <table> and <blockquote> blocks separately
-		externalBlocks = table, blockquote, ol,ul, div
+		externalBlocks = article, aside, blockquote, div, dd, dl, footer, header, nav, ol, section, table, ul
 		externalBlocks {
 			# The blockquote content is passed into parseFunc again...
 			blockquote.stripNL=1
@@ -121,11 +122,23 @@ lib {
 			table.stdWrap.HTMLparser.keepNonMatchedTags = 1
 			table.HTMLtableCells=1
 			table.HTMLtableCells {
-				default.callRecursive=1
+				default.stdWrap {
+					parseFunc =< lib.parseFunc_RTE
+					parseFunc.nonTypoTagStdWrap.encapsLines.nonWrappedTag =
+				}
 				addChr10BetweenParagraphs=1
 			}
 			div.stripNL = 1
 			div.callRecursive = 1
+
+			article < .div
+			aside < .div
+			footer < .div
+			header < .div
+			nav < .div
+			section < .div
+			dl < .div
+			dd < .div
 		}
 		nonTypoTagStdWrap.encapsLines {
 			encapsTagList = cite,div,p,pre,h1,h2,h3,h4,h5,h6,blockquote
@@ -228,10 +241,10 @@ lib {
 					# Text
 					10 = TEXT
 					10 {
+						field = header
+
 						htmlSpecialChars = 1
 						brTag = <br />
-
-						field = header
 
 						typolink {
 							parameter {
@@ -1337,6 +1350,8 @@ tt_content {
 			# Sitemap
 			2 = HMENU
 			2 {
+				wrap = <ul>|</ul>
+
 				1 = TMENU
 				1 {
 					target = {$PAGE_TARGET}

@@ -15,7 +15,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'description' => 'Brings the future to TYPO3. Content is rendered using appropriate HTML5 elements using less wraps but useful class names.',
 	'category' => 'fe',
 	'shy' => 0,
-	'version' => '1.5.1',
+	'version' => '1.6.0',
 	'dependencies' => 'css_styled_content',
 	'conflicts' => 'html5meta_t3lib_pagerenderer,html5_kickstart,html5_readykit,html5boilerplate,crt_bodytext_variables',
 	'priority' => '',
@@ -35,7 +35,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'constraints' => array(
 		'depends' => array(
 			'php' => '5.2.0-0.0.0',
-			'typo3' => '4.4.0-4.6.99',
+			'typo3' => '4.4.0-4.7.99',
 			'css_styled_content' => '0.0.0-0.0.0',
 		),
 		'conflicts' => array(

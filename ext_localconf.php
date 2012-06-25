@@ -23,14 +23,16 @@ if(TYPO3_MODE == 'FE') {
 }
 
 # Content Rendering
-$path = 'hypehtml5/Configuration/TypoScript/CSC/';
-
 if(is_array($GLOBALS['TYPO3_CONF_VARS']['FE']['contentRenderingTemplates'])) {
-	array_push($GLOBALS['TYPO3_CONF_VARS']['FE']['contentRenderingTemplates'], $path);
+	array_push($GLOBALS['TYPO3_CONF_VARS']['FE']['contentRenderingTemplates'], 'hypehtml5/Configuration/TypoScript/4.7/');
+	array_push($GLOBALS['TYPO3_CONF_VARS']['FE']['contentRenderingTemplates'], 'hypehtml5/Configuration/TypoScript/4.6/');
+	array_push($GLOBALS['TYPO3_CONF_VARS']['FE']['contentRenderingTemplates'], 'hypehtml5/Configuration/TypoScript/4.5/');
 } else {
-	$GLOBALS['TYPO3_CONF_VARS']['FE']['contentRenderingTemplates'] = array($path);
+	$GLOBALS['TYPO3_CONF_VARS']['FE']['contentRenderingTemplates'] = array(
+		'hypehtml5/Configuration/TypoScript/4.7/',
+		'hypehtml5/Configuration/TypoScript/4.6/',
+		'hypehtml5/Configuration/TypoScript/4.5/'
+	);
 }
-
-unset($path);
 
 ?>
