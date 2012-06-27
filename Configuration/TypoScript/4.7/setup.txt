@@ -231,6 +231,11 @@ lib {
 			10 {
 				key {
 					field = header_layout
+
+					ifEmpty = {$content.defaultHeaderType}
+					ifEmpty {
+						override.data = register:defaultHeaderType
+					}
 				}
 
 				# H1
@@ -328,6 +333,11 @@ lib {
 			20 {
 				key {
 					field = header_layout
+
+					ifEmpty = {$content.defaultHeaderType}
+					ifEmpty {
+						override.data = register:defaultHeaderType
+					}
 				}
 
 				default = TEXT
@@ -881,14 +891,14 @@ tt_content {
 			# caption/alttext/title/longdescURL splitting
 			imageTextSplit = {$styles.content.imgtext.imageTextSplit}
 
-			borderCol = {$styles.content.imgtext.borderColor}
-			borderThick = {$styles.content.imgtext.borderThick}
-			borderClass = {$styles.content.imgtext.borderClass}
+			#borderCol = {$styles.content.imgtext.borderColor}
+			#borderThick = {$styles.content.imgtext.borderThick}
+			#borderClass = {$styles.content.imgtext.borderClass}
 			colSpace = {$styles.content.imgtext.colSpace}
 			rowSpace = {$styles.content.imgtext.rowSpace}
 			textMargin = {$styles.content.imgtext.textMargin}
 
-			borderSpace = {$styles.content.imgtext.borderSpace}
+			#borderSpace = {$styles.content.imgtext.borderSpace}
 			separateRows = {$styles.content.imgtext.separateRows}
 
 			addClasses =
@@ -1190,7 +1200,6 @@ tt_content {
 			}
 
 			# Color
-			# @todo: Add to constants.txt
 			color {
 				default =
 				1 = {$styles.content.table.backgroundColor.1}
@@ -1283,7 +1292,6 @@ tt_content {
 							cObject = TEXT
 							cObject {
 								data = register:description
-								htmlSpecialChars = 1
 							}
 						}
 					}
@@ -1653,12 +1661,15 @@ tt_content {
 				m4a = QT
 			}
 
-			# @todo: Add to constants.txt
-			mimeConf.swfobject < tt_content.swfobject.20
-			mimeConf.qtobject < tt_content.qtobject.20
-			mimeConf.flowplayer < tt_content.swfobject.20
-			mimeConf.flowplayer.audio.player = {$styles.content.media.flowPlayer}
-			mimeConf.flowplayer.video.player = {$styles.content.media.flowPlayer}
+			mimeConf {
+				swfobject < tt_content.swfobject.20
+				qtobject < tt_content.qtobject.20
+				flowplayer < tt_content.swfobject.20
+				flowplayer {
+					audio.player = {$styles.content.media.flowPlayer}
+					video.player = {$styles.content.media.flowPlayer}
+				}
+			}
 		}
 	}
 
@@ -1799,7 +1810,7 @@ tt_content {
 
 			layout = COA
 			layout {
-				wrap = <table border="0" cellspacing="0" cellpadding="2" class="csc-searchResultInfo"><tr> | </tr></table> ###RESULT###
+				wrap = <table border="0" cellspacing="0" cellpadding="2" class="csc-searchResultInfo"><tr>|</tr></table> ###RESULT###
 
 				10 = TEXT
 				10 {

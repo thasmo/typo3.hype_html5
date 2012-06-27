@@ -231,6 +231,11 @@ lib {
 			10 {
 				key {
 					field = header_layout
+
+					ifEmpty = {$content.defaultHeaderType}
+					ifEmpty {
+						override.data = register:defaultHeaderType
+					}
 				}
 
 				# H1
@@ -328,6 +333,11 @@ lib {
 			20 {
 				key {
 					field = header_layout
+
+					ifEmpty = {$content.defaultHeaderType}
+					ifEmpty {
+						override.data = register:defaultHeaderType
+					}
 				}
 
 				default = TEXT
@@ -1276,7 +1286,6 @@ tt_content {
 							cObject = TEXT
 							cObject {
 								data = register:description
-								htmlSpecialChars = 1
 							}
 						}
 					}
@@ -1666,31 +1675,12 @@ tt_content {
 			0 {
 				source.field = records
 				tables = {$content.shortcut.tables}
-
-				conf {
-					tt_content =< tt_content
-					tt_address =< tt_address
-					tt_links =< tt_links
-					tt_guest =< tt_guest
-					tt_board =< tt_board
-					tt_calender =< tt_calender
-					tt_rating < tt_rating
-					tt_products =< tt_products
-					tt_news =< tt_news
-					tt_poll =< plugin.tt_poll
-				}
 			}
 
 			1 = RECORDS
 			1 {
 				source.field = records
 				tables = {$content.shortcut.tables}
-				conf {
-					tt_poll =< plugin.tt_poll
-					tt_poll {
-						code = RESULT,SUBMITTEDVOTE
-					}
-				}
 			}
 		}
 	}
@@ -1898,71 +1888,6 @@ tt_content {
 		}
 	}
 
-
-	# Login
-	login < tt_content.mailform
-	login {
-
-		# Header
-		10 =< lib.stdheader
-
-		# Form
-		20 {
-			stdWrap {
-				wrap = <div class="csc-loginform"> | </div>
-				required = 1
-			}
-
-			target = {$styles.content.loginform.target}
-			locationData = 0
-
-			goodMess = {$styles.content.loginform.goodMess}
-
-			redirect >
-			recipient >
-			data >
-
-			dataArray {
-				10 {
-					label.data = LLL:EXT:css_styled_content/pi1/locallang.xml:login.username
-					type = *user=input
-				}
-
-				20 {
-					label.data = LLL:EXT:css_styled_content/pi1/locallang.xml:login.password
-					type = *pass=password
-				}
-
-				30 {
-					type = logintype=hidden
-					value = login
-				}
-
-				40 {
-					type = submit=submit
-					value.data = LLL:EXT:css_styled_content/pi1/locallang.xml:login.login
-				}
-			}
-
-			type {
-				field = pages
-				listNum = 0
-			}
-
-			hiddenFields {
-				pid = TEXT
-				pid {
-					value = {$styles.content.loginform.pid}
-
-					override {
-						field = pages
-						listNum = 1
-					}
-				}
-			}
-		}
-	}
-
 	# List
 	list = COA
 	list {
@@ -1976,47 +1901,6 @@ tt_content {
 			key {
 				field = list_type
 			}
-
-			3 = CASE
-			3.key.field = layout
-			3.0 =< plugin.tt_guest
-
-			4 = CASE
-			4.key.field = layout
-			4.0 =< plugin.tt_board_list
-			4.1 =< plugin.tt_board_tree
-
-			2 = CASE
-			2.key.field = layout
-			2.0 =< plugin.tt_board_tree
-
-			5 = CASE
-			5.key.field = layout
-			5.0 =< plugin.tt_products
-
-			7 = CASE
-			7.key.field = layout
-			7.0 =< plugin.tt_calender
-
-			8 = CASE
-			8.key.field = layout
-			8.0 =< plugin.tt_rating
-
-			9 = CASE
-			9.key.field = layout
-			9.0 =< plugin.tt_news
-
-			11 = CASE
-			11.key.field = layout
-			11.0 =< plugin.tipafriend
-
-			20 = CASE
-			20.key.field = layout
-			20.0 =< plugin.feadmin.fe_users
-
-			21 = CASE
-			21.key.field = layout
-			21.0 =< plugin.feadmin.dmailsubscription
 		}
 	}
 
@@ -2057,33 +1941,6 @@ tt_content {
 		}
 	}
 }
-
-# Login
-[loginUser = *]
-tt_content {
-	login {
-		20 {
-			dataArray >
-			dataArray {
-				10 {
-					label.data = LLL:EXT:css_styled_content/pi1/locallang.xml:login.username
-					label.wrap = |&nbsp;<!--###USERNAME###-->
-				}
-
-				30 {
-					type = logintype=hidden
-					value = logout
-				}
-
-				40 {
-					type = submit=submit
-					value.data = LLL:EXT:css_styled_content/pi1/locallang.xml:login.logout
-				}
-			}
-		}
-	}
-}
-[global]
 
 # Styles
 plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (

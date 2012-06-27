@@ -231,6 +231,11 @@ lib {
 			10 {
 				key {
 					field = header_layout
+
+					ifEmpty = {$content.defaultHeaderType}
+					ifEmpty {
+						override.data = register:defaultHeaderType
+					}
 				}
 
 				# H1
@@ -328,6 +333,11 @@ lib {
 			20 {
 				key {
 					field = header_layout
+
+					ifEmpty = {$content.defaultHeaderType}
+					ifEmpty {
+						override.data = register:defaultHeaderType
+					}
 				}
 
 				default = TEXT
@@ -1276,7 +1286,6 @@ tt_content {
 							cObject = TEXT
 							cObject {
 								data = register:description
-								htmlSpecialChars = 1
 							}
 						}
 					}
