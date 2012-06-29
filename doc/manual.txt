@@ -1,7 +1,7 @@
 EXT: Hype HTML5
 Extension Key: hype_html5
 Language: en
-Version: 1.5.2
+Version: 1.6.0
 Keywords: hype, html5, content, csc, modernizr, shim, shiv
 Copyright 2011-2012, Thomas “Thasmo” Deinhamer, <thasmo@gmail.com>
 
@@ -20,11 +20,9 @@ FAQ	4
 Configuration	5
 TypoScript	5
 
-
 Introduction
 What does it do?
 Hype HTML5 focuses on teaching TYPO3 how to render HTML5-friendly markup. Besides that it provides some functionality to ease the development of HTML5-powered websites.
-
 Features
 New CSC alternative, rendering HTML5-friendly markup in the frontend.
 Integration of normalize.css for consistent cross browser rendering.
@@ -32,24 +30,19 @@ Integration of several recommended JavaScript helpers like modernizr, seletivizr
 Custom namespace configuration for the <html/> element.
 Checkbox for the content element, to link the entire element, not only the header.
 Provide the chrome frame installer for Internet Explorer version 6 and below.
-
 Administration
 1. Import and install the extension.
 2. Include the static TypoScript template files.
 3. Adapt the configuration to your needs.
-
 FAQ
 1. Is it needed to import the static TypoScript file from the extension css_styled_content?
 No, you should not include it.
 2. Is it possible to uninstall the extension css_styled_content?
 No, Hype HTML5 relies on some functions of it.
 3. Does the order of installation matter?
-Probably. It's recommended to install hype_html5 first.
+Yes, it should be installed before any other extension.
 4. Does this extension extend the tt_content TypoScript configuration?
 No, it brings it's own, totally new tt_content configuration, which may not be compatible to some other extensions which modify the tt_content TypoScript configuration.
-5. Why is this extension not compatible to TYPO3 4.7?
-TYPO3 4.7 and above has support for HTML5-friendly frontend markup built-in.
-
 Configuration
 TypoScript
 Property
