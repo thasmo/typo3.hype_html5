@@ -254,11 +254,6 @@ lib {
 						typolink {
 							parameter {
 								field = header_link
-
-								if {
-									isTrue.field = tx_hypehtml5_link
-									negate = 1
-								}
 							}
 						}
 					}
@@ -298,13 +293,6 @@ lib {
 
 						if {
 							isTrue = {$content.permalink}
-
-							isTrue {
-								if {
-									isTrue.field = tx_hypehtml5_link
-									negate = 1
-								}
-							}
 						}
 					}
 				}
@@ -434,7 +422,6 @@ tt_content {
 					typolink {
 						parameter {
 							field = header_link
-							if.isTrue.field = tx_hypehtml5_link
 						}
 
 						ATagParams = class="csc-link"
@@ -631,11 +618,6 @@ tt_content {
 								value = <p class="csc-anchor"><a href="#">{LLL:EXT:css_styled_content/pi1/locallang.xml:label.toTop}</a></p>
 								fieldRequired = linkToTop
 								insertData = 1
-
-								if {
-									isTrue.field = tx_hypehtml5_link
-									negate = 1
-								}
 							}
 
 							30 = TEXT
@@ -808,11 +790,6 @@ tt_content {
 					enable {
 						field = image_zoom
 
-						if {
-							isTrue.field = tx_hypehtml5_link
-							negate = 1
-						}
-
 						ifEmpty {
 							typolink.parameter.field = image_link
 							typolink.parameter.listNum.splitChar = 10
@@ -823,11 +800,6 @@ tt_content {
 
 					typolink {
 						parameter {
-							if {
-								isTrue.field = tx_hypehtml5_link
-								negate = 1
-							}
-
 							field = image_link
 							listNum.splitChar = 10
 							listNum.stdWrap.data = register : IMAGE_NUM_CURRENT
@@ -1053,11 +1025,6 @@ tt_content {
 									}
 
 									splitChar = 10
-								}
-
-								if {
-									isTrue.field = tx_hypehtml5_link
-									negate = 1
 								}
 							}
 
