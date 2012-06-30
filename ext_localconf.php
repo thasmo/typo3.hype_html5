@@ -20,6 +20,9 @@ if(TYPO3_MODE == 'FE') {
 
 	# HTML Parser
 	$GLOBALS['TYPO3_CONF_VARS']['FE']['XCLASS']['t3lib/class.t3lib_parsehtml.php'] = t3lib_extMgm::extPath('hype_html5', 'Classes/XClass/class.ux_t3lib_parsehtml.php');
+
+	# CSS Styled Content
+	$GLOBALS['TYPO3_CONF_VARS']['FE']['XCLASS']['ext/css_styled_content/pi1/class.tx_cssstyledcontent_pi1.php'] = t3lib_extMgm::extPath('hype_html5', 'Classes/XClass/class.ux_tx_cssstyledcontent_pi1.php');
 }
 
 # Content Rendering

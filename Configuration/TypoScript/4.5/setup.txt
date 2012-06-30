@@ -2,7 +2,7 @@
 
 # Includes
 includeLibs {
-	tx_cssstyledcontent_pi1 = EXT:css_styled_content/pi1/class.tx_cssstyledcontent_pi1.php
+	user_cssstyledcontent_pi1 = EXT:hype_html5/Classes/class.user_cssstyledcontent_pi1.php
 }
 
 # Content
@@ -577,36 +577,29 @@ tt_content {
 									isInList.field = CType
 								}
 							}
-						}
-
-						# Style tag
-						25 = COA
-						25 {
-							stdWrap {
-								noTrimWrap = | style="|"|
-								required = 1
-							}
 
 							# Margin Top
-							10 = TEXT
-							10 {
+							70 = USER
+							70 {
 								stdWrap {
-									wrap = margin-top:|px;
-									fieldRequired = spaceBefore
+									noTrimWrap = | csc-space-before-||
 								}
 
-								field = spaceBefore
+								userFunc = user_cssstyledcontent_pi1->renderSpace
+								space = before
+								constant = {$content.spaceBefore}
 							}
 
 							# Margin Bottom
-							20 = TEXT
-							20 {
+							71 = USER
+							71 {
 								stdWrap {
-									wrap = margin-bottom:|px;
-									fieldRequired = spaceAfter
+									noTrimWrap = | csc-space-after-||
 								}
 
-								field = spaceAfter
+								userFunc = user_cssstyledcontent_pi1->renderSpace
+								space = after
+								constant = {$content.spaceAfter}
 							}
 						}
 
@@ -766,7 +759,7 @@ tt_content {
 		# Images
 		20 = USER
 		20 {
-			userFunc = tx_cssstyledcontent_pi1->render_textpic
+			userFunc = user_cssstyledcontent_pi1->render_textpic
 
 			imgList.field = image
 			imgPath = uploads/pics/
@@ -1164,7 +1157,7 @@ tt_content {
 		# Table
 		20 = USER
 		20 {
-			userFunc = tx_cssstyledcontent_pi1->render_table
+			userFunc = user_cssstyledcontent_pi1->render_table
 			field = bodytext
 
 			# Cell Wrap
@@ -1185,7 +1178,7 @@ tt_content {
 		# Files
 		20 = USER
 		20 {
-			userFunc = tx_cssstyledcontent_pi1->render_uploads
+			userFunc = user_cssstyledcontent_pi1->render_uploads
 			field = media
 			filePath.field = select_key
 
