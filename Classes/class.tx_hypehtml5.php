@@ -25,19 +25,11 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-/**
- * Plugin class - instantiated from TypoScript.
- * Rendering some content elements from tt_content table.
- *
- * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
- * @package TYPO3
- * @subpackage tx_cssstyledcontent
- */
-class user_cssstyledcontent_pi1 extends tslib_pibase {
+class tx_hypehtml5 extends tslib_pibase {
 
 	// Default plugin variables:
-	public $prefixId = 'user_cssstyledcontent_pi1';
-	public $scriptRelPath = 'Classes/XClass/class.user_cssstyledcontent_pi1.php';
+	public $prefixId = 'tx_hypehtml5';
+	public $scriptRelPath = 'Classes/XClass/class.tx_hypehtml5.php';
 	public $extKey = 'hype_html5';
 	public $conf = array();
 
@@ -283,7 +275,7 @@ class user_cssstyledcontent_pi1 extends tslib_pibase {
 						if (isset($altTexts[$key]) && !empty($altTexts[$key])) {
 							$altText = trim($altTexts[$key]);
 						} else {
-							$altText = sprintf($this->pi_getLL('uploads.icon'), $fileName);
+							$altText = '';
 						}
 						$conf['linkProc.']['altText'] = $conf['linkProc.']['iconCObject.']['altText'] = $altText;
 
@@ -1277,12 +1269,12 @@ class user_cssstyledcontent_pi1 extends tslib_pibase {
 	 * @return void
 	 */
 	protected function addPageStyle($selector, $declaration) {
-		if (!isset($GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_cssstyledcontent.']['_CSS_PAGE_STYLE'])) {
-			$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_cssstyledcontent.']['_CSS_PAGE_STYLE'] = array();
+		if (!isset($GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_hypehtml5.']['_CSS_PAGE_STYLE'])) {
+			$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_hypehtml5.']['_CSS_PAGE_STYLE'] = array();
 		}
 
-		if (!isset($GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_cssstyledcontent.']['_CSS_PAGE_STYLE'][$selector])) {
-			$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_cssstyledcontent.']['_CSS_PAGE_STYLE'][$selector] = TAB . $selector .
+		if (!isset($GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_hypehtml5.']['_CSS_PAGE_STYLE'][$selector])) {
+			$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_hypehtml5.']['_CSS_PAGE_STYLE'][$selector] = TAB . $selector .
 				' { ' . $declaration . ' }';
 		}
 	}
@@ -1307,8 +1299,8 @@ class user_cssstyledcontent_pi1 extends tslib_pibase {
 	}
 }
 
-if (defined('TYPO3_MODE') && isset($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/hype_html5/Classes/class.user_cssstyledcontent_pi1.php'])) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/hype_html5/Classes/class.user_cssstyledcontent_pi1.php']);
+if (defined('TYPO3_MODE') && isset($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/hype_html5/Classes/class.tx_hypehtml5.php'])) {
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/hype_html5/Classes/class.tx_hypehtml5.php']);
 }
 
 ?>

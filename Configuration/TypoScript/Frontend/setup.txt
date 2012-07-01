@@ -1,8 +1,8 @@
-# HTML5 Content Rendering (TYPO3 4.7)
+# HTML5 Content Rendering
 
 # Includes
 includeLibs {
-	user_cssstyledcontent_pi1 = EXT:hype_html5/Classes/class.user_cssstyledcontent_pi1.php
+	tx_hypehtml5 = EXT:hype_html5/Classes/class.tx_hypehtml5.php
 }
 
 # Content
@@ -54,7 +54,7 @@ styles {
 				allow = toolbar, move, hide
 
 				label {
-					data = LLL:EXT:css_styled_content/pi1/locallang.xml:eIcon.page
+					data = LLL:EXT:hype_html5/Resources/Private/Language/locallang.xml:edit.page
 					wrap = |&nbsp;<strong>%s</strong>
 				}
 			}
@@ -418,15 +418,6 @@ tt_content {
 
 			cObject = COA
 			cObject {
-				stdWrap {
-					typolink {
-						parameter {
-							field = header_link
-						}
-
-						ATagParams = class="csc-link"
-					}
-				}
 
 				# Wrap
 				10 = CASE
@@ -585,7 +576,7 @@ tt_content {
 									noTrimWrap = | csc-space-before-||
 								}
 
-								userFunc = user_cssstyledcontent_pi1->renderSpace
+								userFunc = tx_hypehtml5->renderSpace
 								space = before
 								constant = {$content.spaceBefore}
 							}
@@ -597,7 +588,7 @@ tt_content {
 									noTrimWrap = | csc-space-after-||
 								}
 
-								userFunc = user_cssstyledcontent_pi1->renderSpace
+								userFunc = tx_hypehtml5->renderSpace
 								space = after
 								constant = {$content.spaceAfter}
 							}
@@ -615,7 +606,7 @@ tt_content {
 							# Anchor
 							20 = TEXT
 							20 {
-								value = <p class="csc-anchor"><a href="#">{LLL:EXT:css_styled_content/pi1/locallang.xml:label.toTop}</a></p>
+								value = <p class="csc-anchor"><a href="#">{LLL:EXT:hype_html5/Resources/Private/Language/locallang.xml:label.anchor}</a></p>
 								fieldRequired = linkToTop
 								insertData = 1
 							}
@@ -759,7 +750,7 @@ tt_content {
 		# Images
 		20 = USER
 		20 {
-			userFunc = user_cssstyledcontent_pi1->render_textpic
+			userFunc = tx_hypehtml5->render_textpic
 
 			imgList.field = image
 			imgPath = uploads/pics/
@@ -1157,7 +1148,7 @@ tt_content {
 		# Table
 		20 = USER
 		20 {
-			userFunc = user_cssstyledcontent_pi1->render_table
+			userFunc = tx_hypehtml5->render_table
 			field = bodytext
 
 			# Cell Wrap
@@ -1191,7 +1182,7 @@ tt_content {
 		# Files
 		20 = USER
 		20 {
-			userFunc = user_cssstyledcontent_pi1->render_uploads
+			userFunc = tx_hypehtml5->render_uploads
 			field = media
 			filePath.field = select_key
 
@@ -1721,153 +1712,6 @@ tt_content {
 		}
 	}
 
-
-	# Search
-	search = COA
-	search {
-
-		# Header
-		10 =< lib.stdheader
-
-		# Result
-		20 = SEARCHRESULT
-		20 {
-			allowedCols = pages.title-subtitle-keywords-description : tt_content.header-bodytext-imagecaption : tt_address.name-title-address-email-company-city-country : tt_links.title-note-note2-url : tt_board.subject-message-author-email : tt_calender.title-note : tt_products.title-note-itemnumber
-			languageField.tt_content = sys_language_uid
-
-			renderObj = COA
-			renderObj {
-
-				# Header
-				10 = TEXT
-				10 {
-					wrap = <h3 class="csc-searchResultHeader">|</h3>
-
-					field = pages_title
-					htmlSpecialChars = 1
-
-					typolink {
-						parameter.field = uid
-						target = {$styles.content.searchresult.resultTarget}
-
-						additionalParams {
-							data = register:SWORD_PARAMS
-							required = 1
-							wrap = &no_cache=1
-						}
-					}
-				}
-
-				# Data
-				20 = COA
-				20 {
-					stdWrap {
-						crop = 200 | ...
-						wrap = <p class="csc-searchResult">|</p>
-					}
-
-					10 = TEXT
-					10 {
-						field = tt_content_bodytext
-						stripHtml = 1
-						htmlSpecialChars = 1
-					}
-				}
-			}
-
-			layout = COA
-			layout {
-				wrap = <table border="0" cellspacing="0" cellpadding="2" class="csc-searchResultInfo"><tr>|</tr></table> ###RESULT###
-
-				10 = TEXT
-				10 {
-					data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.resultRange
-					wrap = <td class="csc-searchResultRange"><p>|</p></td>
-				}
-
-				20 = TEXT
-				20 {
-					value = ###PREV###&nbsp;&nbsp;&nbsp;###NEXT###
-					wrap = <td class="csc-searchResultPrevNext"><p>|</p></td>
-				}
-			}
-
-			noResultObj = COA
-			noResultObj {
-				10 = TEXT
-				10 {
-					data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.emptySearch
-					wrap = <h3 class="csc-noSearchResultMsg">|</h3>
-				}
-			}
-
-			next = TEXT
-			next.data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.searchResultNext
-
-			prev = TEXT
-			prev.data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.searchResultPrev
-
-			target = {$styles.content.searchresult.target}
-			range = 20
-		}
-
-		# Form
-		30 < tt_content.mailform.20
-		30 {
-			stdWrap {
-				wrap = <table border="0" cellspacing="1" cellpadding="1" class="csc-searchform">|</table>
-				required = 1
-			}
-
-			no_cache = 1
-			locationData = HTTP_POST_VARS
-
-			goodMess = {$styles.content.searchform.goodMess}
-
-			redirect >
-			recipient >
-			data >
-
-			dataArray {
-				10 {
-					label.data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.searchWord
-					type = sword=input
-				}
-
-				20 {
-					label.data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.searchIn
-					type = scols=select
-					valueArray {
-						10 {
-							label.data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.headersKeywords
-							value = pages.title-subtitle-keywords-description:tt_content.header
-						}
-
-						20 {
-							label.data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.pageContent
-							value = tt_content.header-bodytext-imagecaption
-						}
-					}
-				}
-
-				30 {
-					type = stype=hidden
-					value = L0
-				}
-
-				40 {
-					type = submit=submit
-					value.data = LLL:EXT:css_styled_content/pi1/locallang.xml:search.searchButton
-				}
-			}
-
-			type {
-				field = pages
-				listNum = 0
-			}
-		}
-	}
-
 	# List
 	list = COA
 	list {
@@ -2065,11 +1909,6 @@ plugin.tx_hypehtml5._CSS_DEFAULT_STYLE (
 		display: table-caption;
 		caption-side: bottom;
 		clear: both;
-	}
-
-	/* Link */
-	.csc-link {
-		text-decoration: none;
 	}
 
 	/* Anchor */

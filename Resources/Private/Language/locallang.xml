@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>database</type>
+		<description>Language labels for the frontend belonging to extension 'hype_html5'.</description>
+	</meta>
+
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="label.anchor">to top &#x2912;</label>
+			<label index="edit.page">Page:</label>
+		</languageKey>
+
+		<languageKey index="de" type="array">
+			<label index="label.anchor">nach oben &#x2912;</label>
+			<label index="edit.page">Seite:</label>
+		</languageKey>
+	</data>
+</T3locallang>

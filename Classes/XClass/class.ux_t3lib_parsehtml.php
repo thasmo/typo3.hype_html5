@@ -33,14 +33,17 @@ class ux_t3lib_parsehtml extends t3lib_parsehtml {
 	protected $settings;
 
 	/**
+	 * Constructor
+	 * Loads the extension settings.
 	 *
+	 * @return void
 	 */
 	public function __construct() {
 		$this->settings = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_hypehtml5.'];
 	}
 
 	/**
-	 *
+	 * Processes HTML elements
 	 */
 	public function processTag($value, $conf, $endTag, $protected = 0) {
 
