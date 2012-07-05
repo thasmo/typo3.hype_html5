@@ -40,9 +40,9 @@ No, you should not include the static TypoScript file of css_styled_content.
 Yes, css_styled_content is not needed at all. It's up to you if you want to uninstall it.
 Maybe it's needed by some other extensions, but Hype HTML5 does not need it.
 3. Does the order of installation matter?
-Yes, it matters, but Hype HTML5 is configured to install itself as first extension, so you shouldn't need to take care about it. If you encounter rendering problems anyway, first check if Hype HTML5 is one of the first extensions in the installation order.
+Yes, it does matter. If you have installed css_styled_content, Hype HTML5 needs to be installed after it. Extension which are rendered in the frontend should be installed after Hype HTML5. You can check and edit the order of installation in /typo3conf/localconf.php on your own risk, if needed.
 4. Does this extension extend the tt_content TypoScript configuration?
-No, it brings it's own, totally new tt_content configuration, which may not be compatible to some other extensions which modify the tt_content TypoScript configuration.
+No, it brings its own, totally new tt_content configuration, which may not be compatible to some other extensions which modify the tt_content TypoScript configuration.
 Configuration
 TypoScript
 Property
