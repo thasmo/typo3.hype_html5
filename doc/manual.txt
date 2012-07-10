@@ -28,7 +28,7 @@ Rendering HTML5-friendly markup in the frontend.
 Integration of normalize.css for consistent cross browser rendering.
 Integration of several recommended JavaScript helpers like modernizr, seletivizr and respond.js.
 Custom namespace configuration for the <html/> element.
-Provide the chrome frame installer for Internet Explorer version 6 and below.
+Provide the chrome frame installer for Internet Explorer version 7 and below.
 Administration
 1. Import and install the extension.
 2. Include the static TypoScript template files.

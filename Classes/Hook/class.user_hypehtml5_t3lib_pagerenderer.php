@@ -104,7 +104,7 @@ class user_hypehtml5_t3lib_pagerenderer {
 				'external' => TRUE,
 				'excludeFromConcatenation' => FALSE,
 				'disableCompression' => TRUE,
-				'allWrap' => '<!--[if lt IE 7]>|<![endif]-->',
+				'allWrap' => '<!--[if lt IE 8]>|<![endif]-->',
 			);
 
 			$parameters['jsFiles']['typo3conf/ext/hype_html5/Resources/Public/Media/Script/chrome-frame.js'] = array(
@@ -115,7 +115,7 @@ class user_hypehtml5_t3lib_pagerenderer {
 				'forceOnTop' => FALSE,
 				'external' => FALSE,
 				'excludeFromConcatenation' => FALSE,
-				'allWrap' => '<!--[if lt IE 7]>|<![endif]-->',
+				'allWrap' => '<!--[if lt IE 8]>|<![endif]-->',
 			);
 		}
 
