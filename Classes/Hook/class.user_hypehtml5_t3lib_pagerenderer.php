@@ -79,8 +79,7 @@ class user_hypehtml5_t3lib_pagerenderer {
 		}
 
 		# add modernizr.js
-		if($this->settings['common.']['enableModernizr'] && in_array($GLOBALS['TSFE']->config['config']['doctype'], array('html5', 'html_5'))) {
-
+		if($this->settings['common.']['enableModernizr'] && in_array($GLOBALS['TSFE']->config['config']['doctype'], array('html5', 'html_5')) && !is_array($parameters['jsLibs']['modernizr'])) {
 			$parameters['jsLibs']['modernizr'] = array(
 				'file' => 'typo3conf/ext/hype_html5/Resources/Public/Media/Script/modernizr.min.js',
 				'type' => 'text/javascript',
