@@ -83,7 +83,11 @@ class tx_hypehtml5 extends tslib_pibase {
 			reset($rows);
 
 				// Find number of columns to render:
-			$cols = t3lib_utility_Math::forceIntegerInRange($this->cObj->data['cols']?$this->cObj->data['cols']:count(explode($delimiter,current($rows))),0,100);
+			if(version_compare(TYPO3_version, '4.6', '>=')) {
+				$cols = t3lib_utility_Math::forceIntegerInRange($this->cObj->data['cols']?$this->cObj->data['cols']:count(explode($delimiter,current($rows))),0,100);
+			} else {
+				$cols = t3lib_div::intInRange($this->cObj->data['cols']?$this->cObj->data['cols']:count(explode($delimiter,current($rows))),0,100);
+			}
 
 				// Traverse rows (rendering the table here)
 			$rCount = count($rows);
